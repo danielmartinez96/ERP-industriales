@@ -17,6 +17,7 @@ public class VAviso extends javax.swing.JDialog {
     public VAviso(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+         setVisible(true);
     }
 
     /**

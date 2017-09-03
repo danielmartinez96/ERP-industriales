@@ -11,4 +11,5 @@ package interfaces;
  */
 public interface IVMenuPrincipal {
     void configuracion();
+    void mostrarVista(String comando);
 }

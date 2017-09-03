@@ -5,11 +5,13 @@
  */
 package vista.componentes;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 /**
  *
  * @author DanielM
  */
-public class Nodo {
+public class Nodo extends  DefaultMutableTreeNode{
     private String codigo;
     private String nombre;
 

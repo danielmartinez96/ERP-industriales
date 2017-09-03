@@ -17,9 +17,9 @@ public class PMenuPrincipal {
     }
 
     
-    public void ejecutarComando()
+    public void ejecutarComando(String comando)
     {
-        
+        vista.mostrarVista(comando);
     }
     /*
         //CONTROLA EL ACCIONAMIENO DEL MENU PRINCIPAL.

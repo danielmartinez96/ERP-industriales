@@ -7,20 +7,22 @@ package vista;
 
 import interfaces.IVMenuPrincipal;
 import java.awt.Toolkit;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Axel y Ampy
  */
 import presentador.PMenuPrincipal;
-import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
 import vista.componentes.Nodo;
 
 public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipal {
@@ -139,7 +141,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-
+ presentador.ejecutarComando(txtFiltro.getText());
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
@@ -175,12 +177,12 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
            DefaultMutableTreeNode A1 = new DefaultMutableTreeNode("Gestion Departamento");        
              DefaultMutableTreeNode A11 = new DefaultMutableTreeNode("Ingenieria y Mantenimiento");
                  DefaultMutableTreeNode A111 = new DefaultMutableTreeNode("Avisos");
-                      DefaultMutableTreeNode A1111 = new DefaultMutableTreeNode(new Nodo("IM01", "Nuevo aviso"));
+                      DefaultMutableTreeNode A1111 =new Nodo("IM01", "Nuevo aviso");
                  DefaultMutableTreeNode A112 = new DefaultMutableTreeNode("Orden de trabajo");
-                      DefaultMutableTreeNode A1121 = new DefaultMutableTreeNode(new Nodo("Por definir", "Nueva OT"));
+                      DefaultMutableTreeNode A1121 =new Nodo("Por definir", "Nueva OT");
                  DefaultMutableTreeNode A113 = new DefaultMutableTreeNode("Programa de mantenimiento");
-                      DefaultMutableTreeNode A1131 = new DefaultMutableTreeNode(new Nodo("Por definir", "Nuevo PM"));
-                      DefaultMutableTreeNode A1132 = new DefaultMutableTreeNode(new Nodo("Por definir", "Consultar PM"));
+                      DefaultMutableTreeNode A1131 = new Nodo("Por definir", "Nuevo PM");
+                      DefaultMutableTreeNode A1132 = new Nodo("Por definir", "Consultar PM");
              DefaultMutableTreeNode A12 = new DefaultMutableTreeNode("Finanzas");
              DefaultMutableTreeNode A13 = new DefaultMutableTreeNode("Recursos Humanos");
              DefaultMutableTreeNode A14 = new DefaultMutableTreeNode("Finanzas");
@@ -207,14 +209,14 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
              
         DefaultMutableTreeNode A2 = new DefaultMutableTreeNode("Gestion de KPI");
        
-             DefaultMutableTreeNode A21 = new DefaultMutableTreeNode(new Nodo("PTA", "Porcentaje de tratamiento de avisos"));
-             DefaultMutableTreeNode A22 = new DefaultMutableTreeNode(new Nodo("TMEF", "Tiempo medio entre fallos"));
-             DefaultMutableTreeNode A23 = new DefaultMutableTreeNode(new Nodo("MPT", "Mantenimiento productivo total"));
-             DefaultMutableTreeNode A24 = new DefaultMutableTreeNode(new Nodo("TMR", "Tiempo medio de respuesta"));
-             DefaultMutableTreeNode A25 = new DefaultMutableTreeNode(new Nodo("OEE", "Eficiencia general del equipo"));
-             DefaultMutableTreeNode A26 = new DefaultMutableTreeNode(new Nodo("OE", "Paro de maquina propia y de terceros"));
-             DefaultMutableTreeNode A27 = new DefaultMutableTreeNode(new Nodo("LEF", "Eficiencia de maquina"));
-             DefaultMutableTreeNode A28 = new DefaultMutableTreeNode(new Nodo("ICM", "Indice de cumplimiento del mantenimiento"));
+             DefaultMutableTreeNode A21 = new Nodo("PTA", "Porcentaje de tratamiento de avisos");
+             DefaultMutableTreeNode A22 = new Nodo("TMEF", "Tiempo medio entre fallos");
+             DefaultMutableTreeNode A23 = new Nodo("MPT", "Mantenimiento productivo total");
+             DefaultMutableTreeNode A24 = new Nodo("TMR", "Tiempo medio de respuesta");
+             DefaultMutableTreeNode A25 = new Nodo("OEE", "Eficiencia general del equipo");
+             DefaultMutableTreeNode A26 = new Nodo("OE", "Paro de maquina propia y de terceros");
+             DefaultMutableTreeNode A27 = new Nodo("LEF", "Eficiencia de maquina");
+             DefaultMutableTreeNode A28 = new Nodo("ICM", "Indice de cumplimiento del mantenimiento");
        top.add(A2);
              A2.add(A21);
              A2.add(A22);
@@ -228,6 +230,25 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         top.add(A3);
         arbol.expandRow(0);
         arbol.expandRow(1);
+        
+        String codigo;
+        MouseListener ml = new MouseAdapter() {
+         @Override
+         public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2) {
+                Nodo nodo = (Nodo)
+                       arbol.getLastSelectedPathComponent();
+                if (nodo == null) return;
+                
+                mostrarVista(nodo.getCodigo());
+               
+            }
+        }
+    };
+
+        arbol.addMouseListener(ml);
+        
+        
     }
     
     @Override
@@ -237,9 +258,24 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         setSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
           nodos();
         this.setVisible(true);
+        
+       
     }
-    
-    
+    @Override
+    public void mostrarVista(String comando)
+    {
+        switch(comando)
+        {
+            case "IM01":
+                VAviso vista = new VAviso(this, true);
+            break;   
+             
+            default:
+                JOptionPane.showMessageDialog(null,"Ese comando no esta definido");
+                txtFiltro.setText("");
+            break;
+        }
+    }
    
 
 }
