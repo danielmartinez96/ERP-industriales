@@ -234,13 +234,19 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         String codigo;
         MouseListener ml = new MouseAdapter() {
          @Override
-         public void mouseClicked(MouseEvent e) {
+         public void mouseClicked(MouseEvent e){
             if (e.getClickCount() == 2) {
-                Nodo nodo = (Nodo)
-                       arbol.getLastSelectedPathComponent();
-                if (nodo == null) return;
+                 Object path = arbol.getLastSelectedPathComponent();
+                try{
+                      Nodo nodo = (Nodo)
+                       path;
+                      mostrarVista(nodo.getCodigo());
+                }catch(Exception ex){
+                };
                 
-                mostrarVista(nodo.getCodigo());
+                if (path == null) return;
+                
+                
                
             }
         }
