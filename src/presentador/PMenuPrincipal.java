@@ -3,34 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controlador;
+package presentador;
 
-import Modelo.*;
-import Vista.*;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
+import interfaces.IVMenuPrincipal;
 
-public class ControladorDepartamentos implements ActionListener {
+public class PMenuPrincipal {
 
-    private frmAviso frmAviso;
-    private Aviso aviso;
-    private frmMenuPrincipal frmPrincipal;
-    private ActionLabel action = new ActionLabel();
-    private String texto;
+    private IVMenuPrincipal vista;
 
-    public ControladorDepartamentos(frmMenuPrincipal frmPrincipal) {
-        this.frmPrincipal = frmPrincipal;
+    public PMenuPrincipal(IVMenuPrincipal vista) {
+        this.vista = vista;
+        vista.configuracion();
     }
 
-    public void iniciar() {
-        frmPrincipal = new frmMenuPrincipal();
-        frmPrincipal.setTitle("MAGNA ERP - Sistemas Industriales");
-        //TOOLKIT NOS AYUDA A OBTENER LAS DIMENCIONES DE PANTALLA, ASI LA APLICACION SE AJUSTA AUTOMATICAMENTE.
-        frmPrincipal.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
-
+    
+    public void ejecutarComando()
+    {
+        
+    }
+    /*
         //CONTROLA EL ACCIONAMIENO DEL MENU PRINCIPAL.
         ActionLabel actionIngYMant = new ActionLabel(frmPrincipal.getPnlIngYMantenimiento(), frmPrincipal.getLblIngenieriaYMantenimiento());
         frmPrincipal.getLblIngenieriaYMantenimiento().addMouseListener(actionIngYMant);
@@ -45,7 +36,7 @@ public class ControladorDepartamentos implements ActionListener {
         frmPrincipal.getLblPM().addMouseListener(actionPM);
 
         //CONTROLA LA APARICION DE LOS FORMULARIOS AL HACER CLICK. 
-        frmAviso = new frmAviso(frmPrincipal, true);
+        frmAviso = new VAviso(frmPrincipal, true);
         BotonLabel actionAv = new BotonLabel(frmAviso, frmPrincipal.getLblNuevoAviso());
         frmPrincipal.getLblNuevoAviso().addMouseListener(actionAv);
 
@@ -76,5 +67,5 @@ public class ControladorDepartamentos implements ActionListener {
 
         }
     }
-
+     */
 }

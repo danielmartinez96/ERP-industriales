@@ -5,9 +5,9 @@
  */
 package erp.main;
 
-import Vista.*;
-import Modelo.*;
-import Controlador.*;
+import vista.VMenuPrincipal;
+import modelo.Graficador;
+import presentador.PMenuPrincipal;
 /**
  *
  * @author Axel y Ampy
@@ -19,14 +19,14 @@ public class ERP {
      */
     public static void main(String[] args) {
             
-        frmMenuPrincipal frmPrincipal = new frmMenuPrincipal();
-        ControladorDepartamentos controlIng = new ControladorDepartamentos(frmPrincipal); 
         
-        controlIng.iniciar();
+        VMenuPrincipal vista = new VMenuPrincipal();
         
-        Graficador g = new Graficador();
-        g.iniciarGraficoDeCurva();
-        g.iniciarGraficoTorta();
+        
+        
+      //  Graficador g = new Graficador();
+       // g.iniciarGraficoDeCurva();
+       // g.iniciarGraficoTorta();
        
     }
     

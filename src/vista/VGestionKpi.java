@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vista;
+package vista;
 
 /**
  *
  * @author Axel y Ampy
  */
-public class frmFallosDeLinea extends javax.swing.JFrame {
+public class VGestionKpi extends javax.swing.JFrame {
 
     /**
-     * Creates new form frmFallosDeLinea
+     * Creates new form frmGestionKpi
      */
-    public frmFallosDeLinea() {
+    public VGestionKpi() {
         initComponents();
     }
 
@@ -60,20 +60,21 @@ public class frmFallosDeLinea extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmFallosDeLinea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VGestionKpi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmFallosDeLinea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VGestionKpi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmFallosDeLinea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VGestionKpi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmFallosDeLinea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VGestionKpi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmFallosDeLinea().setVisible(true);
+                new VGestionKpi().setVisible(true);
             }
         });
     }
