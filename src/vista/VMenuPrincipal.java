@@ -234,7 +234,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         
         arbol.expandRow(0);
         arbol.expandRow(1);
-
+        
         String codigo;
         MouseListener ml = new MouseAdapter() {
             @Override
@@ -273,9 +273,11 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
     public void mostrarVista(String comando) {
         switch (comando) {
             case "IM01":
-                VAviso vista = new VAviso(this, true);
+                VAviso vista1 = new VAviso(this, true);
                 break;
-
+            case "PTA":
+                VKpiPTA vista2 = new VKpiPTA(this,true);
+                break;
             default:
                 JOptionPane.showMessageDialog(null, "Ese comando no esta definido");
                 txtFiltro.setText("");
