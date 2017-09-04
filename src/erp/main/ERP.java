@@ -6,7 +6,7 @@
 package erp.main;
 
 import vista.VMenuPrincipal;
-import modelo.Graficador;
+import vista.componentes.Graficador;
 import presentador.PMenuPrincipal;
 /**
  *
