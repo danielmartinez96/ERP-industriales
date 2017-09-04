@@ -115,17 +115,17 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar))
-                    .addComponent(jLabel1))
-                .addContainerGap(113, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBuscar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -141,7 +141,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
- presentador.ejecutarComando(txtFiltro.getText());
+        presentador.ejecutarComando(txtFiltro.getText());
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
@@ -151,7 +151,6 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTree arbol;
@@ -167,121 +166,121 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
- private void nodos()
-    {
-          
-           DefaultMutableTreeNode top = new DefaultMutableTreeNode("ERP- Sistemas Industriales");
-           TreeModel modeloArbol = new DefaultTreeModel(top);
-           arbol.setModel(modeloArbol);
-        
-           DefaultMutableTreeNode A1 = new DefaultMutableTreeNode("Gestion Departamento");        
-             DefaultMutableTreeNode A11 = new DefaultMutableTreeNode("Ingenieria y Mantenimiento");
-                 DefaultMutableTreeNode A111 = new DefaultMutableTreeNode("Avisos");
-                      DefaultMutableTreeNode A1111 =new Nodo("IM01", "Nuevo aviso");
-                 DefaultMutableTreeNode A112 = new DefaultMutableTreeNode("Orden de trabajo");
-                      DefaultMutableTreeNode A1121 =new Nodo("Por definir", "Nueva OT");
-                 DefaultMutableTreeNode A113 = new DefaultMutableTreeNode("Programa de mantenimiento");
-                      DefaultMutableTreeNode A1131 = new Nodo("Por definir", "Nuevo PM");
-                      DefaultMutableTreeNode A1132 = new Nodo("Por definir", "Consultar PM");
-             DefaultMutableTreeNode A12 = new DefaultMutableTreeNode("Finanzas");
-             DefaultMutableTreeNode A13 = new DefaultMutableTreeNode("Recursos Humanos");
-             DefaultMutableTreeNode A14 = new DefaultMutableTreeNode("Finanzas");
-             DefaultMutableTreeNode A15 = new DefaultMutableTreeNode("Produccion");
-             DefaultMutableTreeNode A16 = new DefaultMutableTreeNode("Proyecto");
-             DefaultMutableTreeNode A17 = new DefaultMutableTreeNode("Calidad");
-             DefaultMutableTreeNode A18 = new DefaultMutableTreeNode("Loguistica");
+ 
+    private void nodos() {
+
+        DefaultMutableTreeNode top = new DefaultMutableTreeNode("ERP- Sistemas Industriales");
+        TreeModel modeloArbol = new DefaultTreeModel(top);
+        arbol.setModel(modeloArbol);
+
+        DefaultMutableTreeNode A1 = new DefaultMutableTreeNode("Gestion Departamento");
+        DefaultMutableTreeNode A11 = new DefaultMutableTreeNode("Ingenieria y Mantenimiento");
+        DefaultMutableTreeNode A111 = new DefaultMutableTreeNode("Avisos");
+        DefaultMutableTreeNode A1111 = new Nodo("IM01", "Nuevo aviso");
+        DefaultMutableTreeNode A112 = new DefaultMutableTreeNode("Orden de trabajo");
+        DefaultMutableTreeNode A1121 = new Nodo("Por definir", "Nueva OT");
+        DefaultMutableTreeNode A113 = new DefaultMutableTreeNode("Programa de mantenimiento");
+        DefaultMutableTreeNode A1131 = new Nodo("Por definir", "Nuevo PM");
+        DefaultMutableTreeNode A1132 = new Nodo("Por definir", "Consultar PM");
+        DefaultMutableTreeNode A12 = new DefaultMutableTreeNode("Finanzas");
+        DefaultMutableTreeNode A13 = new DefaultMutableTreeNode("Recursos Humanos");
+        DefaultMutableTreeNode A14 = new DefaultMutableTreeNode("Finanzas");
+        DefaultMutableTreeNode A15 = new DefaultMutableTreeNode("Produccion");
+        DefaultMutableTreeNode A16 = new DefaultMutableTreeNode("Proyecto");
+        DefaultMutableTreeNode A17 = new DefaultMutableTreeNode("Calidad");
+        DefaultMutableTreeNode A18 = new DefaultMutableTreeNode("Loguistica");
         top.add(A1);
-             A1.add(A11);   
-                A11.add(A111);
-                    A111.add(A1111);
-                A11.add(A112);
-                    A112.add(A1121);
-                A11.add(A113);
-                    A113.add(A1131);
-                    A113.add(A1132);
-             A1.add(A12);
-             A1.add(A13);
-             A1.add(A14);
-             A1.add(A15);
-             A1.add(A16);
-             A1.add(A17);
-             A1.add(A18);
-             
+        A1.add(A11);
+        A11.add(A111);
+        A111.add(A1111);
+        A11.add(A112);
+        A112.add(A1121);
+        A11.add(A113);
+        A113.add(A1131);
+        A113.add(A1132);
+        A1.add(A12);
+        A1.add(A13);
+        A1.add(A14);
+        A1.add(A15);
+        A1.add(A16);
+        A1.add(A17);
+        A1.add(A18);
+
         DefaultMutableTreeNode A2 = new DefaultMutableTreeNode("Gestion de KPI");
-       
-             DefaultMutableTreeNode A21 = new Nodo("PTA", "Porcentaje de tratamiento de avisos");
-             DefaultMutableTreeNode A22 = new Nodo("TMEF", "Tiempo medio entre fallos");
-             DefaultMutableTreeNode A23 = new Nodo("MPT", "Mantenimiento productivo total");
-             DefaultMutableTreeNode A24 = new Nodo("TMR", "Tiempo medio de respuesta");
-             DefaultMutableTreeNode A25 = new Nodo("OEE", "Eficiencia general del equipo");
-             DefaultMutableTreeNode A26 = new Nodo("OE", "Paro de maquina propia y de terceros");
-             DefaultMutableTreeNode A27 = new Nodo("LEF", "Eficiencia de maquina");
-             DefaultMutableTreeNode A28 = new Nodo("ICM", "Indice de cumplimiento del mantenimiento");
-       top.add(A2);
-             A2.add(A21);
-             A2.add(A22);
-             A2.add(A23);
-             A2.add(A24);
-             A2.add(A25);
-             A2.add(A26);
-             A2.add(A27);
-             A2.add(A28);
+        DefaultMutableTreeNode A21 = new Nodo("PTA", "Porcentaje de tratamiento de avisos");
+        DefaultMutableTreeNode A22 = new Nodo("TMEF", "Tiempo medio entre fallos");
+        DefaultMutableTreeNode A23 = new Nodo("MPT", "Mantenimiento productivo total");
+        DefaultMutableTreeNode A24 = new Nodo("TMR", "Tiempo medio de respuesta");
+        DefaultMutableTreeNode A25 = new Nodo("OEE", "Eficiencia general del equipo");
+        DefaultMutableTreeNode A26 = new Nodo("OE", "Paro de maquina propia y de terceros");
+        DefaultMutableTreeNode A27 = new Nodo("LEF", "Eficiencia de maquina");
+        DefaultMutableTreeNode A28 = new Nodo("ICM", "Indice de cumplimiento del mantenimiento");
+        top.add(A2);
+        A2.add(A21);
+        A2.add(A22);
+        A2.add(A23);
+        A2.add(A24);
+        A2.add(A25);
+        A2.add(A26);
+        A2.add(A27);
+        A2.add(A28);
+        
         DefaultMutableTreeNode A3 = new DefaultMutableTreeNode("Gestion Fallo de Linea");
+        DefaultMutableTreeNode A31 = new Nodo("Carga de Fallo", null);
+        DefaultMutableTreeNode A32 = new Nodo("Consula de Fallo", null);
         top.add(A3);
+        A3.add(A32);
+        A3.add(A32);
+        
         arbol.expandRow(0);
         arbol.expandRow(1);
-        
+
         String codigo;
         MouseListener ml = new MouseAdapter() {
-         @Override
-         public void mouseClicked(MouseEvent e){
-            if (e.getClickCount() == 2) {
-                 Object path = arbol.getLastSelectedPathComponent();
-                try{
-                      Nodo nodo = (Nodo)
-                       path;
-                      mostrarVista(nodo.getCodigo());
-                }catch(Exception ex){
-                };
-                
-                if (path == null) return;
-                
-                
-               
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    Object path = arbol.getLastSelectedPathComponent();
+                    try {
+                        Nodo nodo = (Nodo) path;
+                        mostrarVista(nodo.getCodigo());
+                    } catch (Exception ex) {
+                    };
+
+                    if (path == null) {
+                        return;
+                    }
+
+                }
             }
-        }
-    };
+        };
 
         arbol.addMouseListener(ml);
-        
-        
+
     }
-    
+
     @Override
     public void configuracion() {
         setTitle("MAGNA ERP - Sistemas Industriales");
         //TOOLKIT NOS AYUDA A OBTENER LAS DIMENCIONES DE PANTALLA, ASI LA APLICACION SE AJUSTA AUTOMATICAMENTE.
         setSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
-          nodos();
+        nodos();
         this.setVisible(true);
-        
-       
+
     }
+
     @Override
-    public void mostrarVista(String comando)
-    {
-        switch(comando)
-        {
+    public void mostrarVista(String comando) {
+        switch (comando) {
             case "IM01":
                 VAviso vista = new VAviso(this, true);
-            break;   
-             
+                break;
+
             default:
-                JOptionPane.showMessageDialog(null,"Ese comando no esta definido");
+                JOptionPane.showMessageDialog(null, "Ese comando no esta definido");
                 txtFiltro.setText("");
-            break;
+                break;
         }
     }
-   
 
 }
