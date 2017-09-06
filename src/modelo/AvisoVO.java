@@ -31,6 +31,10 @@ public class AvisoVO {
         this.cantNecesariaRep = cantNecesariaRep;
     }
 
+    public AvisoVO() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getIdAviso() {
         return idAviso;
     }

@@ -5,6 +5,7 @@
  */
 package presentador;
 
+import gestorBD.AvisoDAO;
 import interfaces.IVAviso;
 import modelo.AvisoVO;
 
@@ -14,6 +15,7 @@ import modelo.AvisoVO;
  */
 public class PAviso {
     private IVAviso vista;
+    private AvisoDAO avisoDAO;
 
     public PAviso(IVAviso vista) {
         this.vista = vista;
@@ -22,9 +24,10 @@ public class PAviso {
 
     public void cargarAviso() {
    
-       
+       AvisoVO aviso = new AvisoVO();
+       avisoDAO= new  AvisoDAO();
+       avisoDAO.agregar(aviso);
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

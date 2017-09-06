@@ -5,6 +5,7 @@
  */
 package gestorBD;
 
+import gestorBD.conexion.EjecutorRutinaDB;
 import modelo.AvisoVO;
 
 /**
@@ -13,5 +14,11 @@ import modelo.AvisoVO;
  */
 public class AvisoDAO {
   
+    
+    public void agregar(AvisoVO aviso)
+    {
+        EjecutorRutinaDB.ejecutarUpdateStatement("SQL"+aviso);
+        
+    }
     
 }
