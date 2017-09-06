@@ -1,4 +1,4 @@
-package gestorBD;
+package gestorBD.conexion;
 
 
 import java.sql.ResultSet;
