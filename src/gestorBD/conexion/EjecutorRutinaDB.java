@@ -21,8 +21,8 @@ public class EjecutorRutinaDB {
 	 * 	- Refactorizar código repetido
 	 */
 
-	private static final String DRIVER_CLASS = "org.mysql.jdbc.Driver";
-	private static final String DB_URL = "jdbc:mysql://localhost/Erp-BD";
+	private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
+	private static final String DB_URL = "jdbc:mysql://localhost/dbindustriales";
 	private static final String USUARIO = "root";
 	private static final String PASSWORD = "";
 
