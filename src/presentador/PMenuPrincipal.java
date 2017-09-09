@@ -5,7 +5,7 @@
  */
 package presentador;
 
-import interfaces.IVMenuPrincipal;
+import presentador.interfaces.IVMenuPrincipal;
 
 public class PMenuPrincipal {
 

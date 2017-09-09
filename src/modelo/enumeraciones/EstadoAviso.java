@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package modelo.enumeraciones;
 
 /**
  *
  * @author DanielM
  */
 public enum EstadoAviso {
-    
+    ESTADO1,
+    ESTADO2
 }

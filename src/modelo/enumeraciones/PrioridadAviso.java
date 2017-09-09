@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package interfaces;
+package modelo.enumeraciones;
 
 /**
  *
  * @author DanielM
  */
-public interface IVAviso {
-
-    public void actualizar();
-    
+public enum PrioridadAviso {
+    BAJA,
+    MEDIA,
+    ALTA,
+    URGENTE
 }

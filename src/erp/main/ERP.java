@@ -5,13 +5,7 @@
  */
 package erp.main;
 
-import gestorBD.conexion.EjecucionResultSet;
-import gestorBD.conexion.EjecutorRutinaDB;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import vista.VMenuPrincipal;
-import vista.componentes.Graficador;
-import presentador.PMenuPrincipal;
 /**
  *
  * @author Axel y Ampy
@@ -23,21 +17,22 @@ public class ERP {
      */
     public static void main(String[] args) {
             
-        try {
-            String sql= "\n";
+      /* try {
+            String sql= "";
             String linea;
              BufferedReader bf = new BufferedReader(new FileReader("SQL/sql creacion.txt"));
              while((linea = bf.readLine())!=null) {
-            sql= sql+linea+"\n";
-              }
-            EjecutorRutinaDB.ejecutarUpdateStatement(sql);
-             //System.out.println(sql);
+            sql= sql+linea;
+                  }
+             System.out.println(sql);
+            EjecutorRutinaDB.crearBD(sql);
+            
             bf.close();
              
         } catch (Exception e) {
             
         }
-       
+      */ 
         
         
         VMenuPrincipal vista = new VMenuPrincipal();

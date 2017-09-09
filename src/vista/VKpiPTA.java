@@ -17,6 +17,7 @@ public class VKpiPTA extends javax.swing.JDialog {
     public VKpiPTA(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setVisible(true);
     }
 
     /**

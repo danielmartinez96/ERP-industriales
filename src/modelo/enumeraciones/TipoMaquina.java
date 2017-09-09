@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package interfaces;
+package modelo.enumeraciones;
 
 /**
  *
  * @author DanielM
  */
-public interface IVMenuPrincipal {
-    void configuracion();
-    void mostrarVista(String comando);
+public enum TipoMaquina {
+    ELECTRICA
 }

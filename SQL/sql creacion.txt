@@ -1,59 +1,59 @@
--- tabla maquina
-CREATE TABLE IF NOT EXISTS dbindustriales.maquinas(
+
+CREATE TABLE IF NOT EXISTS maquinas(
     id_maquina INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   	tipo VARCHAR(30),
+    tipo VARCHAR(30),
     descripcion varchar(60)
 );
     
--- tabla parte de maquina
-CREATE TABLE IF NOT EXISTS dbindustriales.partes_de_maquina(
+
+CREATE TABLE IF NOT EXISTS partes_de_maquina(
     id_parte_de_maquina INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     descripcion varchar(60),
     id_maquina INT NOT NULL,
-    FOREIGN KEY(id_maquina) REFERENCES maquinas(id_maquina) ON DELETE SET NULL ON UPDATE CASCADE -- Agregar fk
+    FOREIGN KEY(id_maquina) REFERENCES maquinas(id_maquina) ON DELETE SET NULL ON UPDATE CASCADE 
 );
 
--- tabla linea de avisos
-CREATE TABLE IF NOT EXISTS lineas_aviso(
-     id_linea_aviso INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-     descripcion varchar(60),
-     cantidad_necesaria_reparacion varchar(60),
-    id_parte_de_maquina INT NOT NULL,
-    FOREIGN KEY(id_parte_de_maquina) REFERENCES partes_de_maquina(id_parte_de_maquina) ON DELETE SET NULL ON UPDATE CASCADE
+CREATE TABLE IF NOT EXISTS personal (
+  id_personal INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nombre varchar(20), 
+  apellido varchar(20),
+  sector varchar(30)
 );
 
--- tabla avisos
 CREATE TABLE IF NOT EXISTS avisos(
     id_aviso INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     estado VARCHAR(25),
     tipo varchar(25),
-    fecha_creacion DATE, -- tipo de dato
-    id_linea_aviso INT NOT NULL,
-    FOREIGN KEY(id_linea_aviso) REFERENCES lineas_aviso(id_parte_de_maquina) ON DELETE SET NULL ON UPDATE CASCADE -- agregar FK 
+    fecha_creacion varchar(60), 
+    descripcion varchar(60), 
+    cantidad_necesaria_reparacion varchar(60),
+    sector_responsable varchar(30),
+    prioridad varchar(30),	
+    id_parte_de_maquina int NOT NULL,
+    FOREIGN KEY(id_parte_de_maquina) REFERENCES partes_de_maquina(id_parte_de_maquina) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
--- Cambios 
--- tabla tipo OT
+
 CREATE TABLE IF NOT EXISTS tipos_ot(
     id_tipo_ot INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     descripcion VARCHAR(45)
 );
--- tabla OT
+
 CREATE TABLE IF NOT EXISTS tabla_ot(
     id_ot INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     estado VARCHAR(25),
-    fecha_inicio DATE, -- tipo de dato
-    fecha_fin DATE, -- tipo de dato
+    fecha_inicio DATE, 
+    fecha_fin DATE,
     id_aviso INT NOT NULL,
     id_tipo_ot INT NOT NULL,
-    FOREIGN KEY(id_aviso) REFERENCES avisos(id_aviso) ON DELETE SET NULL ON UPDATE CASCADE, -- agregar FK 
-    FOREIGN KEY(id_tipo_ot) REFERENCES tipos_ot(id_tipo_ot) ON DELETE SET NULL ON UPDATE CASCADE -- agregar FK 
+    FOREIGN KEY(id_aviso) REFERENCES avisos(id_aviso) ON DELETE SET NULL ON UPDATE CASCADE, 
+    FOREIGN KEY(id_tipo_ot) REFERENCES tipos_ot(id_tipo_ot) ON DELETE SET NULL ON UPDATE CASCADE 
 );
 
--- fin cambios
 
 
--- tabla estructura
+
+
 CREATE TABLE IF NOT EXISTS estructuras(
     id_estructura INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     tipo varchar(25),
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS estructuras(
     material varchar(25),
     metrica float
 );
--- tabla items
+
 CREATE TABLE IF NOT EXISTS items(
     id_items INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     descripcion VARCHAR(45),
@@ -70,30 +70,30 @@ CREATE TABLE IF NOT EXISTS items(
     stock_seguridad INT,
     stock INT,
     lead_time TIME,
-    codigo varchar(20) UNIQUE, -- unique
+    codigo varchar(20) UNIQUE,
     metrica float
 );
 
--- tabla linea_estructura
+
 CREATE TABLE IF NOT EXISTS lineas_estructura(
     id_linea_estructura INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     descripcion VARCHAR(45),
     id_estructura int NOT NULL,
     id_item int NOT NULL,
-    FOREIGN KEY(id_estructura) REFERENCES estructuras(id_estructura) ON DELETE SET NULL ON UPDATE CASCADE, -- preguntar 
+    FOREIGN KEY(id_estructura) REFERENCES estructuras(id_estructura) ON DELETE SET NULL ON UPDATE CASCADE, 
     FOREIGN KEY(id_item) REFERENCES items(id_item) ON DELETE SET NULL ON UPDATE CASCADE  
 );
--- tabla venta
+
 CREATE TABLE IF NOT EXISTS ventas(
     id_venta INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     fecha date,
-    provedor Varchar(45), -- deberia haber una tabla proveedor
+    provedor Varchar(45),
     total_vendido float,
     descuento float,
     subtotal_vendido float
 );
 
--- tabla linea venta
+
 CREATE TABLE IF NOT EXISTS lineas_venta(
     id_linea_venta INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     descripcion_producto VARCHAR(45),
@@ -110,16 +110,16 @@ CREATE TABLE IF NOT EXISTS lineas_venta(
 CREATE TABLE if not EXISTS compras(
     id_compra INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     fecha date,
-    cliente Varchar(45), -- deberia haber una tabla cliente
+    cliente Varchar(45), 
     total_vendido float,
     descuento float,
     subtotal_vendido float
     );
     
- -- tabla linea compra   
+
 CREATE TABLE IF NOT EXISTS lineas_compra(
     id_linea_compra INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    descripcion_producto VARCHAR(45), -- tendria que ir?
+    descripcion_producto VARCHAR(45),
     precio_unitario float,
     cantidad INT,
     subtotal float,
@@ -130,4 +130,6 @@ CREATE TABLE IF NOT EXISTS lineas_compra(
 );
 
 
-
+INSERT INTO personal(nombre,apellido,sector) VALUES('daniel','martinez','MECANICA');
+INSERT INTO maquinas(tipo,descripcion) VALUES('ELECTRICA','sdadsad');
+INSERT INTO partes_de_maquina(descripcion,id_maquina) VALUES('descripcion',1);

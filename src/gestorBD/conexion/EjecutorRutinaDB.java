@@ -88,8 +88,10 @@ public class EjecutorRutinaDB {
 
 	private static void cerrarRecursos(final Statement statement) throws SQLException {
 		statement.close();
-		conexion.commit();
-		conexion.close();
+		
+             //   conexion.commit();
+		conexion.close(); 
+               
 	}
 
 	private static void cerrarRecursos(final Statement statement, final ResultSet resultSet) throws SQLException {
@@ -97,12 +99,32 @@ public class EjecutorRutinaDB {
 		statement.close();
 
 		// TODO Verificar estado de conexión
-		conexion.commit();
-		conexion.close();
+              
+                  
+		conexion.close(); 
+                
+		
 	}
 
 	private static void manejarSQLException(final SQLException sqlExeption) {
 		System.out.println("Error al ejecutar la consulta");
 		sqlExeption.printStackTrace();
 	}
+        
+        
+        public static void crearBD(String query)
+        {
+            
+            try {
+			cargarDriverCrearConexion();
+			final Statement stmt = conexion.createStatement();
+			stmt.execute(query);
+
+			cerrarRecursos(stmt);
+		} catch (final SQLException e) {
+			manejarSQLException(e);
+		}
+            
+            
+        }
 }
