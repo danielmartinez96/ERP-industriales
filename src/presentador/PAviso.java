@@ -5,7 +5,6 @@
  */
 package presentador;
 
-
 import gestorBD.RepositorioMantenimiento;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,12 +15,12 @@ import modelo.enumeraciones.Sector;
 import modelo.enumeraciones.TipoAviso;
 import presentador.interfaces.IVAviso;
 
-
 /**
  *
  * @author DanielM
  */
 public class PAviso {
+
     private IVAviso vista;
 
     public PAviso(IVAviso vista) {
@@ -30,11 +29,9 @@ public class PAviso {
         //vista.actualizar();
     }
 
-
     public EstadoAviso[] getEstados() {
-        
-      return EstadoAviso.values();
-      
+
+        return EstadoAviso.values();
     }
 
     public ArrayList<Personal> getPersonal() {
@@ -48,7 +45,7 @@ public class PAviso {
     }
 
     public Sector[] getSectores() {
-        
+
         return Sector.values();
     }
 
@@ -64,12 +61,12 @@ public class PAviso {
 
     public void agregarPartesMaquinas(int id) {
         ArrayList<ParteMaquina> pm = RepositorioMantenimiento.getPartes(id);
-        
+
         vista.agregarParte(pm);
     }
 
     public void guardarAviso(TipoAviso t, EstadoAviso e, Personal p, PrioridadAviso pa, ParteMaquina pm, Calendar cal, Sector sec, String tiemp, String desc) {
-        Aviso aviso= new Aviso();
+        Aviso aviso = new Aviso();
         aviso.setTipo(t);
         aviso.setEstado(e);
         aviso.setPrioridad(pa);
@@ -78,17 +75,8 @@ public class PAviso {
         aviso.setParteMaquina(pm);
         aviso.setSectorResponsable(sec);
         aviso.setDescripcion(desc);
-        
-        
+
         RepositorioMantenimiento.agregarAviso(aviso);
 
-
     }
-
-  
-
-
-    
-    
-    
 }
