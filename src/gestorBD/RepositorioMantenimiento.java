@@ -83,14 +83,18 @@ public class RepositorioMantenimiento {
      */
 
     public static void agregarAviso(Aviso aviso) {
-        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO avisos(estado, tipo, soliciante, maquina, fecha_creacion, descripcion,cantidad_necesaria_reparacion, sector_responsable, prioridad, id_parte_de_maquina) VALUES("+aviso.getEstado() + "','" + aviso.getTipo() + "','" + aviso.getPersonal() + "','" + aviso.getMaquina() + "','"+ aviso.getCreacion().getTime() + "','" + aviso.getDescripcion() + "','" + aviso.getCantNecesariaRep() + "','" 
-                                                + aviso.getSectorResponsable() + "','" + aviso.getPrioridad() + "'," + aviso.getParteMaquina().getId() + ")");
-
+        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO avisos(estado, tipo, solicitante, maquina, fecha_creacion, descripcion,"
+                                                + "cantidad_necesaria_reparacion, sector_responsable, prioridad, id_parte_de_maquina) "
+                                                + "VALUES("+"'"+aviso.getEstado() + "','" + aviso.getTipo() + "','" + aviso.getPersonal() + "','" 
+                                                + aviso.getMaquina() + "','"+ aviso.getCreacion().getTime() + "','" + aviso.getDescripcion() + "','" 
+                                                + aviso.getCantNecesariaRep() + "','"+ aviso.getSectorResponsable() + "','" + aviso.getPrioridad() + "'," 
+                                                + aviso.getParteMaquina().getId() + ")");
     }
 
     public static void agregarOT(OrdenTrabajo ot) {
-        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO OT(id, estado, tipo, responsable, fecha_inicio, fecha_fin) VALUES("
-                + "'" + ot.getId() + "','" + ot.getEstado() + "','" + ot.getTipo() + "','" + ot.getResp() + "','" + ot.getFechaInicio().getTime() + "','" + ot.getFechaFin().getTime() + ")");
+        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(id_ot, estado, id_tipo_ot, responsable, fecha_inicio, fecha_fin, parte_maquina) "
+                                                + "VALUES("+ "'" + ot.getId() + "','" + ot.getEstado() + "','" + ot.getTipo() + "','" + ot.getResp() 
+                                                + "','" + ot.getFechaInicio().getTime() + "','" + ot.getFechaFin().getTime() + "','" + ot.getParte()+"')");
 
     }
 }

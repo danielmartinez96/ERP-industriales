@@ -34,17 +34,22 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
     public VOrdenTrabajo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         this.presentador = new POrdenTrabajo(this);
-        actualizar(); 
+        actualizar();
+        setVisible(true);
+
     }
-    
-    public VOrdenTrabajo(){
+
+    public VOrdenTrabajo(java.awt.Dialog parent, boolean modal) {
+        super(parent, modal);
         initComponents();
 
         this.presentador = new POrdenTrabajo(this);
 
         actualizar();
+        setVisible(true);
+
     }
 
     /**
@@ -284,7 +289,10 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
 
     @Override
     public void actualizar() {
-
+        cbTipo.removeAllItems();
+        cbEstado.removeAllItems();
+        cbResponsable.removeAllItems();
+        
         EstadoOT[] estados = presentador.getEstados();
 
         for (int i = 0; i < estados.length; i++) {
@@ -292,7 +300,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         }
 
         TipoOT[] tipos = presentador.getTipos();
-
+        
         for (int i = 0; i < tipos.length; i++) {
             cbTipo.addItem(tipos[i]);
         }
@@ -303,9 +311,12 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
             cbMaquina.addItem(maquina);
         }
 
-        Responsable[] resp = presentador.getResponsables();
+        Responsable[] responsable = presentador.getResponsables();
         
-        setVisible(true);
+        for (int i = 0; i < tipos.length; i++) {
+            cbResponsable.addItem(responsable[i]);
+        }
+
     }
 
     @Override
@@ -325,6 +336,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
 
     @Override
     public void agregarParte(ArrayList<ParteMaquina> pm) {
+        cbParteMaquina.removeAllItems();
         for (ParteMaquina parteMaquina : pm) {
             cbParteMaquina.addItem(parteMaquina);
         }
@@ -332,14 +344,14 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
 
     public void agregarOT() {
         int id = Integer.valueOf(txtId.getText());
-        TipoOT t = (TipoOT) cbTipo.getSelectedItem();
-        EstadoOT e = (EstadoOT) cbEstado.getSelectedItem();
-        Responsable r = (Responsable) cbResponsable.getSelectedItem();
+        TipoOT tipoOT = (TipoOT) cbTipo.getSelectedItem();
+        EstadoOT estadoOT = (EstadoOT) cbEstado.getSelectedItem();
+        Responsable responsable = (Responsable) cbResponsable.getSelectedItem();
         Calendar calInicio = dateInicio.getCalendar();
         Calendar calFin = dateFin.getCalendar();
-        ParteMaquina pm = (ParteMaquina) cbParteMaquina.getSelectedItem();
+        ParteMaquina parteMaquina = (ParteMaquina) cbParteMaquina.getSelectedItem();
 
-        this.presentador.guardarOT(id, e, t, r, calInicio, calFin, pm);
+        this.presentador.guardarOT(id, estadoOT, tipoOT, responsable, calInicio, calFin, parteMaquina);
     }
 
 }

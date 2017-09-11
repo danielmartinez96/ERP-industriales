@@ -50,6 +50,8 @@ public class EjecutorRutinaDB {
 			final Statement stmt = conexion.createStatement();
 
 			resultadoQuery = stmt.executeUpdate(updateQuery);
+                        System.out.println("Se cargo correctamente");
+                        
 
 			cerrarRecursos(stmt);
 		} catch (final SQLException e) {

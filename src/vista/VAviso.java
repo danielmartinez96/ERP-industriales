@@ -252,7 +252,6 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
     private void btnAgregarAvisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAvisoActionPerformed
         agregarAviso();
         dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarAvisoActionPerformed
 
     private void btnCrearOTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearOTActionPerformed
@@ -361,6 +360,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
 
     @Override
     public void agregarParte(ArrayList<ParteMaquina> pm) {
+        cbParteMaquina.removeAllItems();
         for (ParteMaquina parteMaquina : pm) {
             cbParteMaquina.addItem(parteMaquina);
         }
@@ -384,7 +384,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
     }
 
     public void crearNuevaOT() {
-        VOrdenTrabajo ot = new VOrdenTrabajo();
+        VOrdenTrabajo ot = new VOrdenTrabajo(this, true);
 
     }
 
