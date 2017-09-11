@@ -34,6 +34,9 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
     public VOrdenTrabajo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        this.presentador = new POrdenTrabajo(this);
+        actualizar(); 
     }
     
     public VOrdenTrabajo(){
@@ -66,11 +69,11 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         cbTipo = new javax.swing.JComboBox();
         dateInicio = new com.toedter.calendar.JDateChooser();
         dateFin = new com.toedter.calendar.JDateChooser();
-        cbParteMaquina = new javax.swing.JComboBox<ParteMaquina>();
+        cbParteMaquina = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        cbMaquina = new javax.swing.JComboBox<Maquina>();
+        cbMaquina = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         cbResponsable = new javax.swing.JComboBox();
 
@@ -86,6 +89,11 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Id: ");
 
@@ -204,6 +212,10 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         agregarOT();
         dispose();
     }//GEN-LAST:event_btnAgregarOTActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -327,7 +339,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         Calendar calFin = dateFin.getCalendar();
         ParteMaquina pm = (ParteMaquina) cbParteMaquina.getSelectedItem();
 
-        this.presentador.guardarOT(id, e, t,r, calInicio, calFin, pm);
+        this.presentador.guardarOT(id, e, t, r, calInicio, calFin, pm);
     }
 
 }

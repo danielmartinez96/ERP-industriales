@@ -65,15 +65,17 @@ public class PAviso {
         vista.agregarParte(pm);
     }
 
-    public void guardarAviso(TipoAviso t, EstadoAviso e, Personal p, PrioridadAviso pa, ParteMaquina pm, Calendar cal, Sector sec, String tiemp, String desc) {
+    public void guardarAviso(TipoAviso t, EstadoAviso e, Personal p, PrioridadAviso pa, Maquina m, ParteMaquina pm, Calendar cal, Sector sec, String tiemp, String desc) {
         Aviso aviso = new Aviso();
         aviso.setTipo(t);
         aviso.setEstado(e);
+        aviso.setPersonal(p);
         aviso.setPrioridad(pa);
-        aviso.setCantNecesariaRep(Integer.valueOf(tiemp));
-        aviso.setCreacion(cal);
+        aviso.setMaquina(m);
         aviso.setParteMaquina(pm);
+        aviso.setCreacion(cal);
         aviso.setSectorResponsable(sec);
+        aviso.setCantNecesariaRep(Integer.valueOf(tiemp));
         aviso.setDescripcion(desc);
 
         RepositorioMantenimiento.agregarAviso(aviso);

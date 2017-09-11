@@ -97,6 +97,11 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         jMenu3.setText("Archivo");
 
         jMenuItem1.setText("Salir");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem1);
 
         jMenuBar1.add(jMenu3);
@@ -141,12 +146,16 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        presentador.ejecutarComando(txtFiltro.getText());
+        ejecutarBusqueda();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFiltroActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,7 +175,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
- 
+
     private void nodos() {
 
         DefaultMutableTreeNode top = new DefaultMutableTreeNode("ERP- Sistemas Industriales");
@@ -178,7 +187,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         DefaultMutableTreeNode A111 = new DefaultMutableTreeNode("Avisos");
         DefaultMutableTreeNode A1111 = new Nodo("IM01", "Nuevo aviso");
         DefaultMutableTreeNode A112 = new DefaultMutableTreeNode("Orden de trabajo");
-        DefaultMutableTreeNode A1121 = new Nodo("Por definir", "Nueva OT");
+        DefaultMutableTreeNode A1121 = new Nodo("OT01", "Nueva OT");
         DefaultMutableTreeNode A113 = new DefaultMutableTreeNode("Programa de mantenimiento");
         DefaultMutableTreeNode A1131 = new Nodo("Por definir", "Nuevo PM");
         DefaultMutableTreeNode A1132 = new Nodo("Por definir", "Consultar PM");
@@ -224,17 +233,17 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         A2.add(A26);
         A2.add(A27);
         A2.add(A28);
-        
+
         DefaultMutableTreeNode A3 = new DefaultMutableTreeNode("Gestion Fallo de Linea");
-        DefaultMutableTreeNode A31 = new Nodo("Carga de Fallo", null);
-        DefaultMutableTreeNode A32 = new Nodo("Consula de Fallo", null);
+        DefaultMutableTreeNode A31 = new Nodo("CF01", "Carga de Fallo");
+        DefaultMutableTreeNode A32 = new Nodo("CF02", "Consula de Fallo");
         top.add(A3);
+        A3.add(A31);
         A3.add(A32);
-        A3.add(A32);
-        
+
         arbol.expandRow(0);
         arbol.expandRow(1);
-        
+
         String codigo;
         MouseListener ml = new MouseAdapter() {
             @Override
@@ -273,11 +282,11 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
     public void mostrarVista(String comando) {
         switch (comando) {
             case "IM01":
-                VAviso vista1 = new VAviso(this, true);
+                new VAviso(this, true);
                 break;
-            case "PTA":
-                VKpiPTA vista2 = new VKpiPTA(this,true);
-                break;
+            case "OT01":
+                new VOrdenTrabajo(this, true);
+
             default:
                 JOptionPane.showMessageDialog(null, "Ese comando no esta definido");
                 txtFiltro.setText("");
@@ -285,4 +294,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         }
     }
 
+    public void ejecutarBusqueda() {
+        presentador.ejecutarComando(txtFiltro.getText());
+    }
 }

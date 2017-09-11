@@ -23,9 +23,10 @@ import presentador.interfaces.IVAviso;
  *
  * @author DanielM
  */
-public class VAviso extends javax.swing.JDialog implements IVAviso{
+public class VAviso extends javax.swing.JDialog implements IVAviso {
 
     PAviso presentador;
+
     /**
      * Creates new form frmAvisos
      */
@@ -35,6 +36,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso{
         this.presentador = new PAviso(this);
         actualizar();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,28 +46,28 @@ public class VAviso extends javax.swing.JDialog implements IVAviso{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cbTipo = new javax.swing.JComboBox<TipoAviso>();
+        cbTipo = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnAgregarAviso = new javax.swing.JButton();
         btnCrearOT = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        cbTiempo = new javax.swing.JComboBox<String>();
+        cbTiempo = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        cbMaquina = new javax.swing.JComboBox<Maquina>();
+        cbMaquina = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        cbParteMaquina = new javax.swing.JComboBox<ParteMaquina>();
-        cbPersonal = new javax.swing.JComboBox<Personal>();
+        cbParteMaquina = new javax.swing.JComboBox<>();
+        cbPersonal = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        cbEstados = new javax.swing.JComboBox<EstadoAviso>();
+        cbEstados = new javax.swing.JComboBox<>();
         jLabel42 = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
-        cbPrioridad = new javax.swing.JComboBox<PrioridadAviso>();
+        cbPrioridad = new javax.swing.JComboBox<>();
         jLabel44 = new javax.swing.JLabel();
-        cbResponsable = new javax.swing.JComboBox<Sector>();
+        cbResponsable = new javax.swing.JComboBox<>();
         dateDesde = new com.toedter.calendar.JDateChooser();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtDescripcion = new javax.swing.JTextArea();
@@ -91,6 +93,11 @@ public class VAviso extends javax.swing.JDialog implements IVAviso{
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Tiempo Rep. Estimado");
 
@@ -175,8 +182,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso{
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(cbTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jLabel6))
                                     .addComponent(cbResponsable, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -246,21 +252,23 @@ public class VAviso extends javax.swing.JDialog implements IVAviso{
     private void btnAgregarAvisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAvisoActionPerformed
         agregarAviso();
         dispose();
-                  // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarAvisoActionPerformed
 
     private void btnCrearOTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearOTActionPerformed
         crearNuevaOT();
     }//GEN-LAST:event_btnCrearOTActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
-   
-        //</editor-fold>
+    //</editor-fold>
 
-        /* Create and display the dialog */
-  
+    /* Create and display the dialog */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarAviso;
@@ -290,66 +298,63 @@ public class VAviso extends javax.swing.JDialog implements IVAviso{
     private javax.swing.JTextArea txtDescripcion;
     // End of variables declaration//GEN-END:variables
 
- @Override
+    @Override
     public void actualizar() {
-        
-        ArrayList<Personal> personal= presentador.getPersonal();
-        
+
+        ArrayList<Personal> personal = presentador.getPersonal();
+
         for (Personal personal1 : personal) {
-           cbPersonal.addItem(personal1);
+            cbPersonal.addItem(personal1);
         }
-       
+
         ArrayList<Maquina> maquinas = presentador.getMaquinas();
-         
-         for (Maquina maquina : maquinas) {
-           cbMaquina.addItem(maquina);
-         }
-   
-        EstadoAviso[] estados=presentador.getEstados();
-        
+
+        for (Maquina maquina : maquinas) {
+            cbMaquina.addItem(maquina);
+        }
+
+        EstadoAviso[] estados = presentador.getEstados();
+
         for (int i = 0; i < estados.length; i++) {
             cbEstados.addItem(estados[i]);
         }
-        
+
         PrioridadAviso[] prioridad = presentador.getPrioridad();
-        
-        
-         for (int i = 0; i < prioridad.length; i++) {
+
+        for (int i = 0; i < prioridad.length; i++) {
             cbPrioridad.addItem(prioridad[i]);
         }
-   
-         Sector[] sectores = presentador.getSectores();
-         
-          for (int i = 0; i < sectores.length; i++) {
+
+        Sector[] sectores = presentador.getSectores();
+
+        for (int i = 0; i < sectores.length; i++) {
             cbResponsable.addItem(sectores[i]);
         }
-          
-          TipoAviso[] tipos= presentador.getTipos();
-          
-          for (int i = 0; i < tipos.length; i++) {
-         cbTipo.addItem(tipos[i]);
+
+        TipoAviso[] tipos = presentador.getTipos();
+
+        for (int i = 0; i < tipos.length; i++) {
+            cbTipo.addItem(tipos[i]);
         }
-          
-          for (int i = 10; i < 300; i= i+10) {
+
+        for (int i = 10; i < 300; i = i + 10) {
             cbTiempo.addItem(String.valueOf(i));
         }
-  
-          
-           setVisible(true);
+
+        setVisible(true);
     }
-    
-    
+
     @Override
-    public void agregarListener(){
+    public void agregarListener() {
         cbMaquina.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if ( e.getStateChange() == ItemEvent.SELECTED ) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
                     // los nuevos registros son agregados al MODEL del JCombo HIJO
-                    Maquina item = (Maquina)e.getItem();
+                    Maquina item = (Maquina) e.getItem();
                     presentador.agregarPartesMaquinas(item.getId());
                 }
-            
+
             }
         });
     }
@@ -363,23 +368,24 @@ public class VAviso extends javax.swing.JDialog implements IVAviso{
     }
 
     private void agregarAviso() {
-        TipoAviso t= (TipoAviso) cbTipo.getSelectedItem();
-        EstadoAviso e= (EstadoAviso) cbEstados.getSelectedItem();
+        TipoAviso t = (TipoAviso) cbTipo.getSelectedItem();
+        EstadoAviso e = (EstadoAviso) cbEstados.getSelectedItem();
         Personal p = (Personal) cbPersonal.getSelectedItem();
-        PrioridadAviso pa= (PrioridadAviso) cbPrioridad.getSelectedItem();
+        PrioridadAviso pa = (PrioridadAviso) cbPrioridad.getSelectedItem();
+        Maquina m = (Maquina) cbMaquina.getSelectedItem();
         ParteMaquina pm = (ParteMaquina) cbParteMaquina.getSelectedItem();
         Calendar cal = dateDesde.getCalendar();
         Sector sec = (Sector) cbResponsable.getSelectedItem();
         String tiemp = String.valueOf(cbTiempo.getSelectedItem());
-        String desc= txtDescripcion.getText();
-        
-        this.presentador.guardarAviso(t,e,p,pa,pm,cal,sec,tiemp,desc);
-        
+        String desc = txtDescripcion.getText();
+
+        this.presentador.guardarAviso(t, e, p, pa,m, pm, cal, sec, tiemp, desc);
+
     }
 
-    public void crearNuevaOT(){
+    public void crearNuevaOT() {
         VOrdenTrabajo ot = new VOrdenTrabajo();
 
     }
-    
+
 }

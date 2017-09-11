@@ -73,6 +73,7 @@ public class RepositorioMantenimiento {
         return partes;
 
     }
+
     /*
      public static void agregarMaquina(Maquina maquina) {
      EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO maquina(id,tipo,descripcion,parte_de_maquina) VALUES("
@@ -82,8 +83,8 @@ public class RepositorioMantenimiento {
      */
 
     public static void agregarAviso(Aviso aviso) {
-        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO avisos(estado,tipo,fecha_creacion,descripcion,cantidad_necesaria_reparacion,sector_responsable,prioridad,id_parte_de_maquina) VALUES("
-                + "'" + aviso.getEstado() + "','" + aviso.getTipo() + "','" + aviso.getCreacion().getTime() + "','" + aviso.getDescripcion() + "','" + aviso.getCantNecesariaRep() + "','" + aviso.getSectorResponsable() + "','" + aviso.getPrioridad() + "'," + aviso.getParteMaquina().getId() + ")");
+        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO avisos(estado, tipo, soliciante, maquina, fecha_creacion, descripcion,cantidad_necesaria_reparacion, sector_responsable, prioridad, id_parte_de_maquina) VALUES("+aviso.getEstado() + "','" + aviso.getTipo() + "','" + aviso.getPersonal() + "','" + aviso.getMaquina() + "','"+ aviso.getCreacion().getTime() + "','" + aviso.getDescripcion() + "','" + aviso.getCantNecesariaRep() + "','" 
+                                                + aviso.getSectorResponsable() + "','" + aviso.getPrioridad() + "'," + aviso.getParteMaquina().getId() + ")");
 
     }
 

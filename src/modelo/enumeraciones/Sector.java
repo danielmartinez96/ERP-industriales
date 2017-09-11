@@ -13,7 +13,7 @@ package modelo.enumeraciones;
  */
 public enum Sector {
     MECANICA,
-    SEGURIDAD_E_HIGIENE;
+    HIGIENE_Y_SEGURIDAD;
     
   
 }

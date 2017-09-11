@@ -26,9 +26,11 @@ public class Aviso {
     private Calendar creacion;
     private String descripcion;
     private int cantNecesariaRep;
+    private Maquina maquina;
     private ParteMaquina parteMaquina;
     private PrioridadAviso prioridad;
     private Sector sectorResponsable;
+    private Personal personal;
     
     
     public Aviso(){
@@ -119,7 +121,21 @@ public class Aviso {
         this.sectorResponsable = sectorResponsable;
     }
 
-    
-    
-   
+    public Maquina getMaquina() {
+        return maquina;
+    }
+
+    public void setMaquina(Maquina maquina) {
+        this.maquina = maquina;
+    }
+
+    public Personal getPersonal() {
+        return personal;
+    }
+
+    public void setPersonal(Personal personal) {
+        this.personal = personal;
+    }
+
+
 }

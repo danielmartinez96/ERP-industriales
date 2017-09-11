@@ -10,5 +10,6 @@ package modelo.enumeraciones;
  * @author DanielM
  */
 public enum TipoMaquina {
-    ELECTRICA
+   ELECTRICA
+    
 }
