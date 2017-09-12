@@ -57,10 +57,10 @@ public class POrdenTrabajo {
         vista.agregarParte(pm);
     }
 
-    public void guardarOT(int id, EstadoOT estado, TipoOT tipo,Responsable resp, Calendar inicio, Calendar fin, ParteMaquina pm) {
+    public void guardarOT(/*int id,*/ EstadoOT estado, TipoOT tipo,Responsable resp, Calendar inicio, Calendar fin, ParteMaquina pm) {
         OrdenTrabajo ot = new OrdenTrabajo();
 
-        ot.setId(id);
+        //ot.setId(id);
         ot.setEstado(estado);
         ot.setTipo(tipo);
         ot.setFechaInicio(inicio);

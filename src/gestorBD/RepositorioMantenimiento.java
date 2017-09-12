@@ -92,8 +92,8 @@ public class RepositorioMantenimiento {
     }
 
     public static void agregarOT(OrdenTrabajo ot) {
-        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(id_ot, estado, id_tipo_ot, responsable, fecha_inicio, fecha_fin, parte_maquina) "
-                                                + "VALUES("+ "'" + ot.getId() + "','" + ot.getEstado() + "','" + ot.getTipo() + "','" + ot.getResp() 
+        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(estado, id_tipo_ot, responsable, fecha_inicio, fecha_fin, parte_maquina) "
+                                                + "VALUES("+"'"+ot.getEstado() + "','" + ot.getTipo() + "','" + ot.getResp() 
                                                 + "','" + ot.getFechaInicio().getTime() + "','" + ot.getFechaFin().getTime() + "','" + ot.getParte()+"')");
 
     }

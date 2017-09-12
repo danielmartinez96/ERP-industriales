@@ -28,7 +28,9 @@ CREATE TABLE IF NOT EXISTS avisos(
     descripcion varchar(60), 
     cantidad_necesaria_reparacion varchar(60),
     sector_responsable varchar(30),
-    prioridad varchar(30),	
+    prioridad varchar(30),
+    solicitante varchar(100),
+    maquina varchar(100),	
     id_parte_de_maquina int NOT NULL,
     FOREIGN KEY(id_parte_de_maquina) REFERENCES partes_de_maquina(id_parte_de_maquina) 
 );
@@ -46,6 +48,8 @@ CREATE TABLE IF NOT EXISTS tabla_ot(
     fecha_fin DATE,
     id_aviso INT NOT NULL,
     id_tipo_ot INT NOT NULL,
+     responsable varchar(60),
+	parte_maquina varchar(100)
     FOREIGN KEY(id_aviso) REFERENCES avisos(id_aviso) , 
     FOREIGN KEY(id_tipo_ot) REFERENCES tipos_ot(id_tipo_ot) 
 );

@@ -9,7 +9,7 @@ package modelo.enumeraciones;
  *
  * @author Usuario
  */
-public enum TipoOT {
+public enum TipoOT{
     TIPO1,
     TIPO2,
     TIPO3

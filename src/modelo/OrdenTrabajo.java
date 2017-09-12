@@ -38,9 +38,10 @@ public class OrdenTrabajo {
         return id;
     }
 
+    /*
     public void setId(int id) {
         this.id = id;
-    }
+    }*/
 
     public EstadoOT getEstado() {
         return estado;
