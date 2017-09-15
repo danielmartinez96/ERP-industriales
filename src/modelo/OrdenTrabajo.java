@@ -22,6 +22,7 @@ public class OrdenTrabajo {
     private Calendar FechaFin;
     private ParteMaquina parte;
     private Responsable resp;
+    private Aviso aviso;
 
     public OrdenTrabajo() {
     }
@@ -34,6 +35,15 @@ public class OrdenTrabajo {
         this.FechaFin = FechaFin;
     }
 
+    public Aviso getAviso() {
+        return aviso;
+    }
+
+    public void setAviso(Aviso aviso) {
+        this.aviso = aviso;
+    }
+
+    
     public int getId() {
         return id;
     }
