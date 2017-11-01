@@ -10,12 +10,8 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import modelo.*;
-import modelo.enumeraciones.EstadoAviso;
 import modelo.enumeraciones.EstadoOT;
-import modelo.enumeraciones.PrioridadAviso;
 import modelo.enumeraciones.Responsable;
-import modelo.enumeraciones.Sector;
-import modelo.enumeraciones.TipoAviso;
 import modelo.enumeraciones.TipoOT;
 import presentador.POrdenTrabajo;
 import presentador.interfaces.IVOrdenTrabajo;
@@ -80,7 +76,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         jLabel9 = new javax.swing.JLabel();
         cbResponsable = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbAviso = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -122,7 +118,11 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
 
         jLabel2.setText("Aviso:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbAviso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAvisoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,7 +140,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cbEstado, 0, 152, Short.MAX_VALUE)
                             .addComponent(cbTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cbAviso, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -200,7 +200,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
                     .addComponent(dateFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbAviso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -227,6 +227,10 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void cbAvisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAvisoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbAvisoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -256,23 +260,13 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                VOrdenTrabajo dialog = new VOrdenTrabajo(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarOT;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JComboBox<Aviso> cbAviso;
     private javax.swing.JComboBox cbEstado;
     private javax.swing.JComboBox<Maquina> cbMaquina;
     private javax.swing.JComboBox<ParteMaquina> cbParteMaquina;
@@ -280,7 +274,6 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
     private javax.swing.JComboBox cbTipo;
     private com.toedter.calendar.JDateChooser dateFin;
     private com.toedter.calendar.JDateChooser dateInicio;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -305,6 +298,12 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
             cbEstado.addItem(estados[i]);
         }
 
+        ArrayList<Aviso> avisos = presentador.getAvisos();
+               
+        for (Aviso aviso : avisos) {
+            cbAviso.addItem(aviso);
+        }
+        
         TipoOT[] tipos = presentador.getTipos();
         
         for (int i = 0; i < tipos.length; i++) {
@@ -323,7 +322,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
             cbResponsable.addItem(responsable[i]);
         }
         
-        ArrayList<Aviso> avisos = new ArrayList<>();
+     
 
     }
 
@@ -358,8 +357,8 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         Calendar calInicio = dateInicio.getCalendar();
         Calendar calFin = dateFin.getCalendar();
         ParteMaquina parteMaquina = (ParteMaquina) cbParteMaquina.getSelectedItem();
-
-        this.presentador.guardarOT(/*id,*/ estadoOT, tipoOT, responsable, calInicio, calFin, parteMaquina);
+        Aviso aviso = (Aviso) cbAviso.getSelectedItem();
+        this.presentador.guardarOT(aviso,estadoOT, tipoOT, responsable, calInicio, calFin, parteMaquina);
     }
 
 }

@@ -5,17 +5,29 @@
  */
 package vista;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import modelo.Maquina;
+import modelo.ParteMaquina;
+import presentador.PCargarFallo;
+import presentador.interfaces.IVCargarFallo;
+
 /**
  *
- * @author Axel y Ampy
+ * @author DanielM
  */
-public class VCargaFallo extends javax.swing.JFrame {
-
+public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo{
+ PCargarFallo presentador;
     /**
-     * Creates new form frmFallosDeLinea
+     * Creates new form VCargarFallo2
      */
-    public VCargaFallo() {
+    public VCargarFallo(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
+        this.presentador = new PCargarFallo(this);
+        actualizar();     
+        setVisible(true);
     }
 
     /**
@@ -27,37 +39,25 @@ public class VCargaFallo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
-        comboMaquinaria = new javax.swing.JComboBox();
-        jLabel3 = new javax.swing.JLabel();
-        comboParteMaquina = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
         comboSintomaFallo = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
         comboCausaFallo = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDetalle = new javax.swing.JTextArea();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        cbMaquina = new javax.swing.JComboBox<>();
         calendarFecha = new com.toedter.calendar.JCalendar();
+        jLabel3 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
+        cbParteMaquina = new javax.swing.JComboBox<>();
         btnCargar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("Carga de Fallo de Linea");
-
-        jLabel2.setText("Maquinaria: ");
-
-        comboMaquinaria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel3.setText("Parte de Maquina:");
-
-        comboParteMaquina.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel4.setText("Sintoma de Fallo: ");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         comboSintomaFallo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -67,15 +67,23 @@ public class VCargaFallo extends javax.swing.JFrame {
 
         jLabel6.setText("Detalle: ");
 
+        jLabel1.setText("Carga de Fallo de Linea");
+
         txtDetalle.setColumns(20);
         txtDetalle.setRows(5);
         jScrollPane1.setViewportView(txtDetalle);
 
+        jLabel2.setText("Maquinaria: ");
+
         jLabel7.setText("Fecha: ");
+
+        jLabel3.setText("Parte de Maquina:");
 
         btnCancelar.setText("Cancelar");
 
         btnCargar.setText("Cargar");
+
+        jLabel4.setText("Sintoma de Fallo: ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,11 +99,7 @@ public class VCargaFallo extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(comboParteMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(comboSintomaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cbParteMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -105,10 +109,16 @@ public class VCargaFallo extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboMaquinaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(110, 110, 110)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cbMaquina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(comboSintomaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(42, 42, 42)
                                 .addComponent(jLabel7)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,7 +128,7 @@ public class VCargaFallo extends javax.swing.JFrame {
                                 .addComponent(btnCancelar))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(calendarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 2, Short.MAX_VALUE)))))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -133,12 +143,12 @@ public class VCargaFallo extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(comboMaquinaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(comboParteMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbParteMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
@@ -152,7 +162,7 @@ public class VCargaFallo extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(calendarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnCargar))
@@ -179,23 +189,28 @@ public class VCargaFallo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VCargaFallo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VCargarFallo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VCargaFallo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VCargarFallo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VCargaFallo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VCargarFallo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VCargaFallo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VCargarFallo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VCargaFallo().setVisible(true);
+                VCargarFallo dialog = new VCargarFallo(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
@@ -204,9 +219,9 @@ public class VCargaFallo extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCargar;
     private com.toedter.calendar.JCalendar calendarFecha;
+    private javax.swing.JComboBox<Maquina> cbMaquina;
+    private javax.swing.JComboBox<ParteMaquina> cbParteMaquina;
     private javax.swing.JComboBox comboCausaFallo;
-    private javax.swing.JComboBox comboMaquinaria;
-    private javax.swing.JComboBox comboParteMaquina;
     private javax.swing.JComboBox comboSintomaFallo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -219,4 +234,33 @@ public class VCargaFallo extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea txtDetalle;
     // End of variables declaration//GEN-END:variables
+
+@Override
+    public void agregarListener() {
+        
+        
+ cbParteMaquina.addItemListener((ItemEvent e) -> {
+     if (e.getStateChange() == ItemEvent.SELECTED) {
+         // los nuevos registros son agregados al MODEL del JCombo HIJO
+         Maquina item = (Maquina) e.getItem();
+         presentador.agregarPartesMaquinas(item.getId());
+     }
+ });       
+    }
+
+    private void actualizar() {
+     ArrayList<Maquina> maquinas = presentador.getMaquinas();
+
+        for (Maquina maquina : maquinas) {
+            cbMaquina.addItem(maquina);
+        }
+    
+    }
+    
+    public void agregarParte(ArrayList<ParteMaquina> pm) {
+        cbParteMaquina.removeAllItems();
+        for (ParteMaquina parteMaquina : pm) {
+            cbParteMaquina.addItem(parteMaquina);
+        }
+    }
 }

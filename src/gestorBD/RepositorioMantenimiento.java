@@ -90,13 +90,34 @@ public class RepositorioMantenimiento {
                                                 + aviso.getCantNecesariaRep() + "','"+ aviso.getSectorResponsable() + "','" + aviso.getPrioridad() + "'," 
                                                 + aviso.getParteMaquina().getId() + ")");
     }
+    
+    // Quizas deberiamos filtrar segun el estado de aviso cuando es para cargar la ot
+   
+    public static ArrayList<Aviso> getAvisosOT() {
+    ArrayList<Aviso> avisos = new ArrayList<>();
+        EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
+            while (resultSet.next()) {
+                Aviso aviso = new Aviso();
+                aviso.setId(resultSet.getInt("id_aviso"));
+                aviso.setDescripcion(resultSet.getString("descripcion"));
+
+                avisos.add(aviso);
+            }
+
+        }, "SELECT * FROM avisos");
+
+        return avisos;
+    }
+    
 
     public static void agregarOT(OrdenTrabajo ot) {
   //      EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(estado, id_tipo_ot, responsable, fecha_inicio, fecha_fin, parte_maquina) "
     //                                            + "VALUES("+"'"+ot.getEstado() + "','" + ot.getTipo() + "','" + ot.getResp() 
       //                                          + "','" + ot.getFechaInicio().getTime() + "','" + ot.getFechaFin().getTime() + "','" + ot.getParte()+"')");
-EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(estado, responsable, fecha_inicio, fecha_fin, parte_maquina,id_aviso) "
-                                                + "VALUES("+"'"+ot.getEstado() +"','" + ot.getResp() 
-                                                + "','" + ot.getFechaInicio().getTime() + "','" + ot.getFechaFin().getTime() + "','" + ot.getParte()+"')");
+EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(id_aviso,estado, responsable, fecha_inicio, fecha_fin, parte_maquina,tipo_ot) "
+                                                + "VALUES('"+ot.getAviso().getId()+"','"+ot.getEstado() +"','" + ot.getResp() 
+                                                + "','" + ot.getFechaInicio().getTime() + "','" + ot.getFechaFin().getTime() + "','" + ot.getParte().getId()+"','"+ot.getTipo().toString()+"')");
     }
+
+    
 }

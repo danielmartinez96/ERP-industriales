@@ -8,16 +8,12 @@ package presentador;
 import gestorBD.RepositorioMantenimiento;
 import java.util.ArrayList;
 import java.util.Calendar;
+import modelo.Aviso;
 import modelo.Maquina;
 import modelo.OrdenTrabajo;
 import modelo.ParteMaquina;
-import modelo.Personal;
-import modelo.enumeraciones.EstadoAviso;
 import modelo.enumeraciones.EstadoOT;
-import modelo.enumeraciones.PrioridadAviso;
 import modelo.enumeraciones.Responsable;
-import modelo.enumeraciones.Sector;
-import modelo.enumeraciones.TipoAviso;
 import modelo.enumeraciones.TipoOT;
 import presentador.interfaces.IVOrdenTrabajo;
 
@@ -57,10 +53,10 @@ public class POrdenTrabajo {
         vista.agregarParte(pm);
     }
 
-    public void guardarOT(/*int id,*/ EstadoOT estado, TipoOT tipo,Responsable resp, Calendar inicio, Calendar fin, ParteMaquina pm) {
+    public void guardarOT(Aviso aviso, EstadoOT estado, TipoOT tipo,Responsable resp, Calendar inicio, Calendar fin, ParteMaquina pm) {
         OrdenTrabajo ot = new OrdenTrabajo();
 
-        //ot.setId(id);
+        ot.setAviso(aviso);
         ot.setEstado(estado);
         ot.setTipo(tipo);
         ot.setFechaInicio(inicio);
@@ -70,6 +66,11 @@ public class POrdenTrabajo {
 
         RepositorioMantenimiento.agregarOT(ot);
 
+    }
+
+    public ArrayList<Aviso> getAvisos() {
+
+       return  RepositorioMantenimiento.getAvisosOT();
     }
 
 }

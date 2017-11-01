@@ -155,12 +155,11 @@ CREATE TABLE IF NOT EXISTS `tabla_ot` (
   `fecha_inicio` varchar(30) DEFAULT NULL,
   `fecha_fin` varchar(30) DEFAULT NULL,
   `id_aviso` int(11) NOT NULL,
-  `id_tipo_ot` int(11) NOT NULL,
+  `tipo_ot` varchar(20) NOT NULL,
   `responsable` varchar(100) DEFAULT NULL,
   `parte_maquina` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_ot`),
-  KEY `id_aviso` (`id_aviso`),
-  KEY `id_tipo_ot` (`id_tipo_ot`)
+  KEY `id_aviso` (`id_aviso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -169,11 +168,6 @@ CREATE TABLE IF NOT EXISTS `tabla_ot` (
 -- Estructura de tabla para la tabla `tipos_ot`
 --
 
-CREATE TABLE IF NOT EXISTS `tipos_ot` (
-  `id_tipo_ot` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id_tipo_ot`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Restricciones para tablas volcadas
@@ -195,8 +189,8 @@ ALTER TABLE `partes_de_maquina`
 -- Filtros para la tabla `tabla_ot`
 --
 ALTER TABLE `tabla_ot`
-  ADD CONSTRAINT `tabla_ot_ibfk_1` FOREIGN KEY (`id_aviso`) REFERENCES `avisos` (`id_aviso`),
-  ADD CONSTRAINT `tabla_ot_ibfk_2` FOREIGN KEY (`id_tipo_ot`) REFERENCES `tipos_ot` (`id_tipo_ot`);
+  ADD CONSTRAINT `tabla_ot_ibfk_1` FOREIGN KEY (`id_aviso`) REFERENCES `avisos` (`id_aviso`);
+ 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

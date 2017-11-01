@@ -287,6 +287,8 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
             case "OT01":
                 new VOrdenTrabajo(this, true);
                 break;
+            case "CF01":
+                new VCargarFallo(this,true);
             default:
                 JOptionPane.showMessageDialog(null, "Ese comando no esta definido");
                 txtFiltro.setText("");

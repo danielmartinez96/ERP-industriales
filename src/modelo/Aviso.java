@@ -137,5 +137,10 @@ public class Aviso {
         this.personal = personal;
     }
 
+    @Override
+    public String toString() {
+        return descripcion;
+    }
+
 
 }

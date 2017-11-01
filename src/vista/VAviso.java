@@ -384,7 +384,9 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
     }
 
     public void crearNuevaOT() {
+        agregarAviso();
         VOrdenTrabajo ot = new VOrdenTrabajo(this, true);
+        
 
     }
 
