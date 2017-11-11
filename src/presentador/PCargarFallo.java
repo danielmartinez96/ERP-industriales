@@ -7,6 +7,8 @@ package presentador;
 
 import gestorBD.RepositorioMantenimiento;
 import java.util.ArrayList;
+import java.util.Calendar;
+import modelo.FalloDeMaquina;
 import modelo.Maquina;
 import modelo.ParteMaquina;
 import modelo.enumeraciones.CausaFalla;
@@ -53,6 +55,13 @@ public class PCargarFallo {
       public SintomaFalla[] getSintomas() {
 
         return SintomaFalla.values();
+    }
+
+    public void guardarFallo(ParteMaquina pm, SintomaFalla sintoma, CausaFalla causa, String detalle, Calendar fecha) {
+
+        FalloDeMaquina fallo= new FalloDeMaquina(pm, fecha, detalle, sintoma, causa);
+        
+        
     }
     
 }

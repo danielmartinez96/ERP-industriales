@@ -8,6 +8,7 @@ package vista;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import modelo.Maquina;
 import modelo.ParteMaquina;
 import modelo.enumeraciones.CausaFalla;
@@ -68,8 +69,18 @@ PCargarFallo presentador;
         jLabel3.setText("Parte de Maquina:");
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnCargar.setText("Cargar");
+        btnCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Sintoma de Fallo: ");
 
@@ -180,6 +191,16 @@ PCargarFallo presentador;
         // TODO add your handling code here:
     }//GEN-LAST:event_cbParteMaquinaActionPerformed
 
+    private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
+    agregarFallo();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCargarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -250,6 +271,19 @@ PCargarFallo presentador;
         }
     }
 
+      private void agregarFallo() {
+      
+        ParteMaquina pm= (ParteMaquina) cbParteMaquina.getSelectedItem();
+        SintomaFalla sintoma = (SintomaFalla) cbSintomaFallo.getSelectedItem();
+        CausaFalla causa = (CausaFalla) cbCausaFallo.getSelectedItem();
+        String detalle = txtDetalle.getText();
+        Calendar fecha= calendarFecha.getCalendar();
+        
+        this.presentador.guardarFallo(pm,sintoma,causa,detalle,fecha);
+
+    }
+
+    
 
    
 }
