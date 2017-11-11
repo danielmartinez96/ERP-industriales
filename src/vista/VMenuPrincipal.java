@@ -189,6 +189,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         DefaultMutableTreeNode A1112 = new Nodo("IM02", "Listado de Avisos");
         DefaultMutableTreeNode A112 = new DefaultMutableTreeNode("Orden de trabajo");
         DefaultMutableTreeNode A1121 = new Nodo("OT01", "Nueva OT");
+         DefaultMutableTreeNode A1122 = new Nodo("OT02", "Listado de OT");
         DefaultMutableTreeNode A113 = new DefaultMutableTreeNode("Programa de mantenimiento");
         DefaultMutableTreeNode A1131 = new Nodo("Por definir", "Nuevo PM");
         DefaultMutableTreeNode A1132 = new Nodo("Por definir", "Consultar PM");
@@ -206,6 +207,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         A111.add(A1112);
         A11.add(A112);
         A112.add(A1121);
+        A112.add(A1122);
         A11.add(A113);
         A113.add(A1131);
         A113.add(A1132);
@@ -291,6 +293,9 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
                 break;
             case "OT01":
                 new VOrdenTrabajo(this, true);
+                break;
+            case "OT02":
+                new ListarOT(this, true);
                 break;
             case "CF01":
                 new VCargarFallo(this,true);

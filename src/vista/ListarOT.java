@@ -5,6 +5,10 @@
  */
 package vista;
 
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import modelo.OrdenTrabajo;
+import presentador.PListarOT;
 import presentador.interfaces.IVListarOT;
 
 /**
@@ -12,13 +16,17 @@ import presentador.interfaces.IVListarOT;
  * @author DanielM
  */
 public class ListarOT extends javax.swing.JDialog implements IVListarOT{
-
+    PListarOT presentador;
+    DefaultTableModel modelo = new DefaultTableModel();
     /**
      * Creates new form ListarOT
      */
     public ListarOT(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        presentador= new PListarOT(this);
+        actualizarTablaDeOT();
+        this.setVisible(true);
     }
 
     /**
@@ -35,11 +43,11 @@ public class ListarOT extends javax.swing.JDialog implements IVListarOT{
         btnSalir = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TableAvisos = new javax.swing.JTable();
+        TableOT = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Listado de Avisos");
+        jLabel1.setText("Listado de OT");
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -48,7 +56,7 @@ public class ListarOT extends javax.swing.JDialog implements IVListarOT{
             }
         });
 
-        TableAvisos.setModel(new javax.swing.table.DefaultTableModel(
+        TableOT.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -59,7 +67,7 @@ public class ListarOT extends javax.swing.JDialog implements IVListarOT{
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(TableAvisos);
+        jScrollPane1.setViewportView(TableOT);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,7 +117,7 @@ public class ListarOT extends javax.swing.JDialog implements IVListarOT{
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TableAvisos;
+    private javax.swing.JTable TableOT;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -117,9 +125,38 @@ public class ListarOT extends javax.swing.JDialog implements IVListarOT{
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void actualizarTablaOT() {
 
+    @Override
+    public void actualizarTablaDeOT() {
+       TableOT.setModel(modelo);
+    
+        ArrayList<OrdenTrabajo> lista = new ArrayList<>();
+                
+        lista = presentador.listarOT();
+        
+        modelo.addColumn("id");
+         modelo.addColumn("Fecha Inicio");
+          modelo.addColumn("Fecha Fin");
+           modelo.addColumn("Estado");
+          modelo.addColumn("Aviso");
+          modelo.addColumn("Tipo OT");
+          modelo.addColumn("Responsable");
+          modelo.addColumn("Parte Maquina");
+        Object fila [] = new Object[modelo.getColumnCount()];
+        
+        for(int i=0; i<lista.size(); i++){
+            fila[0]=lista.get(i).getId();
+            fila[1]=lista.get(i).getFechaInicio();
+            fila[2]=lista.get(i).getFechaFin();
+            fila[3]=lista.get(i).getEstado();
+            fila[4]=lista.get(i).getAviso();
+            fila[5]=lista.get(i).getTipo();
+            fila[6]=lista.get(i).getResp();
+            fila[7]=lista.get(i).getParte();
+            
+            
+            modelo.addRow(fila);
+        }
        
 
 

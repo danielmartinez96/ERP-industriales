@@ -7,11 +7,14 @@ package gestorBD;
 
 import gestorBD.conexion.EjecucionResultSet;
 import gestorBD.conexion.EjecutorRutinaDB;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Aviso;
 import modelo.FalloDeMaquina;
 import modelo.Maquina;
@@ -20,10 +23,13 @@ import modelo.ParteMaquina;
 
 import modelo.Personal;
 import modelo.enumeraciones.EstadoAviso;
+import modelo.enumeraciones.EstadoOT;
 import modelo.enumeraciones.PrioridadAviso;
+import modelo.enumeraciones.Responsable;
 import modelo.enumeraciones.Sector;
 import modelo.enumeraciones.TipoAviso;
 import modelo.enumeraciones.TipoMaquina;
+import modelo.enumeraciones.TipoOT;
 
 /**
  *
@@ -149,7 +155,7 @@ public class RepositorioMantenimiento {
                 aviso.setSectorResponsable(Sector.valueOf(resultSet.getString("sector_responsable")));
                 aviso.setPrioridad(PrioridadAviso.valueOf(resultSet.getString("prioridad")));
                 aviso.setParteMaquina(getParte(resultSet.getInt("id_parte_de_maquina")));
-                aviso.setPersonal(getSolicitante(resultSet.getInt("id_personal")));
+                aviso.setPersonal(getSolicitante(resultSet.getInt("id_solicitante")));
                 aviso.setMaquina(getMaquina(resultSet.getInt("id_parte_de_maquina")));
                 
                 avisos.add(aviso);
@@ -188,6 +194,25 @@ public class RepositorioMantenimiento {
                 + aviso.getParteMaquina().getId() + ")");
     }
 
+    public static Aviso getAviso(int id)
+    {
+         Aviso aviso = new Aviso();
+        EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
+            while (resultSet.next()) {
+               
+                aviso.setId(resultSet.getInt("id_aviso"));
+                aviso.setDescripcion(resultSet.getString("descripcion"));
+
+                
+                
+              
+            }
+
+        }, "SELECT * FROM avisos where id_aviso="+id);
+
+        return aviso;
+    }
+    
     // Quizas deberiamos filtrar segun el estado de aviso cuando es para cargar la ot
     public static ArrayList<Aviso> getAvisosOT() {
         ArrayList<Aviso> avisos = new ArrayList<>();
@@ -197,6 +222,8 @@ public class RepositorioMantenimiento {
                 aviso.setId(resultSet.getInt("id_aviso"));
                 aviso.setDescripcion(resultSet.getString("descripcion"));
 
+                
+                
                 avisos.add(aviso);
             }
 
@@ -223,17 +250,24 @@ public class RepositorioMantenimiento {
 
     public static ArrayList<OrdenTrabajo> listarOT() {
         
- ArrayList<OrdenTrabajo> ots = new ArrayList<>();
+ ArrayList<OrdenTrabajo> ordenes = new ArrayList<>();
         EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
-               OrdenTrabajo aviso = new OrdenTrabajo();
+               OrdenTrabajo ot = new OrdenTrabajo();
+               ot.setEstado(EstadoOT.valueOf(resultSet.getString("estado")));
                
-              
+ 
+                ot.setTipo(TipoOT.valueOf(resultSet.getString("tipo_ot")));
+                ot.setAviso(getAviso(resultSet.getInt("id_aviso")));
+                ot.setResp(Responsable.valueOf(resultSet.getString("responsable")));
+                ot.setParteMaquina(getParte(resultSet.getInt("parte_maquina")));
+                
+                ordenes.add(ot);
             }
 
-        }, "SELECT * FROM avisos");
+        }, "SELECT * FROM tabla_ot");
 
-        return ots;
+        return ordenes;
     }
 
 }
