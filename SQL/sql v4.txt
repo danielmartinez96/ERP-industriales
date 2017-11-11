@@ -1,20 +1,20 @@
 ﻿-- phpMyAdmin SQL Dump
--- version 3.5.1
--- http://www.phpmyadmin.net
+-- version 4.6.4
+-- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 11-09-2017 a las 04:26:48
--- Versión del servidor: 5.5.24-log
--- Versión de PHP: 5.4.3
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 11-11-2017 a las 21:19:54
+-- Versión del servidor: 5.7.14
+-- Versión de PHP: 7.0.10
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de datos: `dbindustriales`
@@ -26,8 +26,8 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `avisos`
 --
 
-CREATE TABLE IF NOT EXISTS `avisos` (
-  `id_aviso` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `avisos` (
+  `id_aviso` int(11) NOT NULL,
   `estado` varchar(25) DEFAULT NULL,
   `tipo` varchar(25) DEFAULT NULL,
   `fecha_creacion` varchar(60) DEFAULT NULL,
@@ -36,11 +36,16 @@ CREATE TABLE IF NOT EXISTS `avisos` (
   `sector_responsable` varchar(30) DEFAULT NULL,
   `prioridad` varchar(30) DEFAULT NULL,
   `id_parte_de_maquina` int(11) NOT NULL,
-  `solicitante` varchar(30) DEFAULT NULL,
-  `maquina` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id_aviso`),
-  KEY `id_parte_de_maquina` (`id_parte_de_maquina`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `id_solicitante` varchar(11) NOT NULL,
+  `maquina` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `avisos`
+--
+
+INSERT INTO `avisos` (`id_aviso`, `estado`, `tipo`, `fecha_creacion`, `descripcion`, `cantidad_necesaria_reparacion`, `sector_responsable`, `prioridad`, `id_parte_de_maquina`, `id_solicitante`, `maquina`) VALUES
+(1, 'ESTADO1', 'P', 'Sat Nov 18 00:00:00 ART 2017', 'dfasdasdasd', '10', 'MECANICA', 'BAJA', 1, 1, 'SOLDADOR');
 
 -- --------------------------------------------------------
 
@@ -48,14 +53,28 @@ CREATE TABLE IF NOT EXISTS `avisos` (
 -- Estructura de tabla para la tabla `estructuras`
 --
 
-CREATE TABLE IF NOT EXISTS `estructuras` (
-  `id_estructura` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `estructuras` (
+  `id_estructura` int(11) NOT NULL,
   `tipo` varchar(25) DEFAULT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `material` varchar(25) DEFAULT NULL,
-  `metrica` float DEFAULT NULL,
-  PRIMARY KEY (`id_estructura`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `metrica` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `fallo_maquina`
+--
+
+CREATE TABLE `fallo_maquina` (
+  `id_fallo` int(11) NOT NULL,
+  `fecha_creacion` varchar(30) DEFAULT NULL,
+  `sintoma` varchar(30) DEFAULT NULL,
+  `causa` varchar(30) DEFAULT NULL,
+  `detalle` varchar(100) DEFAULT NULL,
+  `id_parte_de_maquina` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -63,8 +82,8 @@ CREATE TABLE IF NOT EXISTS `estructuras` (
 -- Estructura de tabla para la tabla `items`
 --
 
-CREATE TABLE IF NOT EXISTS `items` (
-  `id_items` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `items` (
+  `id_items` int(11) NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `ubicacion` varchar(45) DEFAULT NULL,
   `lote` varchar(45) DEFAULT NULL,
@@ -72,10 +91,8 @@ CREATE TABLE IF NOT EXISTS `items` (
   `stock` int(11) DEFAULT NULL,
   `lead_time` time DEFAULT NULL,
   `codigo` varchar(20) DEFAULT NULL,
-  `metrica` float DEFAULT NULL,
-  PRIMARY KEY (`id_items`),
-  UNIQUE KEY `codigo` (`codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `metrica` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -83,12 +100,11 @@ CREATE TABLE IF NOT EXISTS `items` (
 -- Estructura de tabla para la tabla `maquinas`
 --
 
-CREATE TABLE IF NOT EXISTS `maquinas` (
-  `id_maquina` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `maquinas` (
+  `id_maquina` int(11) NOT NULL,
   `tipo` varchar(30) DEFAULT NULL,
-  `descripcion` varchar(60) DEFAULT NULL,
-  PRIMARY KEY (`id_maquina`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `descripcion` varchar(60) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `maquinas`
@@ -104,13 +120,11 @@ INSERT INTO `maquinas` (`id_maquina`, `tipo`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `partes_de_maquina`
 --
 
-CREATE TABLE IF NOT EXISTS `partes_de_maquina` (
-  `id_parte_de_maquina` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `partes_de_maquina` (
+  `id_parte_de_maquina` int(11) NOT NULL,
   `descripcion` varchar(60) DEFAULT NULL,
-  `id_maquina` int(11) NOT NULL,
-  PRIMARY KEY (`id_parte_de_maquina`),
-  KEY `id_maquina` (`id_maquina`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `id_maquina` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `partes_de_maquina`
@@ -127,13 +141,12 @@ INSERT INTO `partes_de_maquina` (`id_parte_de_maquina`, `descripcion`, `id_maqui
 -- Estructura de tabla para la tabla `personal`
 --
 
-CREATE TABLE IF NOT EXISTS `personal` (
-  `id_personal` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `personal` (
+  `id_personal` int(11) NOT NULL,
   `nombre` varchar(20) DEFAULT NULL,
   `apellido` varchar(20) DEFAULT NULL,
-  `sector` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id_personal`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `sector` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `personal`
@@ -149,26 +162,126 @@ INSERT INTO `personal` (`id_personal`, `nombre`, `apellido`, `sector`) VALUES
 -- Estructura de tabla para la tabla `tabla_ot`
 --
 
-CREATE TABLE IF NOT EXISTS `tabla_ot` (
-  `id_ot` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tabla_ot` (
+  `id_ot` int(11) NOT NULL,
   `estado` varchar(25) DEFAULT NULL,
   `fecha_inicio` varchar(30) DEFAULT NULL,
   `fecha_fin` varchar(30) DEFAULT NULL,
   `id_aviso` int(11) NOT NULL,
   `tipo_ot` varchar(20) NOT NULL,
   `responsable` varchar(100) DEFAULT NULL,
-  `parte_maquina` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_ot`),
-  KEY `id_aviso` (`id_aviso`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  `parte_maquina` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Estructura de tabla para la tabla `tipos_ot`
+-- Volcado de datos para la tabla `tabla_ot`
 --
 
+INSERT INTO `tabla_ot` (`id_ot`, `estado`, `fecha_inicio`, `fecha_fin`, `id_aviso`, `tipo_ot`, `responsable`, `parte_maquina`) VALUES
+(1, 'ESTADO1', 'Sat Nov 04 02:18:25 ART 2017', 'Sat Nov 04 02:18:26 ART 2017', 1, 'TIPO1', 'RESP1', 1);
 
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `avisos`
+--
+ALTER TABLE `avisos`
+  ADD PRIMARY KEY (`id_aviso`),
+  ADD KEY `id_parte_de_maquina` (`id_parte_de_maquina`),
+  ADD KEY `id_solicitante` (`id_solicitante`);
+
+--
+-- Indices de la tabla `estructuras`
+--
+ALTER TABLE `estructuras`
+  ADD PRIMARY KEY (`id_estructura`);
+
+--
+-- Indices de la tabla `fallo_maquina`
+--
+ALTER TABLE `fallo_maquina`
+  ADD PRIMARY KEY (`id_fallo`),
+  ADD KEY `id_parte_de_maquina` (`id_parte_de_maquina`);
+
+--
+-- Indices de la tabla `items`
+--
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`id_items`),
+  ADD UNIQUE KEY `codigo` (`codigo`);
+
+--
+-- Indices de la tabla `maquinas`
+--
+ALTER TABLE `maquinas`
+  ADD PRIMARY KEY (`id_maquina`);
+
+--
+-- Indices de la tabla `partes_de_maquina`
+--
+ALTER TABLE `partes_de_maquina`
+  ADD PRIMARY KEY (`id_parte_de_maquina`),
+  ADD KEY `id_maquina` (`id_maquina`);
+
+--
+-- Indices de la tabla `personal`
+--
+ALTER TABLE `personal`
+  ADD PRIMARY KEY (`id_personal`);
+
+--
+-- Indices de la tabla `tabla_ot`
+--
+ALTER TABLE `tabla_ot`
+  ADD PRIMARY KEY (`id_ot`),
+  ADD KEY `id_aviso` (`id_aviso`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `avisos`
+--
+ALTER TABLE `avisos`
+  MODIFY `id_aviso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `estructuras`
+--
+ALTER TABLE `estructuras`
+  MODIFY `id_estructura` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `fallo_maquina`
+--
+ALTER TABLE `fallo_maquina`
+  MODIFY `id_fallo` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `items`
+--
+ALTER TABLE `items`
+  MODIFY `id_items` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `maquinas`
+--
+ALTER TABLE `maquinas`
+  MODIFY `id_maquina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `partes_de_maquina`
+--
+ALTER TABLE `partes_de_maquina`
+  MODIFY `id_parte_de_maquina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `personal`
+--
+ALTER TABLE `personal`
+  MODIFY `id_personal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `tabla_ot`
+--
+ALTER TABLE `tabla_ot`
+  MODIFY `id_ot` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Restricciones para tablas volcadas
 --
@@ -190,7 +303,6 @@ ALTER TABLE `partes_de_maquina`
 --
 ALTER TABLE `tabla_ot`
   ADD CONSTRAINT `tabla_ot_ibfk_1` FOREIGN KEY (`id_aviso`) REFERENCES `avisos` (`id_aviso`);
- 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

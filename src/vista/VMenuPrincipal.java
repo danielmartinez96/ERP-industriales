@@ -186,6 +186,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         DefaultMutableTreeNode A11 = new DefaultMutableTreeNode("Ingenieria y Mantenimiento");
         DefaultMutableTreeNode A111 = new DefaultMutableTreeNode("Avisos");
         DefaultMutableTreeNode A1111 = new Nodo("IM01", "Nuevo aviso");
+        DefaultMutableTreeNode A1112 = new Nodo("IM02", "Listado de Avisos");
         DefaultMutableTreeNode A112 = new DefaultMutableTreeNode("Orden de trabajo");
         DefaultMutableTreeNode A1121 = new Nodo("OT01", "Nueva OT");
         DefaultMutableTreeNode A113 = new DefaultMutableTreeNode("Programa de mantenimiento");
@@ -202,6 +203,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         A1.add(A11);
         A11.add(A111);
         A111.add(A1111);
+        A111.add(A1112);
         A11.add(A112);
         A112.add(A1121);
         A11.add(A113);
@@ -284,13 +286,15 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
             case "IM01":
                 new VAviso(this, true);
                 break;
+            case "IM02":
+                new VListadoAviso(this, true);
+                break;
             case "OT01":
                 new VOrdenTrabajo(this, true);
                 break;
             case "CF01":
                 new VCargarFallo(this,true);
                 break;
-           
             default:
                 JOptionPane.showMessageDialog(null, "Ese comando no esta definido");
                 break;

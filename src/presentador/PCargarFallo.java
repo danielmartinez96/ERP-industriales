@@ -61,7 +61,7 @@ public class PCargarFallo {
 
         FalloDeMaquina fallo= new FalloDeMaquina(pm, fecha, detalle, sintoma, causa);
         
-        
+        RepositorioMantenimiento.cargarFallo(fallo);
     }
     
 }
