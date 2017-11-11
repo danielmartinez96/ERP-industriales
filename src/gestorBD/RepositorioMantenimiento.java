@@ -180,7 +180,7 @@ public class RepositorioMantenimiento {
      }
      */
     public static void agregarAviso(Aviso aviso) {
-        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO avisos(estado, tipo, id_personal, maquina, fecha_creacion, descripcion,"
+        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO avisos(estado, tipo, id_solicitante, maquina, fecha_creacion, descripcion,"
                 + "cantidad_necesaria_reparacion, sector_responsable, prioridad, id_parte_de_maquina) "
                 + "VALUES(" + "'" + aviso.getEstado() + "','" + aviso.getTipo() + "','" + aviso.getPersonal().getId() + "','"
                 + aviso.getMaquina() + "','" + aviso.getCreacion().getTime() + "','" + aviso.getDescripcion() + "','"
@@ -219,6 +219,21 @@ public class RepositorioMantenimiento {
          EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO fallo_maquina(fecha_creacion,sintoma, causa, detalle,id_parte_de_maquina) "
                 + "VALUES('" + fallo.getFechaInicio().getTime() + "','" + fallo.getSintomaFalla()+ "','" + fallo.getCausaFalla()
                 + "','" + fallo.getDetalle() + "','" + fallo.getParteMaquina().getId() + "')");
+    }
+
+    public static ArrayList<OrdenTrabajo> listarOT() {
+        
+ ArrayList<OrdenTrabajo> ots = new ArrayList<>();
+        EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
+            while (resultSet.next()) {
+               OrdenTrabajo aviso = new OrdenTrabajo();
+               
+              
+            }
+
+        }, "SELECT * FROM avisos");
+
+        return ots;
     }
 
 }
