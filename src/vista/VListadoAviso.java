@@ -194,14 +194,14 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
 
     @Override
     public void actualizarTabla() {
-        this.setVisible(true);
-        
         TableAvisos.setModel(modelo);
         
         ArrayList<Aviso> lista = new ArrayList<>();
                 
         lista = presentador.listarAvisos();
         Object fila [] = new Object[modelo.getColumnCount()];
+        
+        System.out.println("cant obj lista:"+lista.size());
         
         for(int i=0; i<lista.size(); i++){
             fila[0]=lista.get(i).getId();
@@ -218,6 +218,8 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
             
             modelo.addRow(fila);
         }
+        
+        this.setVisible(true);
     }
 
 

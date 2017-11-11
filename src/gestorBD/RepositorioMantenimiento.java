@@ -81,15 +81,15 @@ public class RepositorioMantenimiento {
 
     public static Maquina getMaquina(int idParteMaquina) {
         Maquina m = new Maquina();
-  /*      EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
+       EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
                 m.setId(resultSet.getInt("id_maquina"));
                 m.setDescripcion(resultSet.getString("descripcion"));
                 m.setTipoMaquina(TipoMaquina.valueOf(resultSet.getString("tipo")));
             }
 
-        }, "SELECT * FROM maquinas WHERE descripcion=" + maquina);
-*/
+        }, "SELECT * FROM maquinas LEFT JOIN partes_de_maquina ON maquinas.id_maquina = partes_de_maquina.id_parte_de_maquina");
+
         return m;
     }
 
@@ -127,6 +127,7 @@ public class RepositorioMantenimiento {
         EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
                 Aviso aviso = new Aviso();
+                
                 aviso.setId(resultSet.getInt("id_aviso"));
                 aviso.setEstado(EstadoAviso.valueOf(resultSet.getString("estado")));
                 aviso.setTipo(TipoAviso.valueOf(resultSet.getString("tipo")));
@@ -152,6 +153,18 @@ public class RepositorioMantenimiento {
                 aviso.setMaquina(getMaquina(resultSet.getInt("id_parte_de_maquina")));
                 
                 avisos.add(aviso);
+                
+                System.out.println("id:"+aviso.getId());
+                System.out.println("est:"+aviso.getEstado());
+                System.out.println("tip:"+aviso.getTipo());
+                System.out.println("fecha:"+aviso.getCreacion());
+                System.out.println("desc:"+aviso.getDescripcion());
+                System.out.println("cant nec:"+aviso.getCantNecesariaRep());
+                System.out.println("sec:"+aviso.getSectorResponsable());
+                System.out.println("prior:"+aviso.getPrioridad());
+                System.out.println("idparma:"+aviso.getParteMaquina().getId());
+                System.out.println("pers:"+aviso.getPersonal().getId());
+                System.out.println("maq:"+aviso.getMaquina().getId());
             }
 
         }, "SELECT * FROM avisos");
@@ -167,9 +180,9 @@ public class RepositorioMantenimiento {
      }
      */
     public static void agregarAviso(Aviso aviso) {
-        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO avisos(estado, tipo, solicitante, maquina, fecha_creacion, descripcion,"
+        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO avisos(estado, tipo, id_personal, maquina, fecha_creacion, descripcion,"
                 + "cantidad_necesaria_reparacion, sector_responsable, prioridad, id_parte_de_maquina) "
-                + "VALUES(" + "'" + aviso.getEstado() + "','" + aviso.getTipo() + "','" + aviso.getPersonal() + "','"
+                + "VALUES(" + "'" + aviso.getEstado() + "','" + aviso.getTipo() + "','" + aviso.getPersonal().getId() + "','"
                 + aviso.getMaquina() + "','" + aviso.getCreacion().getTime() + "','" + aviso.getDescripcion() + "','"
                 + aviso.getCantNecesariaRep() + "','" + aviso.getSectorResponsable() + "','" + aviso.getPrioridad() + "',"
                 + aviso.getParteMaquina().getId() + ")");
