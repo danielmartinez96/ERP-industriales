@@ -44,6 +44,7 @@ PCargarFallo presentador;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         cbMaquina = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
@@ -61,6 +62,8 @@ PCargarFallo presentador;
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         calendarFecha = new com.toedter.calendar.JCalendar();
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -191,15 +194,16 @@ PCargarFallo presentador;
         // TODO add your handling code here:
     }//GEN-LAST:event_cbParteMaquinaActionPerformed
 
-    private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
-    agregarFallo();
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCargarActionPerformed
-
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
+        cargarFallo();
+        dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCargarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,6 +218,7 @@ PCargarFallo presentador;
     private javax.swing.JComboBox<Maquina> cbMaquina;
     private javax.swing.JComboBox<ParteMaquina> cbParteMaquina;
     private javax.swing.JComboBox<SintomaFalla> cbSintomaFallo;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -271,18 +276,19 @@ PCargarFallo presentador;
         }
     }
 
-      private void agregarFallo() {
-      
-        ParteMaquina pm= (ParteMaquina) cbParteMaquina.getSelectedItem();
+
+      private void cargarFallo()
+      {
+            ParteMaquina pm= (ParteMaquina) cbParteMaquina.getSelectedItem();
         SintomaFalla sintoma = (SintomaFalla) cbSintomaFallo.getSelectedItem();
         CausaFalla causa = (CausaFalla) cbCausaFallo.getSelectedItem();
         String detalle = txtDetalle.getText();
         Calendar fecha= calendarFecha.getCalendar();
+        presentador.cargarFallo(pm, sintoma, causa, detalle, fecha);
         
-        this.presentador.guardarFallo(pm,sintoma,causa,detalle,fecha);
 
-    }
-
+      }        
+           
     
 
    

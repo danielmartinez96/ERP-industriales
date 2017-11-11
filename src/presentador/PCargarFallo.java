@@ -57,11 +57,13 @@ public class PCargarFallo {
         return SintomaFalla.values();
     }
 
-    public void guardarFallo(ParteMaquina pm, SintomaFalla sintoma, CausaFalla causa, String detalle, Calendar fecha) {
-
+  
+    
+    public void cargarFallo(ParteMaquina pm, SintomaFalla sintoma, CausaFalla causa, String detalle, Calendar fecha)
+    {
+        
         FalloDeMaquina fallo= new FalloDeMaquina(pm, fecha, detalle, sintoma, causa);
         
-        RepositorioMantenimiento.cargarFallo(fallo);
+        RepositorioMantenimiento.cargarFallo(fallo);    
     }
-    
 }

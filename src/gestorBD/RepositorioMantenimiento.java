@@ -81,7 +81,7 @@ public class RepositorioMantenimiento {
 
     public static Maquina getMaquina(int idParteMaquina) {
         Maquina m = new Maquina();
-        EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
+  /*      EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
                 m.setId(resultSet.getInt("id_maquina"));
                 m.setDescripcion(resultSet.getString("descripcion"));
@@ -89,7 +89,7 @@ public class RepositorioMantenimiento {
             }
 
         }, "SELECT * FROM maquinas WHERE descripcion=" + maquina);
-
+*/
         return m;
     }
 
@@ -203,9 +203,9 @@ public class RepositorioMantenimiento {
 
     public static void cargarFallo(FalloDeMaquina fallo) {
         
-         EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(id_aviso,estado, responsable, fecha_inicio, fecha_fin, parte_maquina,tipo_ot) "
-                + "VALUES('" + ot.getAviso().getId() + "','" + ot.getEstado() + "','" + ot.getResp()
-                + "','" + ot.getFechaInicio().getTime() + "','" + ot.getFechaFin().getTime() + "','" + ot.getParte().getId() + "','" + ot.getTipo().toString() + "')");
+         EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO fallo_maquina(fecha_creacion,sintoma, causa, detalle,id_parte_de_maquina) "
+                + "VALUES('" + fallo.getFechaInicio().getTime() + "','" + fallo.getSintomaFalla()+ "','" + fallo.getCausaFalla()
+                + "','" + fallo.getDetalle() + "','" + fallo.getParteMaquina().getId() + "')");
     }
 
 }
