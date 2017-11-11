@@ -194,6 +194,8 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
 
     @Override
     public void actualizarTabla() {
+        
+        
         TableAvisos.setModel(modelo);
         
         ArrayList<Aviso> lista = new ArrayList<>();
