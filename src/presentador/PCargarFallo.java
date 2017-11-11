@@ -9,6 +9,8 @@ import gestorBD.RepositorioMantenimiento;
 import java.util.ArrayList;
 import modelo.Maquina;
 import modelo.ParteMaquina;
+import modelo.enumeraciones.CausaFalla;
+import modelo.enumeraciones.SintomaFalla;
 import presentador.interfaces.IVCargarFallo;
 
 
@@ -43,10 +45,14 @@ public class PCargarFallo {
      
     }
     
-     public CausaFalla[] getEstados() {
+     public CausaFalla[] getCausas() {
 
-        return EstadoAviso.values();
+        return CausaFalla.values();
     }
 
+      public SintomaFalla[] getSintomas() {
+
+        return SintomaFalla.values();
+    }
     
 }

@@ -10,6 +10,8 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import modelo.Maquina;
 import modelo.ParteMaquina;
+import modelo.enumeraciones.CausaFalla;
+import modelo.enumeraciones.SintomaFalla;
 import presentador.PCargarFallo;
 import presentador.interfaces.IVCargarFallo;
 
@@ -48,9 +50,9 @@ PCargarFallo presentador;
         btnCargar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         cbParteMaquina = new javax.swing.JComboBox<>();
-        comboSintomaFallo = new javax.swing.JComboBox();
+        cbSintomaFallo = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        comboCausaFallo = new javax.swing.JComboBox();
+        cbCausaFallo = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -77,11 +79,7 @@ PCargarFallo presentador;
             }
         });
 
-        comboSintomaFallo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel5.setText("Causa de Fallo: ");
-
-        comboCausaFallo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel6.setText("Detalle: ");
 
@@ -118,11 +116,11 @@ PCargarFallo presentador;
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel5)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                                    .addComponent(comboCausaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cbCausaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel4)
                                     .addGap(18, 18, 18)
-                                    .addComponent(comboSintomaFallo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(cbSintomaFallo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel3)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -158,11 +156,11 @@ PCargarFallo presentador;
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(comboSintomaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbSintomaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(comboCausaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cbCausaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(calendarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,10 +189,10 @@ PCargarFallo presentador;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCargar;
     private com.toedter.calendar.JCalendar calendarFecha;
+    private javax.swing.JComboBox<CausaFalla> cbCausaFallo;
     private javax.swing.JComboBox<Maquina> cbMaquina;
     private javax.swing.JComboBox<ParteMaquina> cbParteMaquina;
-    private javax.swing.JComboBox comboCausaFallo;
-    private javax.swing.JComboBox comboSintomaFallo;
+    private javax.swing.JComboBox<SintomaFalla> cbSintomaFallo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -231,8 +229,17 @@ PCargarFallo presentador;
         for (Maquina maquina : maquinas) {
             cbMaquina.addItem(maquina);
         }
-    
+        SintomaFalla[] sintomas = presentador.getSintomas();
+
+        for (int i = 0; i < sintomas.length; i++) {
+            cbSintomaFallo.addItem(sintomas[i]);
+        }
         
+        CausaFalla[] causas = presentador.getCausas();
+
+        for (int i = 0; i < causas.length; i++) {
+            cbCausaFallo.addItem(causas[i]);
+        }
     }
 
     @Override
