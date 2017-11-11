@@ -17,17 +17,19 @@ import presentador.interfaces.IVCargarFallo;
  *
  * @author DanielM
  */
-public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo{
- PCargarFallo presentador;
+public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo {
+PCargarFallo presentador;
     /**
-     * Creates new form VCargarFallo2
+     * Creates new form VFallo
      */
     public VCargarFallo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.presentador = new PCargarFallo(this);
-        actualizar();     
-        setVisible(true);
+        
+       
+        presentador= new PCargarFallo(this);
+        presentador.mostrar();
+        this.show();
     }
 
     /**
@@ -39,6 +41,13 @@ public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel7 = new javax.swing.JLabel();
+        cbMaquina = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        btnCancelar = new javax.swing.JButton();
+        btnCargar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        cbParteMaquina = new javax.swing.JComboBox<>();
         comboSintomaFallo = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
         comboCausaFallo = new javax.swing.JComboBox();
@@ -48,16 +57,25 @@ public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo{
         txtDetalle = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        cbMaquina = new javax.swing.JComboBox<>();
         calendarFecha = new com.toedter.calendar.JCalendar();
-        jLabel3 = new javax.swing.JLabel();
-        btnCancelar = new javax.swing.JButton();
-        cbParteMaquina = new javax.swing.JComboBox<>();
-        btnCargar = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel7.setText("Fecha: ");
+
+        jLabel3.setText("Parte de Maquina:");
+
+        btnCancelar.setText("Cancelar");
+
+        btnCargar.setText("Cargar");
+
+        jLabel4.setText("Sintoma de Fallo: ");
+
+        cbParteMaquina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbParteMaquinaActionPerformed(evt);
+            }
+        });
 
         comboSintomaFallo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -75,16 +93,6 @@ public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo{
 
         jLabel2.setText("Maquinaria: ");
 
-        jLabel7.setText("Fecha: ");
-
-        jLabel3.setText("Parte de Maquina:");
-
-        btnCancelar.setText("Cancelar");
-
-        btnCargar.setText("Cargar");
-
-        jLabel4.setText("Sintoma de Fallo: ");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,38 +105,36 @@ public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo{
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbParteMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboCausaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cbMaquina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(comboSintomaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(42, 42, 42)
-                                .addComponent(jLabel7)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                                    .addComponent(comboCausaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(comboSintomaFallo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(cbParteMaquina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnCargar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnCancelar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(calendarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 4, Short.MAX_VALUE)
+                                .addComponent(calendarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -156,12 +162,12 @@ public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo{
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(comboCausaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(comboCausaFallo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(calendarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
@@ -172,48 +178,14 @@ public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cbParteMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbParteMaquinaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbParteMaquinaActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VCargarFallo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VCargarFallo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VCargarFallo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VCargarFallo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                VCargarFallo dialog = new VCargarFallo(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -235,32 +207,42 @@ public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo{
     private javax.swing.JTextArea txtDetalle;
     // End of variables declaration//GEN-END:variables
 
-@Override
-    public void agregarListener() {
-        
-        
- cbParteMaquina.addItemListener((ItemEvent e) -> {
-     if (e.getStateChange() == ItemEvent.SELECTED) {
-         // los nuevos registros son agregados al MODEL del JCombo HIJO
-         Maquina item = (Maquina) e.getItem();
-         presentador.agregarPartesMaquinas(item.getId());
-     }
- });       
+    @Override
+    public void agregarListener2() {
+          
+  cbMaquina.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    // los nuevos registros son agregados al MODEL del JCombo HIJO
+                    Maquina item = (Maquina) e.getItem();
+                    presentador.agregarPartesMaquinas(item.getId());
+                }
+
+            }
+        });
     }
 
-    private void actualizar() {
+    @Override
+    public void actualizar2() {
+    
      ArrayList<Maquina> maquinas = presentador.getMaquinas();
 
         for (Maquina maquina : maquinas) {
             cbMaquina.addItem(maquina);
         }
     
+        
     }
-    
-    public void agregarParte(ArrayList<ParteMaquina> pm) {
-        cbParteMaquina.removeAllItems();
+
+    @Override
+    public void agregarParte2(ArrayList<ParteMaquina> pm) {
+       cbParteMaquina.removeAllItems();
         for (ParteMaquina parteMaquina : pm) {
             cbParteMaquina.addItem(parteMaquina);
         }
     }
+
+
+   
 }

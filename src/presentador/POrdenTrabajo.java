@@ -23,7 +23,7 @@ import presentador.interfaces.IVOrdenTrabajo;
  */
 public class POrdenTrabajo {
 
-    private IVOrdenTrabajo vista;
+    private final IVOrdenTrabajo vista;
 
     public POrdenTrabajo(IVOrdenTrabajo vista) {
         this.vista = vista;

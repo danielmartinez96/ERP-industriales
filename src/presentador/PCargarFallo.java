@@ -18,20 +18,35 @@ import presentador.interfaces.IVCargarFallo;
  */
 public class PCargarFallo {
 
-    IVCargarFallo vista;
-    
+    private final IVCargarFallo vista1;
+
     public PCargarFallo(IVCargarFallo vista) {
-        this.vista=vista;
-        this.vista.agregarListener();
+        vista1 = vista;
+        vista1.agregarListener2();
+
     }
+    
+ 
 
    public void agregarPartesMaquinas(int id) {
         ArrayList<ParteMaquina> pm = RepositorioMantenimiento.getPartes(id);
 
-        vista.agregarParte(pm);
+        vista1.agregarParte2(pm);
     }
     
     public ArrayList<Maquina> getMaquinas() {
         return RepositorioMantenimiento.getMaquinas();
     }
+
+    public void mostrar() {
+     vista1.actualizar2();
+     
+    }
+    
+     public CausaFalla[] getEstados() {
+
+        return EstadoAviso.values();
+    }
+
+    
 }

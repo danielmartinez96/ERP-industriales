@@ -9,7 +9,7 @@ import presentador.interfaces.IVMenuPrincipal;
 
 public class PMenuPrincipal {
 
-    private IVMenuPrincipal vista;
+    private final IVMenuPrincipal vista;
 
     public PMenuPrincipal(IVMenuPrincipal vista) {
         this.vista = vista;

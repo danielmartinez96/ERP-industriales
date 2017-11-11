@@ -25,9 +25,9 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import vista.componentes.Nodo;
 
-public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipal {
+public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipal{
 
-    private PMenuPrincipal presentador;
+    private final PMenuPrincipal presentador;
 
     /**
      * Creates new form frmMenuPrincipal
@@ -289,11 +289,13 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
                 break;
             case "CF01":
                 new VCargarFallo(this,true);
+                break;
+           
             default:
                 JOptionPane.showMessageDialog(null, "Ese comando no esta definido");
-                txtFiltro.setText("");
                 break;
         }
+        txtFiltro.setText("");
     }
 
     public void ejecutarBusqueda() {

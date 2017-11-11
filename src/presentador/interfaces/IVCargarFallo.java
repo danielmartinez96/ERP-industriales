@@ -7,12 +7,12 @@ package presentador.interfaces;
 
 import java.util.ArrayList;
 import modelo.ParteMaquina;
-
 /**
  *
  * @author DanielM
  */
 public interface IVCargarFallo {
-    public void agregarListener();
-    public void agregarParte(ArrayList<ParteMaquina> pm);
+    void agregarListener2();
+    void agregarParte2(ArrayList<ParteMaquina> pm);
+    void actualizar2();
 }

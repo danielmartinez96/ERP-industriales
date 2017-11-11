@@ -3,18 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package presentador.interfaces;
-
-import java.util.ArrayList;
-import modelo.ParteMaquina;
+package modelo.enumeraciones;
 
 /**
  *
  * @author DanielM
  */
-public interface IVAviso {
-
-    void actualizar();
-    void agregarParte(ArrayList<ParteMaquina> pm);
-    void agregarListener();
+public enum CausaFalla {
+    CausaFalla1,
+    CausaFalla2;
 }

@@ -21,7 +21,7 @@ import presentador.interfaces.IVAviso;
  */
 public class PAviso {
 
-    private IVAviso vista;
+    private final IVAviso vista;
 
     public PAviso(IVAviso vista) {
         this.vista = vista;

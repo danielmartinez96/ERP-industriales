@@ -10,6 +10,7 @@ package presentador.interfaces;
  * @author DanielM
  */
 public interface IVMenuPrincipal {
+  
     void configuracion();
     void mostrarVista(String comando);
 }
