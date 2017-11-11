@@ -294,7 +294,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
                 break;
             case "CF01":
                 new VCargarFallo(this,true);
-                break;
+                break;    
             default:
                 JOptionPane.showMessageDialog(null, "Ese comando no esta definido");
                 break;
