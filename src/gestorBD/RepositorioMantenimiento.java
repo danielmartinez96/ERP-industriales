@@ -19,9 +19,11 @@ import modelo.OrdenTrabajo;
 import modelo.ParteMaquina;
 
 import modelo.Personal;
+import modelo.enumeraciones.CausaFalla;
 import modelo.enumeraciones.EstadoAviso;
 import modelo.enumeraciones.PrioridadAviso;
 import modelo.enumeraciones.Sector;
+import modelo.enumeraciones.SintomaFalla;
 import modelo.enumeraciones.TipoAviso;
 import modelo.enumeraciones.TipoMaquina;
 
@@ -159,6 +161,38 @@ public class RepositorioMantenimiento {
         return avisos;
     }
 
+    
+    public static ArrayList<FalloDeMaquina> listarFallos() {
+        ArrayList<FalloDeMaquina> fallos = new ArrayList<>();
+        EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
+            while (resultSet.next()) {
+                FalloDeMaquina fallo = new FalloDeMaquina();
+                
+                fallo.setCausaFalla(CausaFalla.valueOf(resultSet.getString("causa")));
+                fallo.setDetalle(resultSet.getString("detalle"));
+                fallo.setParteMaquina(getParte(resultSet.getInt("id_parte_de_maquina")));
+                fallo.setSintomaFalla(SintomaFalla.valueOf(resultSet.getString("sintoma")));
+               
+                // ESTE FRAGMENTO SIRVE PARA MANEJAR LA COINCIDENCIA DE LOS TIPOS CALENDAR Y STRING. 
+                Calendar cal = null;
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.getDefault());
+                    Date date = sdf.parse(resultSet.getString("fecha_creacion"));
+                    cal = sdf.getCalendar();
+                } catch (Exception e) {
+                    e.toString();
+                }
+                fallo.setFechaInicio(cal);
+                //*******************************************************************************
+
+               
+                fallos.add(fallo);
+            }
+
+        }, "SELECT * FROM fallo_maquina");
+
+        return fallos;
+    }
     /*
      public static void agregarMaquina(Maquina maquina) {
      EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO maquina(id,tipo,descripcion,parte_de_maquina) VALUES("

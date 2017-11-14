@@ -194,7 +194,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
 
     @Override
     public void actualizarTabla() {
-        this.setVisible(true);
+        
         
         TableAvisos.setModel(modelo);
         
@@ -218,6 +218,8 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
             
             modelo.addRow(fila);
         }
+        
+        this.setVisible(true);
     }
 
 

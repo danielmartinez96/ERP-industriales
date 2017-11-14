@@ -5,20 +5,37 @@
  */
 package vista;
 
+import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import modelo.FalloDeMaquina;
+import presentador.PConsultaFallo;
+import presentador.interfaces.IVConsultaFallo;
+
 /**
  *
  * @author Usuario
  */
-public class VConsultaFallo extends javax.swing.JDialog {
-
-    /**
-     * Creates new form VConsultaFallo
-     */
+public class VConsultaFallo extends javax.swing.JDialog implements IVConsultaFallo{
+    PConsultaFallo presentador;
+    DefaultTableModel modelo = new DefaultTableModel();
+    
     public VConsultaFallo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.presentador = new PConsultaFallo(this);
+        listarFallos();
     }
 
+    public JTable getTableFallos() {
+        return TableFallos;
+    }
+
+    public void setTableFallos(JTable TableFallos) {
+        this.TableFallos = TableFallos;
+    }
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,7 +57,7 @@ public class VConsultaFallo extends javax.swing.JDialog {
         comboHorasParo = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TableFallos = new javax.swing.JTable();
         btnCancelar = new javax.swing.JButton();
         btnConsultar = new javax.swing.JButton();
 
@@ -66,7 +83,7 @@ public class VConsultaFallo extends javax.swing.JDialog {
 
         jLabel6.setText("Hs.");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TableFallos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -77,9 +94,14 @@ public class VConsultaFallo extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(TableFallos);
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnConsultar.setText("Consultar");
 
@@ -161,6 +183,11 @@ public class VConsultaFallo extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -204,6 +231,7 @@ public class VConsultaFallo extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TableFallos;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConsultar;
     private javax.swing.JComboBox comboHorasParo;
@@ -218,6 +246,29 @@ public class VConsultaFallo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
-}
+
+    @Override
+    public void listarFallos() {
+   
+        TableFallos.setModel(modelo);
+        
+        ArrayList<FalloDeMaquina> lista = new ArrayList<>();
+                
+        lista = presentador.listarFallos();
+        Object fila [] = new Object[modelo.getColumnCount()];
+        
+        for(int i=0; i<lista.size(); i++){
+            fila[0]=lista.get(i).getCausaFalla();
+            fila[1]=lista.get(i).getDetalle();
+            fila[2]=lista.get(i).getFechaInicio();
+            fila[3]=lista.get(i).getParteMaquina();
+            fila[4]=lista.get(i).getSintomaFalla();
+            
+            modelo.addRow(fila);
+        }
+        
+        this.setVisible(true);
+    }
+
+    }
