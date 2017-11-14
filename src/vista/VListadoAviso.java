@@ -28,6 +28,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         initComponents();
         this.presentador = new PListarAviso(this);
         actualizarTabla();
+        setVisible(true);
     }
 
     public JTable getTableAvisos() {
@@ -83,10 +84,10 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                        .addComponent(jSeparator2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jSeparator1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 981, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,43 +168,27 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
 
-    public void actualizarTabla(JTable tabla){
-        tabla.setModel(modelo);
-        
-        ArrayList<Aviso> lista = new ArrayList<>();
-                
-        lista = presentador.listarAvisos();
-        Object fila [] = new Object[modelo.getColumnCount()];
-        
-        for(int i=0; i<lista.size(); i++){
-            fila[0]=lista.get(i).getId();
-            fila[1]=lista.get(i).getEstado();
-            fila[2]=lista.get(i).getTipo();
-            fila[3]=lista.get(i).getCreacion();
-            fila[4]=lista.get(i).getDescripcion();
-            fila[5]=lista.get(i).getCantNecesariaRep();
-            fila[6]=lista.get(i).getSectorResponsable();
-            fila[7]=lista.get(i).getPrioridad();
-            fila[8]=lista.get(i).getParteMaquina();
-            fila[9]=lista.get(i).getPersonal();
-            fila[10]=lista.get(i).getMaquina();
-            
-            modelo.addRow(fila);
-        }
-    }
-
     @Override
     public void actualizarTabla() {
-        
-        
         TableAvisos.setModel(modelo);
         
         ArrayList<Aviso> lista = new ArrayList<>();
                 
         lista = presentador.listarAvisos();
-        Object fila [] = new Object[modelo.getColumnCount()];
         
-        System.out.println("cant obj lista:"+lista.size());
+        modelo.addColumn("ID");
+        modelo.addColumn("Estado");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Fecha Inicio");
+        modelo.addColumn("Descripcion");
+        modelo.addColumn("Canidad necesaria reparacion");
+        modelo.addColumn("Sector Responsable");
+        modelo.addColumn("Prioridad");
+        modelo.addColumn("Parte de maquina");
+        modelo.addColumn("Soliciante");
+        modelo.addColumn("Maquina");
+        
+        Object fila [] = new Object[modelo.getColumnCount()];
         
         for(int i=0; i<lista.size(); i++){
             fila[0]=lista.get(i).getId();
@@ -220,8 +205,6 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
             
             modelo.addRow(fila);
         }
-        
-        this.setVisible(true);
     }
 
 

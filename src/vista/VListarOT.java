@@ -15,13 +15,13 @@ import presentador.interfaces.IVListarOT;
  *
  * @author DanielM
  */
-public class ListarOT extends javax.swing.JDialog implements IVListarOT{
+public class VListarOT extends javax.swing.JDialog implements IVListarOT{
     PListarOT presentador;
     DefaultTableModel modelo = new DefaultTableModel();
     /**
      * Creates new form ListarOT
      */
-    public ListarOT(java.awt.Frame parent, boolean modal) {
+    public VListarOT(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         presentador= new PListarOT(this);

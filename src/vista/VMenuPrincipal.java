@@ -295,7 +295,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
                 new VOrdenTrabajo(this, true);
                 break;
             case "OT02":
-                new ListarOT(this, true);
+                new VListarOT(this, true);
                 break;
             case "CF01":
                 new VCargarFallo(this,true);
