@@ -39,6 +39,7 @@ public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jComboBox1 = new javax.swing.JComboBox<>();
         comboSintomaFallo = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
         comboCausaFallo = new javax.swing.JComboBox();
@@ -56,6 +57,8 @@ public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo{
         cbParteMaquina = new javax.swing.JComboBox<>();
         btnCargar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -223,6 +226,7 @@ public class VCargarFallo extends javax.swing.JDialog implements IVCargarFallo{
     private javax.swing.JComboBox<ParteMaquina> cbParteMaquina;
     private javax.swing.JComboBox comboCausaFallo;
     private javax.swing.JComboBox comboSintomaFallo;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
