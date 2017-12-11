@@ -18,7 +18,13 @@ import presentador.interfaces.IVListarAviso;
  */
 public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     PListarAviso presentador;
-    DefaultTableModel modelo = new DefaultTableModel();
+    DefaultTableModel modelo = new DefaultTableModel(){  @Override
+    public boolean isCellEditable(int row, int column) {
+       //all cells false
+       return false;
+    }
+    };
+
     
     /**
      * Creates new form VListadoAviso
@@ -50,6 +56,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableAvisos = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -75,6 +82,13 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         ));
         jScrollPane1.setViewportView(TableAvisos);
 
+        jButton1.setText("Crear OT");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,6 +104,8 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 981, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(91, 91, 91)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -105,7 +121,9 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnSalir)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalir)
+                    .addComponent(jButton1))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
@@ -116,6 +134,21 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+  
+        if(TableAvisos.getSelectedRow()!=-1)
+        {
+            
+        }else
+        {
+            
+        }
+        
+        
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -162,6 +195,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableAvisos;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
@@ -176,6 +210,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
                 
         lista = presentador.listarAvisos();
         
+
         modelo.addColumn("ID");
         modelo.addColumn("Estado");
         modelo.addColumn("Tipo");
@@ -189,6 +224,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         modelo.addColumn("Maquina");
         
         Object fila [] = new Object[modelo.getColumnCount()];
+
         
         for(int i=0; i<lista.size(); i++){
             fila[0]=lista.get(i).getId();
@@ -205,6 +241,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
             
             modelo.addRow(fila);
         }
+
     }
 
 

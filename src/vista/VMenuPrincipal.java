@@ -254,11 +254,11 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     Object path = arbol.getLastSelectedPathComponent();
-                    try {
+                   
                         Nodo nodo = (Nodo) path;
                         mostrarVista(nodo.getCodigo());
-                    } catch (Exception ex) {
-                    };
+                   
+                    
 
                     if (path == null) {
                         return;

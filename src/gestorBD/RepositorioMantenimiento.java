@@ -161,7 +161,7 @@ public class RepositorioMantenimiento {
                 aviso.setMaquina(getMaquina(resultSet.getInt("id_parte_de_maquina")));
                 
                 avisos.add(aviso);
-                
+        /*        
                 System.out.println("id:"+aviso.getId());
                 System.out.println("est:"+aviso.getEstado());
                 System.out.println("tip:"+aviso.getTipo());
@@ -172,8 +172,8 @@ public class RepositorioMantenimiento {
                 System.out.println("prior:"+aviso.getPrioridad());
                 System.out.println("idparma:"+aviso.getParteMaquina().getId());
                 System.out.println("pers:"+aviso.getPersonal().getId());
-                System.out.println("maq:"+aviso.getMaquina().getId());
-            }
+                System.out.println("maq:"+aviso.getMaquina().getId()); */
+           }
 
         }, "SELECT * FROM avisos");
 
