@@ -65,7 +65,7 @@ public class PAviso {
         vista.agregarParte(pm);
     }
 
-    public void guardarAviso(TipoAviso t, EstadoAviso e, Personal p, PrioridadAviso pa, Maquina m, ParteMaquina pm, Calendar cal, Sector sec, String tiemp, String desc) {
+    public int guardarAviso(TipoAviso t, EstadoAviso e, Personal p, PrioridadAviso pa, Maquina m, ParteMaquina pm, Calendar cal, Sector sec, String tiemp, String desc) {
         Aviso aviso = new Aviso();
         aviso.setTipo(t);
         aviso.setEstado(e);
@@ -78,7 +78,8 @@ public class PAviso {
         aviso.setCantNecesariaRep(Integer.valueOf(tiemp));
         aviso.setDescripcion(desc);
 
-        RepositorioMantenimiento.agregarAviso(aviso);
+        int key= RepositorioMantenimiento.agregarAviso(aviso);
         
+        return key;
     }
 }

@@ -61,6 +61,29 @@ public class EjecutorRutinaDB {
 		return resultadoQuery;
 	}
 
+        public static int ejecutarUpdateStatementConKey(final String updateQuery) {
+		int resultadoQuery = 0;
+                int key=-1;
+		try {
+			cargarDriverCrearConexion();
+			final Statement stmt = conexion.createStatement();
+
+			resultadoQuery = stmt.executeUpdate(updateQuery,Statement.RETURN_GENERATED_KEYS);
+                        System.out.println("Se cargo correctamente");
+                        
+                        final ResultSet rs= stmt.getGeneratedKeys();
+                        while(rs.next()){
+                              key=rs.getInt(1);
+                        }
+                        
+			cerrarRecursos(stmt);
+		} catch (final SQLException e) {
+			manejarSQLException(e);
+		}
+
+		return key;
+	}
+        
 	public static void ejecutarSelectPreparedStatement(final EjecucionResultSet ejecutorResultSet,
 			final String selectQuery,
 			final int parametro) {

@@ -35,15 +35,16 @@
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                               <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                              <Component id="btnNuevoAviso" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="btnCrearOT" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                               <Component id="btnAgregarAviso" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jSeparator1" pref="558" max="32767" attributes="0"/>
+                          <Component id="jSeparator1" pref="520" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
@@ -194,8 +195,9 @@
                   <Component id="btnAgregarAviso" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnCrearOT" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnNuevoAviso" alignment="0" min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="22" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -231,7 +233,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnCrearOT">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cargar y Crear OT"/>
+        <Property name="text" type="java.lang.String" value="Crear OT"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCrearOTActionPerformed"/>
@@ -383,6 +385,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Carga de Avisos"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnNuevoAviso">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nuevo aviso"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevoAvisoActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

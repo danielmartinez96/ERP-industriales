@@ -219,13 +219,16 @@ public class RepositorioMantenimiento {
 
      }
      */
-    public static void agregarAviso(Aviso aviso) {
-        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO avisos(estado, tipo, id_solicitante, maquina, fecha_creacion, descripcion,"
+    public static int agregarAviso(Aviso aviso) {
+        int key= EjecutorRutinaDB.ejecutarUpdateStatementConKey("INSERT INTO avisos(estado, tipo, id_solicitante, maquina, fecha_creacion, descripcion,"
                 + "cantidad_necesaria_reparacion, sector_responsable, prioridad, id_parte_de_maquina) "
                 + "VALUES(" + "'" + aviso.getEstado() + "','" + aviso.getTipo() + "','" + aviso.getPersonal().getId() + "','"
                 + aviso.getMaquina() + "','" + aviso.getCreacion().getTime() + "','" + aviso.getDescripcion() + "','"
                 + aviso.getCantNecesariaRep() + "','" + aviso.getSectorResponsable() + "','" + aviso.getPrioridad() + "',"
                 + aviso.getParteMaquina().getId() + ")");
+        
+        System.out.println(key);
+    return key;
     }
 
     public static Aviso getAviso(int id)

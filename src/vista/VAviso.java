@@ -5,6 +5,9 @@
  */
 package vista;
 
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ import modelo.enumeraciones.Sector;
 import modelo.enumeraciones.TipoAviso;
 import presentador.PAviso;
 import presentador.interfaces.IVAviso;
+import presentador.interfaces.IVOrdenTrabajo;
 
 /**
  *
@@ -26,15 +30,24 @@ import presentador.interfaces.IVAviso;
 public class VAviso extends javax.swing.JDialog implements IVAviso {
 
     PAviso presentador;
-
+    int key;
+    Frame parent;
     /**
      * Creates new form frmAvisos
      */
     public VAviso(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.parent= parent;
         initComponents();
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension ventana = this.getSize();
+        this.setLocation((pantalla.width - ventana.width)/2, (pantalla.height -ventana.height)/2);
+        btnCrearOT.setEnabled(false);
+        btnNuevoAviso.setEnabled(false);
+        int key=-1;
         this.presentador = new PAviso(this);
         actualizar();
+       
     }
 
     /**
@@ -73,6 +86,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
         txtDescripcion = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
+        btnNuevoAviso = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -87,7 +101,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
             }
         });
 
-        btnCrearOT.setText("Cargar y Crear OT");
+        btnCrearOT.setText("Crear OT");
         btnCrearOT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearOTActionPerformed(evt);
@@ -125,6 +139,13 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
 
         jLabel7.setText("Carga de Avisos");
 
+        btnNuevoAviso.setText("Nuevo aviso");
+        btnNuevoAviso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoAvisoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -140,14 +161,15 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
                                 .addComponent(jScrollPane2)
                                 .addGap(10, 10, 10))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
                                 .addComponent(btnCancelar)
+                                .addGap(54, 54, 54)
+                                .addComponent(btnNuevoAviso)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnCrearOT)
                                 .addGap(38, 38, 38)
                                 .addComponent(btnAgregarAviso)
                                 .addGap(5, 5, 5))
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
@@ -256,25 +278,32 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarAviso)
                     .addComponent(btnCrearOT)
-                    .addComponent(btnCancelar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnNuevoAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarAvisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAvisoActionPerformed
-        agregarAviso();
-        dispose();
+        agregarAviso();       
     }//GEN-LAST:event_btnAgregarAvisoActionPerformed
 
     private void btnCrearOTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearOTActionPerformed
         crearNuevaOT();
+        dispose();
     }//GEN-LAST:event_btnCrearOTActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnNuevoAvisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoAvisoActionPerformed
+       dispose();
+       IVAviso vista= new VAviso(parent, true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNuevoAvisoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -287,6 +316,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
     private javax.swing.JButton btnAgregarAviso;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCrearOT;
+    private javax.swing.JButton btnNuevoAviso;
     private javax.swing.JComboBox<EstadoAviso> cbEstados;
     private javax.swing.JComboBox<Maquina> cbMaquina;
     private javax.swing.JComboBox<ParteMaquina> cbParteMaquina;
@@ -395,15 +425,34 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
         String tiemp = String.valueOf(cbTiempo.getSelectedItem());
         String desc = txtDescripcion.getText();
 
-        this.presentador.guardarAviso(t, e, p, pa,m, pm, cal, sec, tiemp, desc);
-
+       key= this.presentador.guardarAviso(t, e, p, pa,m, pm, cal, sec, tiemp, desc);
+       
+       deshablitarComponentes();
+       
+       
     }
 
     public void crearNuevaOT() {
-        agregarAviso();
-        VOrdenTrabajo ot = new VOrdenTrabajo(this, true);
-        
+     
+        IVOrdenTrabajo ot = new VOrdenTrabajo(parent, true,key);
+      
+    }
 
+    private void deshablitarComponentes() {
+       btnAgregarAviso.setEnabled(false);
+       btnCrearOT.setEnabled(true);
+       btnNuevoAviso.setEnabled(true);
+       cbEstados.setEnabled(false);
+       cbMaquina.setEnabled(false);
+       cbParteMaquina.setEnabled(false);
+       cbPersonal.setEnabled(false);
+       cbPrioridad.setEnabled(false);
+       cbResponsable.setEnabled(false);
+       cbTiempo.setEnabled(false);
+       cbTipo.setEnabled(false);
+       dateDesde.setEnabled(false);
+       txtDescripcion.setEditable(false);
+       
     }
 
 }

@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -205,6 +206,8 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         setTitle("MAGNA ERP - Sistemas Industriales");
         //TOOLKIT NOS AYUDA A OBTENER LAS DIMENCIONES DE PANTALLA, ASI LA APLICACION SE AJUSTA AUTOMATICAMENTE.
         setSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+        this.setLocationRelativeTo(this);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         nodos();
         txtFiltro.requestFocus();
         this.setVisible(true);

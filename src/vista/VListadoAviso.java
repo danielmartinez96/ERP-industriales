@@ -34,6 +34,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         super(parent, modal);
         this.parent= parent;
         initComponents();
+        this.setLocationRelativeTo(this);
         tablaConfiguraciones();
         this.presentador = new PListarAviso(this); 
         actualizarTabla();
@@ -252,7 +253,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
                     convertRowIndexToModel(TableAvisos.getSelectedRow()); 
             int i = (int) TableAvisos.getModel().getValueAt(filaSeleccionada, 0);
            
-            IVOrdenTrabajo vista = new VOrdenTrabajo (parent, true);
+            IVOrdenTrabajo vista = new VOrdenTrabajo (parent, true,i);
             
         }else
         {

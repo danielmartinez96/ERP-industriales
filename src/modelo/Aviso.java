@@ -142,5 +142,11 @@ public class Aviso {
         return descripcion;
     }
 
+    public String toString2() {
+       // return "id: "+id+"\t-\t Responsable: "+personal+ "\n (Maquina)Parte de Maquina: ("+maquina.toString()+
+       //        ")"+maquina.getPartesMaquina().toString()+"\n Descripcion: "+descripcion;
+       return "id: "+id+"\n Descripcion: "+descripcion;
+    }
+
 
 }
