@@ -6,7 +6,9 @@
 package vista;
 
 import java.util.ArrayList;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import modelo.OrdenTrabajo;
 import presentador.PListarOT;
 import presentador.interfaces.IVListarOT;
@@ -17,13 +19,14 @@ import presentador.interfaces.IVListarOT;
  */
 public class VListarOT extends javax.swing.JDialog implements IVListarOT{
     PListarOT presentador;
-    DefaultTableModel modelo = new DefaultTableModel();
+    DefaultTableModel modelo;
     /**
      * Creates new form ListarOT
      */
     public VListarOT(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        tablaConfiguraciones();
         presentador= new PListarOT(this);
         actualizarTablaDeOT();
         this.setVisible(true);
@@ -128,20 +131,12 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
 
     @Override
     public void actualizarTablaDeOT() {
-       TableOT.setModel(modelo);
-    
-        ArrayList<OrdenTrabajo> lista = new ArrayList<>();
+ 
+        ArrayList<OrdenTrabajo> lista ;
                 
         lista = presentador.listarOT();
         
-        modelo.addColumn("id");
-         modelo.addColumn("Fecha Inicio");
-          modelo.addColumn("Fecha Fin");
-           modelo.addColumn("Estado");
-          modelo.addColumn("Aviso");
-          modelo.addColumn("Tipo OT");
-          modelo.addColumn("Responsable");
-          modelo.addColumn("Parte Maquina");
+     
         Object fila [] = new Object[modelo.getColumnCount()];
         
         for(int i=0; i<lista.size(); i++){
@@ -158,7 +153,35 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
             modelo.addRow(fila);
         }
        
-
-
+      
+    }
+    
+  
+       private void tablaConfiguraciones() {
+        
+        
+    modelo= new DefaultTableModel(){ 
+    @Override
+    
+    public boolean isCellEditable(int row, int column) {
+       return false;
+    }};
+    
+         modelo.addColumn("id");
+         modelo.addColumn("Fecha Inicio");
+         modelo.addColumn("Fecha Fin");
+         modelo.addColumn("Estado");
+         modelo.addColumn("Aviso");
+         modelo.addColumn("Tipo OT");
+         modelo.addColumn("Responsable");
+         modelo.addColumn("Parte Maquina");
+    
+       TableRowSorter sorter = new TableRowSorter(modelo);
+       TableOT.setFillsViewportHeight(true);
+       TableOT.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+       TableOT.getTableHeader().setReorderingAllowed(false) ;
+       TableOT.getColumnModel().setColumnSelectionAllowed(false);
+       TableOT.setRowSorter(sorter);
+       TableOT.setModel(modelo);
     }
 }

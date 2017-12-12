@@ -5,13 +5,17 @@
  */
 package vista;
 
+import java.awt.Frame;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import modelo.Aviso;
 import presentador.PListarAviso;
+import presentador.interfaces.IVAviso;
 import presentador.interfaces.IVListarAviso;
+import presentador.interfaces.IVOrdenTrabajo;
 
 /**
  *
@@ -19,12 +23,8 @@ import presentador.interfaces.IVListarAviso;
  */
 public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     PListarAviso presentador;
-    DefaultTableModel modelo = new DefaultTableModel(){  @Override
-    public boolean isCellEditable(int row, int column) {
-       //all cells false
-       return false;
-    }
-    };
+    DefaultTableModel modelo;
+    Frame parent;
 
     
     /**
@@ -32,8 +32,10 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
      */
     public VListadoAviso(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.parent= parent;
         initComponents();
-        this.presentador = new PListarAviso(this);
+        tablaConfiguraciones();
+        this.presentador = new PListarAviso(this); 
         actualizarTabla();
         setVisible(true);
     }
@@ -58,6 +60,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         jScrollPane1 = new javax.swing.JScrollPane();
         TableAvisos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -90,6 +93,13 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
             }
         });
 
+        jButton2.setText("Nuevo Aviso");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,7 +116,9 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(91, 91, 91)
+                .addGap(45, 45, 45)
+                .addComponent(jButton2)
+                .addGap(50, 50, 50)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -124,7 +136,8 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
@@ -137,20 +150,16 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-  
-        if(TableAvisos.getSelectedRow()!=-1)
-        {
-
-        }else
-        {
-            JOptionPane.showConfirmDialog(null, "No selecciono ningun aviso","ERROR"
-, JOptionPane.CLOSED_OPTION);
-        }
-        
-        
-        
+          crearOT();
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    IVAviso vista = new VAviso(parent, true);  
+    
+    actualizarTabla();
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,6 +169,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     private javax.swing.JTable TableAvisos;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
@@ -168,24 +178,18 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
 
     @Override
     public void actualizarTabla() {
-        TableAvisos.setModel(modelo);
         
-        ArrayList<Aviso> lista = new ArrayList<>();
+        int sizeModel = modelo.getRowCount();
+ 
+	    for (int i = 0; i < sizeModel ; i ++) {
+	    	modelo.removeRow(0);
+	    }
+ 
+        
+        ArrayList<Aviso> lista;
                 
         lista = presentador.listarAvisos();
         
-
-        modelo.addColumn("ID");
-        modelo.addColumn("Estado");
-        modelo.addColumn("Tipo");
-        modelo.addColumn("Fecha Inicio");
-        modelo.addColumn("Descripcion");
-        modelo.addColumn("Canidad necesaria reparacion");
-        modelo.addColumn("Sector Responsable");
-        modelo.addColumn("Prioridad");
-        modelo.addColumn("Parte de maquina");
-        modelo.addColumn("Soliciante");
-        modelo.addColumn("Maquina");
         
         Object fila [] = new Object[modelo.getColumnCount()];
 
@@ -205,7 +209,57 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
             
             modelo.addRow(fila);
         }
+    
 
+    }
+
+    private void tablaConfiguraciones() {
+        
+        
+    modelo= new DefaultTableModel(){ 
+    @Override
+    
+    public boolean isCellEditable(int row, int column) {
+       return false;
+    }};
+    
+        modelo.addColumn("ID");
+        modelo.addColumn("Estado");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Fecha Inicio");
+        modelo.addColumn("Descripcion");
+        modelo.addColumn("Canidad necesaria reparacion");
+        modelo.addColumn("Sector Responsable");
+        modelo.addColumn("Prioridad");
+        modelo.addColumn("Parte de maquina");
+        modelo.addColumn("Soliciante");
+        modelo.addColumn("Maquina");
+    
+      TableRowSorter sorter = new TableRowSorter(modelo);
+        TableAvisos.setFillsViewportHeight(true);
+        TableAvisos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        TableAvisos.getTableHeader().setReorderingAllowed(false) ;
+        TableAvisos.getColumnModel().setColumnSelectionAllowed(false);
+        TableAvisos.setRowSorter(sorter);
+        TableAvisos.setModel(modelo);
+    }
+
+    private void crearOT() {
+      
+        if(TableAvisos.getSelectedRow()!=-1)
+        {
+            int filaSeleccionada = TableAvisos.getRowSorter().
+                    convertRowIndexToModel(TableAvisos.getSelectedRow()); 
+            int i = (int) TableAvisos.getModel().getValueAt(filaSeleccionada, 0);
+           
+            IVOrdenTrabajo vista = new VOrdenTrabajo (parent, true);
+            
+        }else
+        {
+            JOptionPane.showConfirmDialog(null, "No selecciono ningun aviso","ERROR"
+, JOptionPane.CLOSED_OPTION);
+        }
+        
     }
 
 
