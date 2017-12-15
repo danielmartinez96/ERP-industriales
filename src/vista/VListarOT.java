@@ -6,7 +6,10 @@
 package vista;
 
 import java.util.ArrayList;
+import javax.swing.DefaultRowSorter;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import modelo.OrdenTrabajo;
@@ -176,13 +179,20 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
          modelo.addColumn("Tipo OT");
          modelo.addColumn("Responsable");
          modelo.addColumn("Parte Maquina");
-    
+         
+       TableOT.setModel(modelo);
        TableRowSorter sorter = new TableRowSorter(modelo);
        TableOT.setFillsViewportHeight(true);
        TableOT.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
        TableOT.getTableHeader().setReorderingAllowed(false) ;
        TableOT.getColumnModel().setColumnSelectionAllowed(false);
        TableOT.setRowSorter(sorter);
-       TableOT.setModel(modelo);
+       
+       DefaultRowSorter sort = ((DefaultRowSorter)TableOT.getRowSorter()); 
+        ArrayList list = new ArrayList();
+        list.add( new RowSorter.SortKey(1, SortOrder.DESCENDING) );
+        sorter.setSortKeys(list);
+        sorter.sort();
+       
     }
 }

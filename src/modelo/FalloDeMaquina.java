@@ -5,7 +5,11 @@
  */
 package modelo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import modelo.enumeraciones.CausaFalla;
 import modelo.enumeraciones.SintomaFalla;
 
@@ -19,7 +23,7 @@ public class FalloDeMaquina {
   private String detalle;
   private SintomaFalla SintomaFalla;
   private CausaFalla CausaFalla; 
-
+  final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
     public FalloDeMaquina() {
     }
 
@@ -38,15 +42,52 @@ public class FalloDeMaquina {
     public void setParteMaquina(ParteMaquina parteMaquina) {
         this.parteMaquina = parteMaquina;
     }
-
-    public Calendar getFechaInicio() {
-        return fechaInicio;
-    }
-
     public void setFechaInicio(Calendar fechaInicio) {
-        this.fechaInicio = fechaInicio;
+
+
+       
+      
+      int year       = fechaInicio.get(Calendar.YEAR);
+      int month      = fechaInicio.get(Calendar.MONTH);
+      int dayOfMonth = fechaInicio.get(Calendar.DAY_OF_MONTH);
+      
+      int hour       = fechaInicio.get(Calendar.HOUR);
+      int minute     = fechaInicio.get(Calendar.MINUTE);
+      
+      fechaInicio= new GregorianCalendar(year, month, dayOfMonth, hour, minute);
+      
+        try {
+             
+             Date date = sdf.parse(sdf.format(fechaInicio.getTime()));
+             this.fechaInicio= Calendar.getInstance();
+             this.fechaInicio.setTime(date);
+ 
+         //
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
+   
+    }
+    public void setFechaInicio(String fecha) {
+
+  
+       
+        try {
+            Date date = sdf.parse(fecha);
+            this.fechaInicio= Calendar.getInstance();
+            this.fechaInicio.setTime(date);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
+   
+    }
+    public String getFechaInicio() {
+           return sdf.format(fechaInicio.getTime());
     }
 
+  
     public String getDetalle() {
         return detalle;
     }

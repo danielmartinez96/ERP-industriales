@@ -7,7 +7,6 @@ package presentador;
 
 import gestorBD.RepositorioMantenimiento;
 import java.util.ArrayList;
-import javax.swing.JTable;
 import modelo.*;
 import modelo.enumeraciones.PrioridadAviso;
 import presentador.interfaces.IVListarAviso;
@@ -23,8 +22,33 @@ public class PListarAviso {
         this.vista = vista;
     }
     
-    public ArrayList<Aviso> listarAvisos(){
-        return RepositorioMantenimiento.listarAvisos();
+    public ArrayList<Aviso> listarAvisos(String prioridad,String maquina,String fecha){
+        String sql=" WHERE";
+        
+        if(prioridad != "Todos")sql+=" prioridad='"+prioridad+"'";
+         if(maquina != "Todos")
+         {
+             if(sql!=" WHERE")
+             {
+                 sql+=" AND ";
+             }
+              sql+=" maquina='"+maquina+"'";
+         }
+         if(fecha != "Todos"){
+             
+             if(sql!=" WHERE")
+             {
+                 sql+=" AND ";
+             }
+              sql+=" locate ('"+fecha+"',fecha_creacion)" ;
+         }
+        
+         if(sql==" WHERE")
+         {
+             sql="";
+         }
+        
+        return RepositorioMantenimiento.listarAvisos(sql);
     }
 
     public ArrayList<String> getPrioridades() {

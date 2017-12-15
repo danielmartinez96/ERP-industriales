@@ -8,9 +8,11 @@ package modelo;
 import modelo.enumeraciones.PrioridadAviso;
 import modelo.enumeraciones.TipoAviso;
 import modelo.enumeraciones.EstadoAviso;
-import gestorBD.conexion.EjecutorRutinaDB;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import modelo.enumeraciones.Sector;
 
 
@@ -31,7 +33,7 @@ public class Aviso {
     private PrioridadAviso prioridad;
     private Sector sectorResponsable;
     private Personal personal;
-    
+    final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
     
     public Aviso(){
         
@@ -73,13 +75,49 @@ public class Aviso {
         this.tipo = tipo;
     }
 
-    public Calendar getCreacion() {
-        return creacion;
+    public String getCreacion()
+    {
+        return sdf.format(creacion.getTime());
     }
+           
 
     public void setCreacion(Calendar creacion) {
-        this.creacion = creacion;
+
+    
+      int year       = creacion.get(Calendar.YEAR);
+      int month      = creacion.get(Calendar.MONTH);
+      int dayOfMonth = creacion.get(Calendar.DAY_OF_MONTH);
+      
+      int hour       = creacion.get(Calendar.HOUR);
+      int minute     = creacion.get(Calendar.MINUTE);
+      
+      creacion= new GregorianCalendar(year, month, dayOfMonth, hour, minute);
+        try {
+            
+            Date date = sdf.parse(sdf.format(creacion.getTime()));
+            this.creacion= Calendar.getInstance();
+            this.creacion.setTime(date);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
+   
     }
+    public void setCreacion(String fecha) {
+
+      
+       
+        try {
+            Date date = sdf.parse(fecha);
+            this.creacion= Calendar.getInstance();
+            this.creacion.setTime(date);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
+   
+    }
+
 
     public String getDescripcion() {
         return descripcion;

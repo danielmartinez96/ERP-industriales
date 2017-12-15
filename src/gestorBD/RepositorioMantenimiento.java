@@ -5,16 +5,8 @@
  */
 package gestorBD;
 
-import gestorBD.conexion.EjecucionResultSet;
 import gestorBD.conexion.EjecutorRutinaDB;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modelo.Aviso;
 import modelo.FalloDeMaquina;
 import modelo.Maquina;
@@ -87,7 +79,7 @@ public class RepositorioMantenimiento {
         return maquinas;
     }
 
-    public static Maquina getMaquina(int idParteMaquina) {
+    public static Maquina getMaquina(int Maquina) {
         Maquina m = new Maquina();
        EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
@@ -96,7 +88,7 @@ public class RepositorioMantenimiento {
                 m.setTipoMaquina(TipoMaquina.valueOf(resultSet.getString("tipo")));
             }
 
-        }, "SELECT * FROM maquinas LEFT JOIN partes_de_maquina ON maquinas.id_maquina = partes_de_maquina.id_parte_de_maquina");
+        }, "SELECT * FROM maquinas WHERE id_maquina="+Maquina);
 
         return m;
     }
@@ -124,41 +116,38 @@ public class RepositorioMantenimiento {
             while (resultSet.next()) {
                 pm.setId(resultSet.getInt("id_parte_de_maquina"));
                 pm.setDescripcion(resultSet.getString("descripcion"));
+                pm.setIdMaquina(resultSet.getInt("id_maquina"));
             }
         }, "SELECT * FROM partes_de_maquina WHERE id_parte_de_maquina=" +id);
 
         return pm;
     }
 
-    public static ArrayList<Aviso> listarAvisos() {
+    public static ArrayList<Aviso> listarAvisos(String sql) {
         ArrayList<Aviso> avisos = new ArrayList<>();
+       
         EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
                 Aviso aviso = new Aviso();
-                
+                 ParteMaquina ptm;
                 aviso.setId(resultSet.getInt("id_aviso"));
                 aviso.setEstado(EstadoAviso.valueOf(resultSet.getString("estado")));
                 aviso.setTipo(TipoAviso.valueOf(resultSet.getString("tipo")));
 
                 // ESTE FRAGMENTO SIRVE PARA MANEJAR LA COINCIDENCIA DE LOS TIPOS CALENDAR Y STRING. 
-                Calendar cal = null;
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.getDefault());
-                    Date date = sdf.parse(resultSet.getString("fecha_creacion"));
-                    cal = sdf.getCalendar();
-                } catch (Exception e) {
-                    e.toString();
-                }
-                aviso.setCreacion(cal);
+             
+               
+                aviso.setCreacion(resultSet.getString("fecha_creacion"));
                 //*******************************************************************************
 
                 aviso.setDescripcion(resultSet.getString("descripcion"));
                 aviso.setCantNecesariaRep(resultSet.getInt("cantidad_necesaria_reparacion"));
                 aviso.setSectorResponsable(Sector.valueOf(resultSet.getString("sector_responsable")));
                 aviso.setPrioridad(PrioridadAviso.valueOf(resultSet.getString("prioridad")));
-                aviso.setParteMaquina(getParte(resultSet.getInt("id_parte_de_maquina")));
+                ptm=getParte(resultSet.getInt("id_parte_de_maquina"));
+                aviso.setParteMaquina(ptm);
                 aviso.setPersonal(getSolicitante(resultSet.getInt("id_solicitante")));
-                aviso.setMaquina(getMaquina(resultSet.getInt("id_parte_de_maquina")));
+                aviso.setMaquina(getMaquina(ptm.getIdMaquina()));
                 
                 avisos.add(aviso);
         /*        
@@ -175,7 +164,7 @@ public class RepositorioMantenimiento {
                 System.out.println("maq:"+aviso.getMaquina().getId()); */
            }
 
-        }, "SELECT * FROM avisos");
+        }, "SELECT * FROM avisos "+sql);
 
         return avisos;
     }
@@ -193,15 +182,8 @@ public class RepositorioMantenimiento {
                 fallo.setSintomaFalla(SintomaFalla.valueOf(resultSet.getString("sintoma")));
                
                 // ESTE FRAGMENTO SIRVE PARA MANEJAR LA COINCIDENCIA DE LOS TIPOS CALENDAR Y STRING. 
-                Calendar cal = null;
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.getDefault());
-                    Date date = sdf.parse(resultSet.getString("fecha_creacion"));
-                    cal = sdf.getCalendar();
-                } catch (Exception e) {
-                    e.toString();
-                }
-                fallo.setFechaInicio(cal);
+            
+                fallo.setFechaInicio(resultSet.getString("fecha_creacion"));
                 //*******************************************************************************
 
                
@@ -223,7 +205,7 @@ public class RepositorioMantenimiento {
         int key= EjecutorRutinaDB.ejecutarUpdateStatementConKey("INSERT INTO avisos(estado, tipo, id_solicitante, maquina, fecha_creacion, descripcion,"
                 + "cantidad_necesaria_reparacion, sector_responsable, prioridad, id_parte_de_maquina) "
                 + "VALUES(" + "'" + aviso.getEstado() + "','" + aviso.getTipo() + "','" + aviso.getPersonal().getId() + "','"
-                + aviso.getMaquina() + "','" + aviso.getCreacion().getTime() + "','" + aviso.getDescripcion() + "','"
+                + aviso.getMaquina() + "','" + aviso.getCreacion() + "','" + aviso.getDescripcion() + "','"
                 + aviso.getCantNecesariaRep() + "','" + aviso.getSectorResponsable() + "','" + aviso.getPrioridad() + "',"
                 + aviso.getParteMaquina().getId() + ")");
         
@@ -275,13 +257,13 @@ public class RepositorioMantenimiento {
         //                                          + "','" + ot.getFechaInicio().getTime() + "','" + ot.getFechaFin().getTime() + "','" + ot.getParte()+"')");
         EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(id_aviso,estado, responsable, fecha_inicio, fecha_fin, parte_maquina,tipo_ot) "
                 + "VALUES('" + ot.getAviso().getId() + "','" + ot.getEstado() + "','" + ot.getResp()
-                + "','" + ot.getFechaInicio().getTime() + "','" + ot.getFechaFin().getTime() + "','" + ot.getParte().getId() + "','" + ot.getTipo().toString() + "')");
+                + "','" + ot.getFechaInicio() + "','" + ot.getFechaFin() + "','" + ot.getParte().getId() + "','" + ot.getTipo().toString() + "')");
     }
 
     public static void cargarFallo(FalloDeMaquina fallo) {
         
          EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO fallo_maquina(fecha_creacion,sintoma, causa, detalle,id_parte_de_maquina) "
-                + "VALUES('" + fallo.getFechaInicio().getTime() + "','" + fallo.getSintomaFalla()+ "','" + fallo.getCausaFalla()
+                + "VALUES('" + fallo.getFechaInicio() + "','" + fallo.getSintomaFalla()+ "','" + fallo.getCausaFalla()
                 + "','" + fallo.getDetalle() + "','" + fallo.getParteMaquina().getId() + "')");
     }
 
@@ -291,9 +273,9 @@ public class RepositorioMantenimiento {
         EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
                OrdenTrabajo ot = new OrdenTrabajo();
-               ot.setEstado(EstadoOT.valueOf(resultSet.getString("estado")));
-               
- 
+                ot.setEstado(EstadoOT.valueOf(resultSet.getString("estado")));
+                ot.setFechaInicio(resultSet.getString("fecha_inicio"));
+                ot.setFechaFin(resultSet.getString("fecha_fin"));
                 ot.setTipo(TipoOT.valueOf(resultSet.getString("tipo_ot")));
                 ot.setAviso(getAviso(resultSet.getInt("id_aviso")));
                 ot.setResp(Responsable.valueOf(resultSet.getString("responsable")));
