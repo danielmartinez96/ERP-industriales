@@ -5,12 +5,16 @@
  */
 package gestorBD.conexion;
 
+import clasesAuxiliares.Page;
+import static clasesAuxiliares.Page.getStartItemByPage;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class EjecutorRutinaDB {
 
@@ -101,6 +105,24 @@ public class EjecutorRutinaDB {
 		}
 	}
 
+        public static void getPage(final EjecucionResultSet ejecutorResultSet,
+			final String selectQuery){
+      
+    try {
+			cargarDriverCrearConexion();
+			final PreparedStatement preparedStatement = conexion.prepareStatement( selectQuery,ResultSet.TYPE_SCROLL_INSENSITIVE,
+            ResultSet.CONCUR_READ_ONLY);
+			
+			final ResultSet resultSet = preparedStatement.executeQuery();
+
+			ejecutorResultSet.trabajarResultSet(resultSet);
+                       
+			cerrarRecursos(preparedStatement, resultSet);
+		} catch (final SQLException e) {
+			manejarSQLException(e);
+		}
+}
+        
 	private static void cargarDriverCrearConexion() throws SQLException {
 		try {
 			Class.forName(DRIVER_CLASS);
@@ -152,4 +174,9 @@ public class EjecutorRutinaDB {
             
             
         }
+
+   
+        
+        
+        
 }

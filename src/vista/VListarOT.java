@@ -188,11 +188,10 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
        TableOT.getColumnModel().setColumnSelectionAllowed(false);
        TableOT.setRowSorter(sorter);
        
-       DefaultRowSorter sort = ((DefaultRowSorter)TableOT.getRowSorter()); 
-        ArrayList list = new ArrayList();
-        list.add( new RowSorter.SortKey(1, SortOrder.DESCENDING) );
-        sorter.setSortKeys(list);
-        sorter.sort();
+  //     DefaultRowSorter sort = ((DefaultRowSorter)TableOT.getRowSorter()); 
+    //  list.add( new RowSorter.SortKey(1, SortOrder.DESCENDING) );
+      //  sorter.setSortKeys(list);
+        //sorter.sort();
        
     }
 }

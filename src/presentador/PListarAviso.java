@@ -5,6 +5,7 @@
  */
 package presentador;
 
+import clasesAuxiliares.Page;
 import gestorBD.RepositorioMantenimiento;
 import java.util.ArrayList;
 import modelo.*;
@@ -22,7 +23,7 @@ public class PListarAviso {
         this.vista = vista;
     }
     
-    public ArrayList<Aviso> listarAvisos(String prioridad,String maquina,String fecha){
+    public Page listarAvisos(String prioridad,String maquina,String fecha,int page,int pageSize){
         String sql=" WHERE";
         
         if(prioridad != "Todos")sql+=" prioridad='"+prioridad+"'";
@@ -47,8 +48,8 @@ public class PListarAviso {
          {
              sql="";
          }
-        
-        return RepositorioMantenimiento.listarAvisos(sql);
+        sql+=" ORDER BY fecha_creacion DESC";
+        return RepositorioMantenimiento.listarAvisosPaginacion(sql,page,pageSize);
     }
 
     public ArrayList<String> getPrioridades() {

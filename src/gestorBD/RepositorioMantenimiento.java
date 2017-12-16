@@ -5,6 +5,8 @@
  */
 package gestorBD;
 
+import clasesAuxiliares.Page;
+import static clasesAuxiliares.Page.getStartItemByPage;
 import gestorBD.conexion.EjecutorRutinaDB;
 import java.util.ArrayList;
 import modelo.Aviso;
@@ -74,7 +76,7 @@ public class RepositorioMantenimiento {
                 maquinas.add(m);
             }
 
-        }, "SELECT * FROM maquinas");
+        }, "SELECT * FROM maquinas ORDER BY descripcion");
 
         return maquinas;
     }
@@ -104,7 +106,7 @@ public class RepositorioMantenimiento {
                 partes.add(pm);
             }
 
-        }, "SELECT * FROM partes_de_maquina WHERE id_maquina=" + id);
+        }, "SELECT * FROM partes_de_maquina WHERE id_maquina=" + id+" ORDER BY descripcion");
 
         return partes;
 
@@ -168,6 +170,66 @@ public class RepositorioMantenimiento {
 
         return avisos;
     }
+      public static Page listarAvisosPaginacion(String sql,final int page, final int pageSize) {
+        Page pagina = new Page();
+       
+        EjecutorRutinaDB.getPage((resultSet) ->
+        {
+           
+               final int first = getStartItemByPage(page, pageSize);
+                    ArrayList<Aviso> avisos = new ArrayList<>();
+                    
+                   int countAdds = 0; // Para llevar la cuenta
+                  
+                   boolean more = resultSet.absolute(first); 
+                   
+                   while (more) {
+            
+          
+              Aviso aviso = new Aviso();
+                 ParteMaquina ptm;
+                aviso.setId(resultSet.getInt("id_aviso"));
+                aviso.setEstado(EstadoAviso.valueOf(resultSet.getString("estado")));
+                aviso.setTipo(TipoAviso.valueOf(resultSet.getString("tipo")));
+
+                // ESTE FRAGMENTO SIRVE PARA MANEJAR LA COINCIDENCIA DE LOS TIPOS CALENDAR Y STRING. 
+             
+               
+                aviso.setCreacion(resultSet.getString("fecha_creacion"));
+                //*******************************************************************************
+
+                aviso.setDescripcion(resultSet.getString("descripcion"));
+                aviso.setCantNecesariaRep(resultSet.getInt("cantidad_necesaria_reparacion"));
+                aviso.setSectorResponsable(Sector.valueOf(resultSet.getString("sector_responsable")));
+                aviso.setPrioridad(PrioridadAviso.valueOf(resultSet.getString("prioridad")));
+                ptm=getParte(resultSet.getInt("id_parte_de_maquina"));
+                aviso.setParteMaquina(ptm);
+                aviso.setPersonal(getSolicitante(resultSet.getInt("id_solicitante")));
+                aviso.setMaquina(getMaquina(ptm.getIdMaquina()));
+                
+                avisos.add(aviso);
+            if (++ countAdds == pageSize) {
+                break;
+            }
+            more = resultSet.next();
+        }
+        resultSet.last();
+        int totalElements = resultSet.getRow(); // El ultimo elemento
+        
+        
+        pagina.setPage(page);
+        pagina.setPageSize(pageSize);
+        pagina.setTotalElements(totalElements);
+        pagina.setResults(avisos); 
+        }, "SELECT * FROM avisos "+sql);
+                   
+        
+
+        
+
+        return pagina;
+    }
+
 
     
     public static ArrayList<FalloDeMaquina> listarFallos() {
@@ -284,9 +346,10 @@ public class RepositorioMantenimiento {
                 ordenes.add(ot);
             }
 
-        }, "SELECT * FROM tabla_ot");
+        }, "SELECT * FROM tabla_ot ORDER BY fecha_inicio DESC");
 
         return ordenes;
     }
 
+    
 }

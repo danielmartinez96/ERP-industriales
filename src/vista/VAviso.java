@@ -5,6 +5,7 @@
  */
 package vista;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Toolkit;
@@ -40,12 +41,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
         super(parent, modal);
         this.parent= parent;
         initComponents();
-        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension ventana = this.getSize();
-        this.setLocation((pantalla.width - ventana.width)/2, (pantalla.height -ventana.height)/2);
-        btnCrearOT.setEnabled(false);
-        btnNuevoAviso.setEnabled(false);
-        int key=-1;
+        configuraciones();
         this.presentador = new PAviso(this);
         actualizar();
        
@@ -88,6 +84,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
         btnNuevoAviso = new javax.swing.JButton();
+        labelNotificacion = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -147,6 +144,8 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
             }
         });
 
+        labelNotificacion.setText("sad");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -154,6 +153,9 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(labelNotificacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -235,6 +237,8 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelNotificacion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -282,7 +286,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
                         .addComponent(btnAgregarAviso)
                         .addComponent(btnCrearOT)
                         .addComponent(btnCancelar)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -290,6 +294,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
 
     private void btnAgregarAvisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAvisoActionPerformed
         agregarAviso();       
+      
     }//GEN-LAST:event_btnAgregarAvisoActionPerformed
 
     private void btnCrearOTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearOTActionPerformed
@@ -302,8 +307,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnNuevoAvisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoAvisoActionPerformed
-       dispose();
-       IVAviso vista= new VAviso(parent, true);
+       volverDatosIniciales();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNuevoAvisoActionPerformed
 
@@ -342,6 +346,7 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel labelNotificacion;
     private javax.swing.JTextArea txtDescripcion;
     // End of variables declaration//GEN-END:variables
 
@@ -427,11 +432,18 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
         String tiemp = String.valueOf(cbTiempo.getSelectedItem());
         String desc = txtDescripcion.getText();
 
-       key= this.presentador.guardarAviso(t, e, p, pa,m, pm, cal, sec, tiemp, desc);
+        if(cal!=null || desc=="")
+            {
+        key= this.presentador.guardarAviso(t, e, p, pa,m, pm, cal, sec, tiemp, desc);
        
        deshablitarComponentes();
-       
-       
+        labelNotificacion.setForeground(Color.GREEN);
+        labelNotificacion.setText("Se creo el nuevo aviso con exito");
+            } else{
+            labelNotificacion.setForeground(Color.RED);
+            labelNotificacion.setText("No se pudo crear el aviso, por que le falto algun campo");
+        }
+        
     }
 
     public void crearNuevaOT() {
@@ -454,6 +466,51 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
        cbTipo.setEnabled(false);
        dateDesde.setEnabled(false);
        txtDescripcion.setEditable(false);
+       
+    }
+
+    private void configuraciones() {
+         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension ventana = this.getSize();
+        this.setLocation((pantalla.width - ventana.width)/2, (pantalla.height -ventana.height)/2);
+        btnCrearOT.setEnabled(false);
+        btnNuevoAviso.setEnabled(false);
+        int key=-1;
+        labelNotificacion.setText("");
+        
+    }
+
+    private void volverDatosIniciales() {
+        
+        labelNotificacion.setText("");
+        btnCrearOT.setEnabled(false);
+        btnNuevoAviso.setEnabled(false);
+        btnAgregarAviso.setEnabled(true);
+        
+
+      
+       cbEstados.setEnabled(true);
+       cbMaquina.setEnabled(true);
+       cbParteMaquina.setEnabled(true);
+       cbPersonal.setEnabled(true);
+       cbPrioridad.setEnabled(true);
+       cbResponsable.setEnabled(true);
+       cbTiempo.setEnabled(true);
+       cbTipo.setEnabled(true);
+       dateDesde.setEnabled(true);
+       txtDescripcion.setEditable(true);
+       
+       cbEstados.setSelectedIndex(0);
+       cbMaquina.setSelectedIndex(0);
+       cbParteMaquina.setSelectedIndex(0);
+       cbPersonal.setSelectedIndex(0);
+       cbPrioridad.setSelectedIndex(0);
+       cbResponsable.setSelectedIndex(0);
+       cbTiempo.setSelectedIndex(0);
+       cbTipo.setSelectedIndex(0);
+       dateDesde.setCalendar(null);
+       txtDescripcion.setText("");
+       
        
     }
 
