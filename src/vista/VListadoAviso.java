@@ -6,6 +6,7 @@
 package vista;
 
 import clasesAuxiliares.Page;
+import clasesAuxiliares.RowsRenderer;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import modelo.Aviso;
@@ -360,6 +362,8 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
      prioridad="Todos";
      maquina="Todos";
      fecha="Todos";
+     paginaActual=0;
+     txtPaginaActual.setText(""+1);
      cbPrioridad.setSelectedIndex(0);
      cbMaquina.setSelectedIndex(0);
      calendarFecha.setCalendar(null);
@@ -461,20 +465,23 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         
        
                
-         pagina = presentador.listarAvisos(prioridad,maquina,fecha,paginaActual,filas);
+      pagina = presentador.listarAvisos(prioridad,maquina,fecha,paginaActual,filas);
        
          
-        
-         
-       lista= pagina.getResults();
+      lista= pagina.getResults();
+     
+       
+       
         Object fila [] = new Object[modelo.getColumnCount()];
- paginaMax=pagina.getLastPage();
+        
+        
+         paginaMax=pagina.getLastPage();
         labelPaginaMaxima.setText("... a "+paginaMax);
         for(int i=0; i<lista.size(); i++){
-            fila[0]=lista.get(i).getId();
             fila[1]=lista.get(i).getEstado();
-            fila[2]=lista.get(i).getTipo();
-            fila[3]=lista.get(i).getCreacion();
+            fila[2]=lista.get(i).getId();
+            fila[3]=lista.get(i).getTipo();
+            fila[0]=lista.get(i).getCreacion();
             fila[4]=lista.get(i).getDescripcion();
             fila[5]=lista.get(i).getCantNecesariaRep();
             fila[6]=lista.get(i).getSectorResponsable();
@@ -484,6 +491,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
             fila[10]=lista.get(i).getMaquina();
             
             modelo.addRow(fila);
+            
         }
     
         paginadoTabla();
@@ -499,11 +507,10 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     }};
      TableRowSorter sorter = new TableRowSorter(modelo);    
      
-    
-        modelo.addColumn("ID");
-        modelo.addColumn("Estado");
-        modelo.addColumn("Tipo");
         modelo.addColumn("Fecha Inicio");
+        modelo.addColumn("Estado");
+        modelo.addColumn("ID");
+        modelo.addColumn("Tipo");
         modelo.addColumn("Descripcion");
         modelo.addColumn("Canidad necesaria reparacion");
         modelo.addColumn("Sector Responsable");
@@ -527,6 +534,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         TableAvisos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         TableAvisos.getTableHeader().setReorderingAllowed(false) ;
         TableAvisos.getColumnModel().setColumnSelectionAllowed(false);
+        TableAvisos.setDefaultRenderer(Object.class, new RowsRenderer(1));
         
 
 txtPaginaActual.addKeyListener(new KeyAdapter()
@@ -552,19 +560,7 @@ txtPaginaActual.addKeyListener(new KeyAdapter()
       // sorter.sort();
     
         
-        btnIr.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent ae) {
      
-        }
-    });
-         btnAnterior.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-         
-        }
-    });
-        
          
          
     }
@@ -628,9 +624,10 @@ txtPaginaActual.addKeyListener(new KeyAdapter()
     private void cambiarPagina() {
         
         
-             
-            int numero=Integer.valueOf(txtPaginaActual.getText());
-       if(numero<1)
+      try
+      {
+           int numero=Integer.valueOf(txtPaginaActual.getText());
+             if(numero<1)
        {
            txtPaginaActual.setText(""+1);
            
@@ -642,6 +639,13 @@ txtPaginaActual.addKeyListener(new KeyAdapter()
             
         paginaActual=Integer.valueOf(txtPaginaActual.getText());
            
+      }catch(NumberFormatException ex)
+      {
+          
+      } 
+         
+       
+    
             
             
          actualizarTabla();

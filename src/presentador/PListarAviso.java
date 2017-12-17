@@ -25,7 +25,7 @@ public class PListarAviso {
     
     public Page listarAvisos(String prioridad,String maquina,String fecha,int page,int pageSize){
         String sql=" WHERE";
-        
+            
         if(prioridad != "Todos")sql+=" prioridad='"+prioridad+"'";
          if(maquina != "Todos")
          {
@@ -48,7 +48,8 @@ public class PListarAviso {
          {
              sql="";
          }
-        sql+=" ORDER BY fecha_creacion DESC";
+          
+        sql+="ORDER BY fecha_creacion DESC ";
         return RepositorioMantenimiento.listarAvisosPaginacion(sql,page,pageSize);
     }
 
@@ -66,4 +67,6 @@ public class PListarAviso {
     public ArrayList<Maquina> getMaquinas() {
    return RepositorioMantenimiento.getMaquinas();
     }
+
+   
 }
