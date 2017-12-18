@@ -14,6 +14,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +42,7 @@ import presentador.PListarAviso;
 import presentador.interfaces.IVAviso;
 import presentador.interfaces.IVListarAviso;
 import presentador.interfaces.IVOrdenTrabajo;
+import vista.componentes.Nodo;
 
 /**
  *
@@ -80,6 +84,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     public void setTableAvisos(JTable TableAvisos) {
         this.TableAvisos = TableAvisos;
     }
+    
 
 
     @SuppressWarnings("unchecked")
@@ -562,6 +567,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         TableAvisos.setDefaultRenderer(Object.class, new RowsRenderer(7));
         
 
+ 
 txtPaginaActual.addKeyListener(new KeyAdapter()
 {
    public void keyTyped(KeyEvent e)
