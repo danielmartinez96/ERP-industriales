@@ -13,10 +13,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import javax.swing.DefaultRowSorter;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
@@ -50,7 +52,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
      String prioridad="Todos";
      String maquina="Todos";
      String fecha="Todos";
-     final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+     final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
      Page pagina;
      int paginaMax=1;
      int paginaActual;
@@ -102,14 +104,20 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         scrollPaneTabla = new javax.swing.JScrollPane();
         TableAvisos = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        calendarFecha = new com.toedter.calendar.JDateChooser();
+        calendarDesde = new com.toedter.calendar.JDateChooser();
         btnFiltradoPorDefecto = new javax.swing.JButton();
         txtPaginaActual = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         labelPaginaMaxima = new javax.swing.JLabel();
         btnIr = new javax.swing.JButton();
+        calendarHasta = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         jLabel1.setText("Listado de Avisos");
 
@@ -188,11 +196,11 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         ));
         scrollPaneTabla.setViewportView(TableAvisos);
 
-        jLabel5.setText("Fecha:");
+        jLabel5.setText("Fecha de-hasta:");
 
-        calendarFecha.addKeyListener(new java.awt.event.KeyAdapter() {
+        calendarDesde.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                calendarFechaKeyPressed(evt);
+                calendarDesdeKeyPressed(evt);
             }
         });
 
@@ -218,6 +226,12 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         btnIr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIrActionPerformed(evt);
+            }
+        });
+
+        calendarHasta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                calendarHastaKeyPressed(evt);
             }
         });
 
@@ -250,10 +264,12 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(calendarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(76, 76, 76)
+                                .addComponent(calendarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(5, 5, 5)
+                                .addComponent(calendarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnFiltradoPorDefecto))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -300,14 +316,15 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(calendarFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(calendarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel2)
                                 .addComponent(jLabel3)
                                 .addComponent(cbPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel4)
                                 .addComponent(cbMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel5)))))
+                                .addComponent(jLabel5))
+                            .addComponent(calendarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(23, 23, 23)
                 .addComponent(scrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -366,7 +383,8 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
      txtPaginaActual.setText(""+1);
      cbPrioridad.setSelectedIndex(0);
      cbMaquina.setSelectedIndex(0);
-     calendarFecha.setCalendar(null);
+     calendarDesde.setCalendar(null);
+      calendarHasta.setCalendar(null);
         // TODO add your handling code here:
      actualizarTabla();
     }//GEN-LAST:event_btnFiltradoPorDefectoActionPerformed
@@ -383,10 +401,10 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         // TODO add your handling code here:
     }//GEN-LAST:event_cbMaquinaKeyPressed
 
-    private void calendarFechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_calendarFechaKeyPressed
+    private void calendarDesdeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_calendarDesdeKeyPressed
         botonEnter(evt);    
         // TODO add your handling code here:
-    }//GEN-LAST:event_calendarFechaKeyPressed
+    }//GEN-LAST:event_calendarDesdeKeyPressed
 
     private void btnIrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIrActionPerformed
 
@@ -395,19 +413,13 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     }//GEN-LAST:event_btnIrActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        int numero= Integer.valueOf(txtPaginaActual.getText());
-        numero--;
-        txtPaginaActual.setText(""+numero);
-          cambiarPagina();
+      anterior();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
 
-  int numero= Integer.valueOf(txtPaginaActual.getText());
-        numero++;
-        txtPaginaActual.setText(""+numero);
-          cambiarPagina();
+  siguiente();
 // TODO add your handling code here:
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
@@ -416,11 +428,23 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
      
              if(evt.getKeyCode()== KeyEvent.VK_ENTER)
         {
-            cambiarPagina();
+          cambiarPagina();
         }        
 // TODO add your handling code here:
         
     }//GEN-LAST:event_txtPaginaActualKeyPressed
+
+    private void calendarHastaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_calendarHastaKeyPressed
+        botonEnter(evt);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_calendarHastaKeyPressed
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        
+       
+       
+// TODO add your handling code here:
+    }//GEN-LAST:event_formKeyPressed
 
     /**
      * @param args the command line arguments
@@ -433,7 +457,8 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     private javax.swing.JButton btnIr;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnSiguiente;
-    private com.toedter.calendar.JDateChooser calendarFecha;
+    private com.toedter.calendar.JDateChooser calendarDesde;
+    private com.toedter.calendar.JDateChooser calendarHasta;
     private javax.swing.JComboBox<Object> cbMaquina;
     private javax.swing.JComboBox<String> cbPrioridad;
     private javax.swing.JButton jButton1;
@@ -534,7 +559,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         TableAvisos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         TableAvisos.getTableHeader().setReorderingAllowed(false) ;
         TableAvisos.getColumnModel().setColumnSelectionAllowed(false);
-        TableAvisos.setDefaultRenderer(Object.class, new RowsRenderer(1));
+        TableAvisos.setDefaultRenderer(Object.class, new RowsRenderer(7));
         
 
 txtPaginaActual.addKeyListener(new KeyAdapter()
@@ -604,14 +629,22 @@ txtPaginaActual.addKeyListener(new KeyAdapter()
     }
 
     private void obtenerValoresFiltro() {
-      
-        
       prioridad = (String) cbPrioridad.getSelectedItem();
       Maquina maquina1 = (Maquina) cbMaquina.getSelectedItem();
       maquina= maquina1.getDescripcion();
       try
-      {
-           fecha = sdf.format(calendarFecha.getDate()); 
+      { 
+          Date date;
+          date = calendarDesde.getDate();
+          date.setHours(0);
+          date.setMinutes(0);
+           String fechaDesde = sdf.format(date);
+            date= calendarHasta.getDate();
+            date.setHours(0);
+            date.setMinutes(0);
+           String fechaHasta = sdf.format(date);
+          fecha= " '"+fechaDesde+"' AND '"+fechaHasta+"' ";
+         
       }catch(NullPointerException ex)
       {
          fecha="Todos";
@@ -643,12 +676,22 @@ txtPaginaActual.addKeyListener(new KeyAdapter()
       {
           
       } 
-         
-       
-    
-            
-            
+        
          actualizarTabla();
+    }
+
+    private void siguiente() {
+             int numero= Integer.valueOf(txtPaginaActual.getText());
+        numero++;
+        txtPaginaActual.setText(""+numero);
+          cambiarPagina();
+    }
+
+    private void anterior() {
+          int numero= Integer.valueOf(txtPaginaActual.getText());
+        numero--;
+        txtPaginaActual.setText(""+numero);
+          cambiarPagina();
     }
 
    

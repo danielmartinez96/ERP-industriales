@@ -321,6 +321,8 @@ public class RepositorioMantenimiento {
         EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(id_aviso,estado, responsable, fecha_inicio, fecha_fin, parte_maquina,tipo_ot) "
                 + "VALUES('" + ot.getAviso().getId() + "','" + ot.getEstado() + "','" + ot.getResp()
                 + "','" + ot.getFechaInicio() + "','" + ot.getFechaFin() + "','" + ot.getParte().getId() + "','" + ot.getTipo().toString() + "')");
+    
+        EjecutorRutinaDB.ejecutarUpdateStatement("UPDATE avisos SET estado ='"+ot.getAviso().getEstado()+"' where id_aviso="+ot.getAviso().getId());
     }
 
     public static void cargarFallo(FalloDeMaquina fallo) {

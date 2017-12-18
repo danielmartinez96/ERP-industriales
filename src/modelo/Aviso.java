@@ -33,7 +33,7 @@ public class Aviso {
     private PrioridadAviso prioridad;
     private Sector sectorResponsable;
     private Personal personal;
-    final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+    final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     
     public Aviso(){
         
@@ -88,7 +88,7 @@ public class Aviso {
       int month      = creacion.get(Calendar.MONTH);
       int dayOfMonth = creacion.get(Calendar.DAY_OF_MONTH);
       
-      int hour       = creacion.get(Calendar.HOUR);
+      int hour       = creacion.get(Calendar.HOUR_OF_DAY);
       int minute     = creacion.get(Calendar.MINUTE);
       
       creacion= new GregorianCalendar(year, month, dayOfMonth, hour, minute);
@@ -111,6 +111,7 @@ public class Aviso {
             Date date = sdf.parse(fecha);
             this.creacion= Calendar.getInstance();
             this.creacion.setTime(date);
+          //  this.creacion.set(Calendar.HOUR_OF_DAY,date.getHours());
         } catch (ParseException ex) {
             ex.printStackTrace();
         }

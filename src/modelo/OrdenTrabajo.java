@@ -27,7 +27,7 @@ public class OrdenTrabajo {
     private ParteMaquina parte;
     private Responsable resp;
     private Aviso aviso;
-    final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+    final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
     public OrdenTrabajo() {
     }
@@ -81,7 +81,7 @@ public class OrdenTrabajo {
       int month      = fechaInicio.get(Calendar.MONTH);
       int dayOfMonth = fechaInicio.get(Calendar.DAY_OF_MONTH);
       
-      int hour       = fechaInicio.get(Calendar.HOUR);
+      int hour       = fechaInicio.get(Calendar.HOUR_OF_DAY);
       int minute     = fechaInicio.get(Calendar.MINUTE);
       
       fechaInicio= new GregorianCalendar(year, month, dayOfMonth, hour, minute);
@@ -106,6 +106,7 @@ public class OrdenTrabajo {
             Date date = sdf.parse(fecha);
             this.fechaInicio= Calendar.getInstance();
             this.fechaInicio.setTime(date);
+            
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
@@ -130,7 +131,7 @@ public class OrdenTrabajo {
       int month      = fechaFin.get(Calendar.MONTH);
       int dayOfMonth = fechaFin.get(Calendar.DAY_OF_MONTH);
       
-      int hour       = fechaFin.get(Calendar.HOUR);
+      int hour       = fechaFin.get(Calendar.HOUR_OF_DAY);
       int minute     = fechaFin.get(Calendar.MINUTE);
       
       fechaFin= new GregorianCalendar(year, month, dayOfMonth, hour, minute);
@@ -158,6 +159,7 @@ public class OrdenTrabajo {
             Date date = sdf.parse(fecha);
              this.fechaFin= Calendar.getInstance();
             this.fechaFin.setTime(date);
+            
         } catch (ParseException ex) {
             ex.printStackTrace();
         }

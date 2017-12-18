@@ -23,7 +23,7 @@ public class FalloDeMaquina {
   private String detalle;
   private SintomaFalla SintomaFalla;
   private CausaFalla CausaFalla; 
-  final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+  final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     public FalloDeMaquina() {
     }
 
@@ -51,7 +51,7 @@ public class FalloDeMaquina {
       int month      = fechaInicio.get(Calendar.MONTH);
       int dayOfMonth = fechaInicio.get(Calendar.DAY_OF_MONTH);
       
-      int hour       = fechaInicio.get(Calendar.HOUR);
+      int hour       = fechaInicio.get(Calendar.HOUR_OF_DAY);
       int minute     = fechaInicio.get(Calendar.MINUTE);
       
       fechaInicio= new GregorianCalendar(year, month, dayOfMonth, hour, minute);
@@ -77,6 +77,7 @@ public class FalloDeMaquina {
             Date date = sdf.parse(fecha);
             this.fechaInicio= Calendar.getInstance();
             this.fechaInicio.setTime(date);
+            this.fechaInicio.set(Calendar.HOUR_OF_DAY,date.getHours());
         } catch (ParseException ex) {
             ex.printStackTrace();
         }

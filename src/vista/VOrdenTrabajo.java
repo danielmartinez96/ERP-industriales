@@ -11,6 +11,7 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import modelo.*;
+import modelo.enumeraciones.EstadoAviso;
 import modelo.enumeraciones.EstadoOT;
 import modelo.enumeraciones.Responsable;
 import modelo.enumeraciones.TipoOT;
@@ -38,7 +39,6 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         initComponents();
         inicializar();
         textAviso.setText("Pulse el boton buscar para buscar un aviso");
-         
         cbEstado.setEnabled(false);
         cbMaquina.setEnabled(false);
         cbParteMaquina.setEnabled(false);
@@ -371,6 +371,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
     @Override
     public void agregarListener() {
         cbMaquina.addItemListener(new ItemListener() {
+        
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -400,6 +401,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         Calendar calFin = dateFin.getCalendar();
         ParteMaquina parteMaquina = (ParteMaquina) cbParteMaquina.getSelectedItem();
        // Aviso aviso = (Aviso) cbAviso.getSelectedItem();
+       av.setEstado(EstadoAviso.EN_TRATAMIENTO);
         this.presentador.guardarOT(av,estadoOT, tipoOT, responsable, calInicio, calFin, parteMaquina);
     }
 

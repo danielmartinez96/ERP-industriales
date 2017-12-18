@@ -29,10 +29,10 @@ public class PAviso {
         //vista.actualizar();
     }
 
-    public EstadoAviso[] getEstados() {
+  //  public EstadoAviso[] getEstados() {
 
-        return EstadoAviso.values();
-    }
+    //    return EstadoAviso.values();
+    //}
 
     public ArrayList<Personal> getPersonal() {
 

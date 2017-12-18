@@ -10,6 +10,9 @@ package modelo.enumeraciones;
  * @author Usuario
  */
 public enum EstadoOT {
-    ESTADO1,
-    ESTADO2
+    ABIERTO,
+    LIBERADA,
+    NOTIFICADA,
+    CERRADA_TEC,
+    CERRADA_COMERC
 }

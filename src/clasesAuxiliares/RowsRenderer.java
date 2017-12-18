@@ -9,7 +9,8 @@ import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import modelo.enumeraciones.EstadoAviso;
+import modelo.enumeraciones.PrioridadAviso;
+import modelo.enumeraciones.TipoAviso;
 
 /**
  *
@@ -27,18 +28,27 @@ public RowsRenderer(int Colpatron)
 @Override
 public Component getTableCellRendererComponent (JTable table, Object value, boolean selected, boolean focused, int row, int column)
 {        
-    setBackground(Color.white);
+    
+    setForeground(Color.black);
     table.setForeground(Color.black);
     super.getTableCellRendererComponent(table, value, selected, focused, row, column);
     
     
-    if(table.getValueAt(row,columna).equals(EstadoAviso.ESTADO1))
+    if(table.getValueAt(row,columna).equals(PrioridadAviso.BAJA))
     {
-        this.setForeground(Color.RED);
+        this.setBackground(Color.green);
     
-    }else if(table.getValueAt(row, columna).equals(EstadoAviso.ESTADO2)){
-        this.setForeground(Color.GREEN);
+    }else if(table.getValueAt(row, columna).equals(PrioridadAviso.MEDIA)){
+        this.setBackground(Color.yellow);
+    }else if(table.getValueAt(row, columna).equals(PrioridadAviso.ALTA))
+    {
+          this.setBackground(Color.red);
+    }else if(table.getValueAt(row, columna).equals(PrioridadAviso.URGENTE))
+    {
+        this.setForeground(Color.white);
+          this.setBackground(Color.black);
     }
+        
     return this;
   }
   }

@@ -210,6 +210,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         nodos();
         txtFiltro.requestFocus();
+        
         this.setVisible(true);
 
     }

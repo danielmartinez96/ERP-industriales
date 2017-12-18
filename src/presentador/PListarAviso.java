@@ -41,7 +41,7 @@ public class PListarAviso {
              {
                  sql+=" AND ";
              }
-              sql+=" locate ('"+fecha+"',fecha_creacion)" ;
+              sql+=" fecha_creacion BETWEEN "+fecha+" " ;
          }
         
          if(sql==" WHERE")
