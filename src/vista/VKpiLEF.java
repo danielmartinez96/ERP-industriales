@@ -5,18 +5,27 @@
  */
 package vista;
 
+import com.toedter.calendar.JDateChooser;
+import gestorBD.RepositorioMantenimiento;
+import java.util.ArrayList;
+import javax.swing.JComboBox;
+import modelo.Maquina;
+import presentador.PKpiLEF;
+import presentador.interfaces.IVKpiLEF;
+
 /**
  *
  * @author Usuario
  */
-public class VKpiLEF extends javax.swing.JDialog {
+public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
 
-    /**
-     * Creates new form VKpiLEF
-     */
+    PKpiLEF presentador;
+    
     public VKpiLEF(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.presentador=new PKpiLEF(this);
+        acualizar();
     }
 
     /**
@@ -36,7 +45,7 @@ public class VKpiLEF extends javax.swing.JDialog {
         jSeparator2 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        comboMaquinaria = new javax.swing.JComboBox();
+        cbMaquinaria = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
@@ -53,6 +62,7 @@ public class VKpiLEF extends javax.swing.JDialog {
         dateDesde = new com.toedter.calendar.JDateChooser();
         lblEsperado = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -70,14 +80,14 @@ public class VKpiLEF extends javax.swing.JDialog {
         );
         pnlGraficaLayout.setVerticalGroup(
             pnlGraficaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 335, Short.MAX_VALUE)
         );
 
         jLabel4.setText("Hasta:");
 
         jLabel3.setText("Desde");
 
-        comboMaquinaria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbMaquinaria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel2.setText("Maquinaria: ");
 
@@ -90,6 +100,11 @@ public class VKpiLEF extends javax.swing.JDialog {
         lblTolerancia.setText("labelTolerancia");
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         jLabel14.setText("Estado: ");
 
@@ -106,6 +121,13 @@ public class VKpiLEF extends javax.swing.JDialog {
         lblEsperado.setText("labelEsperado");
 
         jLabel11.setText("%");
+
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -129,7 +151,7 @@ public class VKpiLEF extends javax.swing.JDialog {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(comboMaquinaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(cbMaquinaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -165,7 +187,10 @@ public class VKpiLEF extends javax.swing.JDialog {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(pnlGrafica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel15))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -180,7 +205,7 @@ public class VKpiLEF extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(comboMaquinaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbMaquinaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -217,16 +242,30 @@ public class VKpiLEF extends javax.swing.JDialog {
                             .addComponent(lblTolerancia)
                             .addComponent(jLabel13))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel14)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel14))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnlGrafica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(pnlGrafica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(btnSalir)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        
+        buscarValorKpi((Maquina) cbMaquinaria.getSelectedItem(), dateDesde, dateHasta);
+        
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -272,7 +311,8 @@ public class VKpiLEF extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JComboBox comboMaquinaria;
+    private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox cbMaquinaria;
     private javax.swing.JComboBox comboTipoGrafica;
     private com.toedter.calendar.JDateChooser dateDesde;
     private com.toedter.calendar.JDateChooser dateHasta;
@@ -297,4 +337,24 @@ public class VKpiLEF extends javax.swing.JDialog {
     private javax.swing.JLabel lblValorActual;
     private javax.swing.JPanel pnlGrafica;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void acualizar() {
+        ArrayList<Maquina> maquinas = presentador.getMaquinas();
+
+        for (Maquina maquina : maquinas) {
+            cbMaquinaria.addItem(maquina);
+        }
+        
+        setVisible(true);
+    }
+    
+    public float buscarValorKpi(Maquina maquina, JDateChooser desde, JDateChooser hasta){
+        float valorActual=0;
+        
+        RepositorioMantenimiento.getPartes(maquina.getId());
+                
+        
+        return valorActual;    
+    };
 }
