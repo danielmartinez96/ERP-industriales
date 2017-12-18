@@ -10,6 +10,7 @@ package modelo.enumeraciones;
  * @author DanielM
  */
 public enum EstadoAviso {
-    ESTADO1,
-    ESTADO2
+    ABIERTO,
+    EN_TRATAMIENTO,
+    CERRADO
 }

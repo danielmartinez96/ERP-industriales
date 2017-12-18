@@ -68,9 +68,9 @@ public class POrdenTrabajo {
 
     }
 
-    public ArrayList<Aviso> getAvisos() {
+    public Aviso getAviso(int key) {
 
-       return  RepositorioMantenimiento.getAvisosOT();
+       return  RepositorioMantenimiento.getAviso(key);
     }
 
 }

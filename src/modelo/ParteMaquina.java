@@ -12,6 +12,7 @@ package modelo;
 public class ParteMaquina {
     private int id;
     private String descripcion;
+    private int idMaquina;
 
     public ParteMaquina() {
     }
@@ -35,6 +36,14 @@ public class ParteMaquina {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public int getIdMaquina() {
+        return idMaquina;
+    }
+
+    public void setIdMaquina(int idMaquina) {
+        this.idMaquina = idMaquina;
     }
 
     @Override

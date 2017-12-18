@@ -17,5 +17,6 @@ public interface IVOrdenTrabajo {
     void actualizar();
     public void agregarParte(ArrayList<ParteMaquina> pm);
     void agregarListener();
+    void agregarAviso(int key);
     
 }

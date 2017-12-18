@@ -5,7 +5,11 @@
  */
 package modelo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import modelo.enumeraciones.EstadoOT;
 import modelo.enumeraciones.Responsable;
 import modelo.enumeraciones.TipoOT;
@@ -18,11 +22,12 @@ public class OrdenTrabajo {
     private int id;
     private EstadoOT estado;
     private TipoOT tipo;
-    private Calendar FechaInicio;
-    private Calendar FechaFin;
+    private Calendar fechaInicio;
+    private Calendar fechaFin;
     private ParteMaquina parte;
     private Responsable resp;
     private Aviso aviso;
+    final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
     public OrdenTrabajo() {
     }
@@ -31,8 +36,8 @@ public class OrdenTrabajo {
         this.id = id;
         this.estado = estado;
         this.tipo = tipo;
-        this.FechaInicio = FechaInicio;
-        this.FechaFin = FechaFin;
+        this.fechaInicio = FechaInicio;
+        this.fechaFin = FechaFin;
     }
 
     public Aviso getAviso() {
@@ -68,23 +73,100 @@ public class OrdenTrabajo {
     public void setTipo(TipoOT tipo) {
         this.tipo = tipo;
     }
+    public void setFechaInicio(Calendar fechaInicio) {
 
-    public Calendar getFechaInicio() {
-        return FechaInicio;
+            
+     
+      int year       = fechaInicio.get(Calendar.YEAR);
+      int month      = fechaInicio.get(Calendar.MONTH);
+      int dayOfMonth = fechaInicio.get(Calendar.DAY_OF_MONTH);
+      
+      int hour       = fechaInicio.get(Calendar.HOUR_OF_DAY);
+      int minute     = fechaInicio.get(Calendar.MINUTE);
+      
+      fechaInicio= new GregorianCalendar(year, month, dayOfMonth, hour, minute);
+      
+        try {
+            Date date = sdf.parse(sdf.format(fechaInicio.getTime()));
+             this.fechaInicio= Calendar.getInstance();
+            this.fechaInicio.setTime(date);
+
+        
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
+   
+    }
+    public void setFechaInicio(String fecha) {
+
+      
+       
+        try {
+            Date date = sdf.parse(fecha);
+            this.fechaInicio= Calendar.getInstance();
+            this.fechaInicio.setTime(date);
+            
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
+   
+    }
+    public String getFechaInicio() {
+           return sdf.format(fechaInicio.getTime());
     }
 
-    public void setFechaInicio(Calendar FechaInicio) {
-        this.FechaInicio = FechaInicio;
+ 
+
+    public String getFechaFin() {
+           return sdf.format(fechaFin.getTime());
     }
 
-    public Calendar getFechaFin() {
-        return FechaFin;
-    }
+     public void setFechaFin(Calendar fechaFin) {
 
-    public void setFechaFin(Calendar FechaFin) {
-        this.FechaFin = FechaFin;
+            
+      
+      int year       = fechaFin.get(Calendar.YEAR);
+      int month      = fechaFin.get(Calendar.MONTH);
+      int dayOfMonth = fechaFin.get(Calendar.DAY_OF_MONTH);
+      
+      int hour       = fechaFin.get(Calendar.HOUR_OF_DAY);
+      int minute     = fechaFin.get(Calendar.MINUTE);
+      
+      fechaFin= new GregorianCalendar(year, month, dayOfMonth, hour, minute);
+      
+        try {
+            Date date = sdf.parse(sdf.format(fechaFin.getTime()));
+            this.fechaFin= Calendar.getInstance();
+            this.fechaFin.setTime(date);
+            
+            
+         
+             
+            this.fechaInicio.setTime(date);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
+   
     }
+    public void setFechaFin(String fecha) {
 
+    
+       
+        try {
+            Date date = sdf.parse(fecha);
+             this.fechaFin= Calendar.getInstance();
+            this.fechaFin.setTime(date);
+            
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
+   
+    }
+  
     public ParteMaquina getParte() {
         return parte;
     }

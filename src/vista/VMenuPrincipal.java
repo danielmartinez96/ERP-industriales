@@ -7,9 +7,12 @@ package vista;
 
 import presentador.interfaces.IVMenuPrincipal;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,12 +20,9 @@ import javax.swing.JOptionPane;
  * @author Axel y Ampy
  */
 import presentador.PMenuPrincipal;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
 import vista.componentes.Nodo;
 
 public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipal{
@@ -75,11 +75,17 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         txtFiltro.setName("txtCodigoOperacion"); // NOI18N
         txtFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFiltroActionPerformed(evt);
+            }
+        });
+        txtFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtFiltroKeyPressed(evt);
             }
         });
 
@@ -89,6 +95,11 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
+            }
+        });
+        btnBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnBuscarKeyPressed(evt);
             }
         });
 
@@ -157,6 +168,19 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
         dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void btnBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBuscarKeyPressed
+      
+    }//GEN-LAST:event_btnBuscarKeyPressed
+
+    private void txtFiltroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyPressed
+        if(evt.getKeyCode()== KeyEvent.VK_ENTER)
+        {
+            ejecutarBusqueda();
+        }
+      
+// TODO add your handling code here:
+    }//GEN-LAST:event_txtFiltroKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -176,7 +200,21 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
     private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
 
-    private void nodos() {
+ 
+    @Override
+    public void configuracion() {
+        setTitle("MAGNA ERP - Sistemas Industriales");
+        //TOOLKIT NOS AYUDA A OBTENER LAS DIMENCIONES DE PANTALLA, ASI LA APLICACION SE AJUSTA AUTOMATICAMENTE.
+        setSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+        this.setLocationRelativeTo(this);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        nodos();
+        txtFiltro.requestFocus();
+        
+        this.setVisible(true);
+
+    }
+       private void nodos() {
 
         DefaultMutableTreeNode top = new DefaultMutableTreeNode("ERP- Sistemas Industriales");
         TreeModel modeloArbol = new DefaultTreeModel(top);
@@ -254,12 +292,18 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     Object path = arbol.getLastSelectedPathComponent();
-                    try {
-                        Nodo nodo = (Nodo) path;
-                        mostrarVista(nodo.getCodigo());
-                    } catch (Exception ex) {
-                    };
-
+                   
+                
+                
+                     Nodo nodo = (Nodo) path;
+                     try{
+                          mostrarVista(nodo.getCodigo());
+                     }
+                    catch(Exception ev)
+                {
+                    ev.printStackTrace();
+                }
+ 
                     if (path == null) {
                         return;
                     }
@@ -272,18 +316,11 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
 
     }
 
-    @Override
-    public void configuracion() {
-        setTitle("MAGNA ERP - Sistemas Industriales");
-        //TOOLKIT NOS AYUDA A OBTENER LAS DIMENCIONES DE PANTALLA, ASI LA APLICACION SE AJUSTA AUTOMATICAMENTE.
-        setSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
-        nodos();
-        this.setVisible(true);
-
-    }
+ 
 
     @Override
     public void mostrarVista(String comando) {
+        comando= comando.toUpperCase();
         switch (comando) {
             case "IM01":
                 new VAviso(this, true);

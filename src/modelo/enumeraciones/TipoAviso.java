@@ -12,8 +12,13 @@ import java.util.ArrayList;
  * @author DanielM
  */
 public enum TipoAviso {
-    P,
-    C,
-    U
-
+    Tarjeta_Blanca,
+    Tarjeta_Roja,
+     Tarjeta_Azul,
+    Tarjeta_Amarilla,
+    Parada_de_Planta,
+    Aviso_de_Averia,
+    Aviso_de_actividad,
+    Pequeños_paros,
+    Fallos
 }
