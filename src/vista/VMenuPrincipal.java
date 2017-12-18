@@ -340,6 +340,9 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
             case "CF02":
                 new VConsultaFallo(this, true);
                 break;
+            case "LEF":
+                new VKpiLEF(this, true);
+                break;
             default:
                 JOptionPane.showMessageDialog(null, "Ese comando no esta definido");
                 break;

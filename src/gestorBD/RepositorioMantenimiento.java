@@ -84,7 +84,7 @@ public class RepositorioMantenimiento {
 
     public static Maquina getMaquina(int Maquina) {
         Maquina m = new Maquina();
-       EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
+        EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
                 m.setId(resultSet.getInt("id_maquina"));
                 m.setDescripcion(resultSet.getString("descripcion"));
@@ -121,7 +121,7 @@ public class RepositorioMantenimiento {
                 pm.setDescripcion(resultSet.getString("descripcion"));
                 pm.setIdMaquina(resultSet.getInt("id_maquina"));
             }
-        }, "SELECT * FROM partes_de_maquina WHERE id_parte_de_maquina=" +id);
+        }, "SELECT * FROM partes_de_maquina WHERE id_parte_de_maquina=" + id);
 
         return pm;
     }
@@ -232,24 +232,22 @@ public class RepositorioMantenimiento {
     }
 
 
-    
     public static ArrayList<FalloDeMaquina> listarFallos() {
         ArrayList<FalloDeMaquina> fallos = new ArrayList<>();
         EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
                 FalloDeMaquina fallo = new FalloDeMaquina();
-                
+
                 fallo.setCausaFalla(CausaFalla.valueOf(resultSet.getString("causa")));
                 fallo.setDetalle(resultSet.getString("detalle"));
                 fallo.setParteMaquina(getParte(resultSet.getInt("id_parte_de_maquina")));
                 fallo.setSintomaFalla(SintomaFalla.valueOf(resultSet.getString("sintoma")));
-               
+
                 // ESTE FRAGMENTO SIRVE PARA MANEJAR LA COINCIDENCIA DE LOS TIPOS CALENDAR Y STRING. 
             
                 fallo.setFechaInicio(resultSet.getString("fecha_creacion"));
                 //*******************************************************************************
 
-               
                 fallos.add(fallo);
             }
 
@@ -257,6 +255,7 @@ public class RepositorioMantenimiento {
 
         return fallos;
     }
+
     /*
      public static void agregarMaquina(Maquina maquina) {
      EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO maquina(id,tipo,descripcion,parte_de_maquina) VALUES("
@@ -276,25 +275,21 @@ public class RepositorioMantenimiento {
     return key;
     }
 
-    public static Aviso getAviso(int id)
-    {
-         Aviso aviso = new Aviso();
+    public static Aviso getAviso(int id) {
+        Aviso aviso = new Aviso();
         EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
-               
+
                 aviso.setId(resultSet.getInt("id_aviso"));
                 aviso.setDescripcion(resultSet.getString("descripcion"));
 
-                
-                
-              
             }
 
-        }, "SELECT * FROM avisos where id_aviso="+id);
+        }, "SELECT * FROM avisos where id_aviso=" + id);
 
         return aviso;
     }
-    
+
     // Quizas deberiamos filtrar segun el estado de aviso cuando es para cargar la ot
     public static ArrayList<Aviso> getAvisosOT() {
         ArrayList<Aviso> avisos = new ArrayList<>();
@@ -304,8 +299,6 @@ public class RepositorioMantenimiento {
                 aviso.setId(resultSet.getInt("id_aviso"));
                 aviso.setDescripcion(resultSet.getString("descripcion"));
 
-                
-                
                 avisos.add(aviso);
             }
 
@@ -333,8 +326,8 @@ public class RepositorioMantenimiento {
     }
 
     public static ArrayList<OrdenTrabajo> listarOT() {
-        
- ArrayList<OrdenTrabajo> ordenes = new ArrayList<>();
+
+        ArrayList<OrdenTrabajo> ordenes = new ArrayList<>();
         EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
                OrdenTrabajo ot = new OrdenTrabajo();
@@ -345,7 +338,7 @@ public class RepositorioMantenimiento {
                 ot.setAviso(getAviso(resultSet.getInt("id_aviso")));
                 ot.setResp(Responsable.valueOf(resultSet.getString("responsable")));
                 ot.setParteMaquina(getParte(resultSet.getInt("parte_maquina")));
-                
+
                 ordenes.add(ot);
             }
 

@@ -38,9 +38,9 @@ public class Graficador {
         DefaultCategoryDataset lineChartDataset = new DefaultCategoryDataset();
         lineChartDataset.addValue(80, "visitas", "Julio");
         lineChartDataset.addValue(300, "visitas", "Agosto");
-        lineChartDataset.addValue(600, "visitas", "Septiembre");
-        lineChartDataset.addValue(1200, "visitas", "Octubre"); 
-        lineChartDataset.addValue(2400, "visitas", "Noviembre");   
+        lineChartDataset.addValue(1450, "visitas", "Septiembre");
+        lineChartDataset.addValue(1400, "visitas", "Octubre"); 
+        lineChartDataset.addValue(1000, "visitas", "Noviembre");   
 
         //Creamos un Chart
         JFreeChart chart = ChartFactory.createLineChart("Ejemplo de grafico de curva", "Vaiable 1", "Variable 2", lineChartDataset, PlotOrientation.VERTICAL, true, true, false);

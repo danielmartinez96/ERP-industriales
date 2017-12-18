@@ -6,6 +6,7 @@
 package erp.main;
 
 import vista.VMenuPrincipal;
+import vista.componentes.Graficador;
 /**
  *
  * @author Axel y Ampy
@@ -39,9 +40,9 @@ public class ERP {
         
         
         
-      //  Graficador g = new Graficador();
-       // g.iniciarGraficoDeCurva();
-       // g.iniciarGraficoTorta();
+      Graficador g = new Graficador();
+       g.iniciarGraficoDeCurva();
+       g.iniciarGraficoTorta();
        
     }
     
