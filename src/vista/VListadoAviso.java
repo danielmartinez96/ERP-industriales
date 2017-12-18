@@ -600,9 +600,10 @@ txtPaginaActual.addKeyListener(new KeyAdapter()
       
         if(TableAvisos.getSelectedRow()!=-1)
         {
-            int filaSeleccionada = TableAvisos.getRowSorter().
-                    convertRowIndexToModel(TableAvisos.getSelectedRow()); 
-            int i = (int) TableAvisos.getModel().getValueAt(filaSeleccionada, 0);
+     //       int filaSeleccionada = TableAvisos.getRowSorter().
+       //             convertRowIndexToModel(TableAvisos.getSelectedRow());
+            int filaSeleccionada= TableAvisos.getSelectedRow();
+            int i = (int) TableAvisos.getModel().getValueAt(filaSeleccionada, 2);
            
             IVOrdenTrabajo vista = new VOrdenTrabajo (parent, true,i);
             
