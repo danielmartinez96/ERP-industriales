@@ -11,9 +11,8 @@ import modelo.Maquina;
  *
  * @author Usuario
  */
-public interface IVKpiLEF {
-    public void acualizar();
-    public void actualizarGrafica(Maquina maquina);
+public interface IVKpiOEE {
+    public void actualizar();
     public void calcularValorKpi(Maquina maquina);
-    
+    public void actualizarGrafica(Maquina maquina);
 }

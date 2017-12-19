@@ -13,7 +13,8 @@ public class ParteMaquina {
     private int id;
     private String descripcion;
     private int idMaquina;
-
+    private int tiempoFallo;
+    
     public ParteMaquina() {
     }
 
@@ -46,6 +47,16 @@ public class ParteMaquina {
         this.idMaquina = idMaquina;
     }
 
+    public int getTiempoFallo() {
+        return tiempoFallo;
+    }
+
+    public void setTiempoFallo(int tiempoFallo) {
+        this.tiempoFallo = tiempoFallo;
+    }
+
+    
+    
     @Override
     public String toString() {
         return descripcion; //To change body of generated methods, choose Tools | Templates.

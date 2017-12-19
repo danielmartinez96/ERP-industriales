@@ -92,7 +92,7 @@ public class RepositorioMantenimiento {
                 m.setTipoMaquina(TipoMaquina.valueOf(resultSet.getString("tipo")));
             }
 
-        }, "SELECT * FROM maquinas WHERE id_maquina="+Maquina);
+        }, "SELECT * FROM maquinas WHERE id_maquina=" + Maquina);
 
         return m;
     }
@@ -108,7 +108,7 @@ public class RepositorioMantenimiento {
                 partes.add(pm);
             }
 
-        }, "SELECT * FROM partes_de_maquina WHERE id_maquina=" + id+" ORDER BY descripcion");
+        }, "SELECT * FROM partes_de_maquina WHERE id_maquina=" + id + " ORDER BY descripcion");
 
         return partes;
 
@@ -129,18 +129,16 @@ public class RepositorioMantenimiento {
 
     public static ArrayList<Aviso> listarAvisos(String sql) {
         ArrayList<Aviso> avisos = new ArrayList<>();
-       
+
         EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
                 Aviso aviso = new Aviso();
-                 ParteMaquina ptm;
+                ParteMaquina ptm;
                 aviso.setId(resultSet.getInt("id_aviso"));
                 aviso.setEstado(EstadoAviso.valueOf(resultSet.getString("estado")));
                 aviso.setTipo(TipoAviso.valueOf(resultSet.getString("tipo")));
 
                 // ESTE FRAGMENTO SIRVE PARA MANEJAR LA COINCIDENCIA DE LOS TIPOS CALENDAR Y STRING. 
-             
-               
                 aviso.setCreacion(resultSet.getString("fecha_creacion"));
                 //*******************************************************************************
 
@@ -148,13 +146,13 @@ public class RepositorioMantenimiento {
                 aviso.setCantNecesariaRep(resultSet.getInt("cantidad_necesaria_reparacion"));
                 aviso.setSectorResponsable(Sector.valueOf(resultSet.getString("sector_responsable")));
                 aviso.setPrioridad(PrioridadAviso.valueOf(resultSet.getString("prioridad")));
-                ptm=getParte(resultSet.getInt("id_parte_de_maquina"));
+                ptm = getParte(resultSet.getInt("id_parte_de_maquina"));
                 aviso.setParteMaquina(ptm);
                 aviso.setPersonal(getPersonal(resultSet.getInt("id_solicitante")));
                 aviso.setMaquina(getMaquina(ptm.getIdMaquina()));
-                
+
                 avisos.add(aviso);
-        /*        
+                /*        
                 System.out.println("id:"+aviso.getId());
                 System.out.println("est:"+aviso.getEstado());
                 System.out.println("tip:"+aviso.getTipo());
@@ -166,37 +164,35 @@ public class RepositorioMantenimiento {
                 System.out.println("idparma:"+aviso.getParteMaquina().getId());
                 System.out.println("pers:"+aviso.getPersonal().getId());
                 System.out.println("maq:"+aviso.getMaquina().getId()); */
-           }
+            }
 
-        }, "SELECT * FROM avisos "+sql);
+        }, "SELECT * FROM avisos " + sql);
 
         return avisos;
     }
-      public static Page listarAvisosPaginacion(String sql,final int page, final int pageSize) {
+
+    public static Page listarAvisosPaginacion(String sql, final int page, final int pageSize) {
         Page pagina = new Page();
-       
-        EjecutorRutinaDB.getPage((resultSet) ->
-        {
-           
-               final int first = getStartItemByPage(page, pageSize);
-                    ArrayList<Aviso> avisos = new ArrayList<>();
-                    
-                   int countAdds = 0; // Para llevar la cuenta
-                  
-                   boolean more = resultSet.absolute(first); 
-                   
-                   while (more) {
-            
-          
-              Aviso aviso = new Aviso();
-                 ParteMaquina ptm;
+
+        EjecutorRutinaDB.getPage((resultSet)
+                -> {
+
+            final int first = getStartItemByPage(page, pageSize);
+            ArrayList<Aviso> avisos = new ArrayList<>();
+
+            int countAdds = 0; // Para llevar la cuenta
+
+            boolean more = resultSet.absolute(first);
+
+            while (more) {
+
+                Aviso aviso = new Aviso();
+                ParteMaquina ptm;
                 aviso.setId(resultSet.getInt("id_aviso"));
                 aviso.setEstado(EstadoAviso.valueOf(resultSet.getString("estado")));
                 aviso.setTipo(TipoAviso.valueOf(resultSet.getString("tipo")));
 
                 // ESTE FRAGMENTO SIRVE PARA MANEJAR LA COINCIDENCIA DE LOS TIPOS CALENDAR Y STRING. 
-             
-               
                 aviso.setCreacion(resultSet.getString("fecha_creacion"));
                 //*******************************************************************************
 
@@ -204,34 +200,28 @@ public class RepositorioMantenimiento {
                 aviso.setCantNecesariaRep(resultSet.getInt("cantidad_necesaria_reparacion"));
                 aviso.setSectorResponsable(Sector.valueOf(resultSet.getString("sector_responsable")));
                 aviso.setPrioridad(PrioridadAviso.valueOf(resultSet.getString("prioridad")));
-                ptm=getParte(resultSet.getInt("id_parte_de_maquina"));
+                ptm = getParte(resultSet.getInt("id_parte_de_maquina"));
                 aviso.setParteMaquina(ptm);
                 aviso.setPersonal(getPersonal(resultSet.getInt("id_solicitante")));
                 aviso.setMaquina(getMaquina(ptm.getIdMaquina()));
-                
-                avisos.add(aviso);
-            if (++ countAdds == pageSize) {
-                break;
-            }
-            more = resultSet.next();
-        }
-        resultSet.last();
-        int totalElements = resultSet.getRow(); // El ultimo elemento
-        
-        
-        pagina.setPage(page);
-        pagina.setPageSize(pageSize);
-        pagina.setTotalElements(totalElements);
-        pagina.setResults(avisos); 
-        }, "SELECT * FROM avisos "+sql);
-                   
-        
 
-        
+                avisos.add(aviso);
+                if (++countAdds == pageSize) {
+                    break;
+                }
+                more = resultSet.next();
+            }
+            resultSet.last();
+            int totalElements = resultSet.getRow(); // El ultimo elemento
+
+            pagina.setPage(page);
+            pagina.setPageSize(pageSize);
+            pagina.setTotalElements(totalElements);
+            pagina.setResults(avisos);
+        }, "SELECT * FROM avisos " + sql);
 
         return pagina;
     }
-
 
     public static ArrayList<FalloDeMaquina> listarFallos() {
         ArrayList<FalloDeMaquina> fallos = new ArrayList<>();
@@ -245,12 +235,11 @@ public class RepositorioMantenimiento {
                 fallo.setSintomaFalla(SintomaFalla.valueOf(resultSet.getString("sintoma")));
 
                 // ESTE FRAGMENTO SIRVE PARA MANEJAR LA COINCIDENCIA DE LOS TIPOS CALENDAR Y STRING. 
-            
                 fallo.setFechaInicio(resultSet.getString("fecha_creacion"));
                 //*******************************************************************************
                 fallo.setTiempoDeFalla(resultSet.getString("tiempo_falla"));
                 fallo.setDias(resultSet.getInt("dias"));
-                
+
                 fallos.add(fallo);
             }
 
@@ -267,15 +256,15 @@ public class RepositorioMantenimiento {
      }
      */
     public static int agregarAviso(Aviso aviso) {
-        int key= EjecutorRutinaDB.ejecutarUpdateStatementConKey("INSERT INTO avisos(estado, tipo, id_solicitante, maquina, fecha_creacion, descripcion,"
+        int key = EjecutorRutinaDB.ejecutarUpdateStatementConKey("INSERT INTO avisos(estado, tipo, id_solicitante, maquina, fecha_creacion, descripcion,"
                 + "cantidad_necesaria_reparacion, sector_responsable, prioridad, id_parte_de_maquina) "
                 + "VALUES(" + "'" + aviso.getEstado() + "','" + aviso.getTipo() + "','" + aviso.getPersonal().getId() + "','"
                 + aviso.getMaquina() + "','" + aviso.getCreacion() + "','" + aviso.getDescripcion() + "','"
                 + aviso.getCantNecesariaRep() + "','" + aviso.getSectorResponsable() + "','" + aviso.getPrioridad() + "',"
                 + aviso.getParteMaquina().getId() + ")");
-        
+
         System.out.println(key);
-    return key;
+        return key;
     }
 
     public static Aviso getAviso(int id) {
@@ -315,17 +304,17 @@ public class RepositorioMantenimiento {
         //                                            + "VALUES("+"'"+ot.getEstado() + "','" + ot.getTipo() + "','" + ot.getResp() 
         //                                          + "','" + ot.getFechaInicio().getTime() + "','" + ot.getFechaFin().getTime() + "','" + ot.getParte()+"')");
         EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(id_aviso,estado, id_responsable, fecha_inicio, fecha_fin, parte_maquina,tipo_ot,) "
-                + "VALUES('" + ot.getAviso().getId() + "','" + ot.getEstado() + "','" + ot.getResp().getId()+
-                 "','" + ot.getFechaInicio() + "','" + ot.getFechaFin() + "','" + ot.getParte().getId() + "','" + ot.getTipo().toString() +"','"+ot.getOperaciones()+ "')");
-    
-        EjecutorRutinaDB.ejecutarUpdateStatement("UPDATE avisos SET estado ='"+ot.getAviso().getEstado()+"' where id_aviso="+ot.getAviso().getId());
+                + "VALUES('" + ot.getAviso().getId() + "','" + ot.getEstado() + "','" + ot.getResp().getId()
+                + "','" + ot.getFechaInicio() + "','" + ot.getFechaFin() + "','" + ot.getParte().getId() + "','" + ot.getTipo().toString() + "','" + ot.getOperaciones() + "')");
+
+        EjecutorRutinaDB.ejecutarUpdateStatement("UPDATE avisos SET estado ='" + ot.getAviso().getEstado() + "' where id_aviso=" + ot.getAviso().getId());
     }
 
     public static void cargarFallo(FalloDeMaquina fallo) {
-        
-         EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO fallo_maquina(fecha_creacion,sintoma, causa, detalle,id_parte_de_maquina,tiempo_falla,dias) "
-                + "VALUES('" + fallo.getFechaInicio() + "','" + fallo.getSintomaFalla()+ "','" + fallo.getCausaFalla()
-                + "','" + fallo.getDetalle() + "','" + fallo.getParteMaquina().getId() + "','"+fallo.getTiempoDeFalla()+"','"+fallo.getDias()+"')");
+
+        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO fallo_maquina(fecha_creacion,sintoma, causa, detalle,id_parte_de_maquina,tiempo_falla,dias) "
+                + "VALUES('" + fallo.getFechaInicio() + "','" + fallo.getSintomaFalla() + "','" + fallo.getCausaFalla()
+                + "','" + fallo.getDetalle() + "','" + fallo.getParteMaquina().getId() + "','" + fallo.getTiempoDeFalla() + "','" + fallo.getDias() + "')");
     }
 
     public static ArrayList<OrdenTrabajo> listarOT() {
@@ -333,7 +322,7 @@ public class RepositorioMantenimiento {
         ArrayList<OrdenTrabajo> ordenes = new ArrayList<>();
         EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
-               OrdenTrabajo ot = new OrdenTrabajo();
+                OrdenTrabajo ot = new OrdenTrabajo();
                 ot.setEstado(EstadoOT.valueOf(resultSet.getString("estado")));
                 ot.setFechaInicio(resultSet.getString("fecha_inicio"));
                 ot.setFechaFin(resultSet.getString("fecha_fin"));
@@ -351,10 +340,49 @@ public class RepositorioMantenimiento {
     }
 
     public static ArrayList<Operacion> obtenerOperaciones(int idParteMaquina) {
- return null;
-    //    EjecutorRutinaDB.ejecutarSelectStatement(ejecucionResultSet, "SELECT * FROM tabla_ot WHERE id_");
+        return null;
+        //    EjecutorRutinaDB.ejecutarSelectStatement(ejecucionResultSet, "SELECT * FROM tabla_ot WHERE id_");
     }
 
-   
-    
+    public static ArrayList<FalloDeMaquina> obtenerTiemposFallos(int idParte) {
+        ArrayList<FalloDeMaquina> fallos = new ArrayList<>();
+       
+        EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
+            while (resultSet.next()) {
+               
+                FalloDeMaquina fallo = new FalloDeMaquina();
+
+                fallo.setDias(Integer.valueOf(resultSet.getString("dias")));
+                fallo.setTiempoDeFalla(resultSet.getString("tiempo_falla"));      
+
+                fallos.add(fallo);
+                
+            }
+        }, "SELECT * FROM fallo_maquina WHERE id_parte_de_maquina=" + idParte);
+
+        return fallos;
+    }
+
+    public static void agregarTiempoFallaAParte(int idParte, int valor) {
+        EjecutorRutinaDB.ejecutarUpdateStatement("UPDATE partes_de_maquina SET tiempoFallo ='" + valor + "' where id_parte_de_maquina=" + idParte);
+    }
+
+    public static ArrayList<ParteMaquina> getPartesYTiempoFalla(int id) {
+        ArrayList<ParteMaquina> partes = new ArrayList<>();
+        EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
+            while (resultSet.next()) {
+                ParteMaquina pm = new ParteMaquina();
+                pm.setId(resultSet.getInt("id_parte_de_maquina"));
+                pm.setDescripcion(resultSet.getString("descripcion"));
+                pm.setTiempoFallo(Integer.valueOf(resultSet.getString("tiempoFallo")));
+                
+                partes.add(pm);
+            }
+
+        }, "SELECT * FROM partes_de_maquina WHERE id_maquina=" + id + " ORDER BY descripcion");
+
+        return partes;
+        
+    }
+
 }

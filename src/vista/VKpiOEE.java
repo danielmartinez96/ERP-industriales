@@ -5,28 +5,26 @@
  */
 package vista;
 
-import com.toedter.calendar.JDateChooser;
 import gestorBD.RepositorioMantenimiento;
 import java.util.ArrayList;
-import javax.swing.JComboBox;
 import modelo.Maquina;
 import modelo.enumeraciones.TipoGrafica;
-import presentador.PKpiLEF;
-import presentador.interfaces.IVKpiLEF;
+import presentador.PKpiOEE;
+import presentador.interfaces.IVKpiOEE;
 
 /**
  *
  * @author Usuario
  */
-public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
-
-    PKpiLEF presentador;
+public class VKpiOEE extends javax.swing.JDialog implements IVKpiOEE{
     
-    public VKpiLEF(java.awt.Frame parent, boolean modal) {
+    PKpiOEE presentador;
+   
+    public VKpiOEE(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.presentador=new PKpiLEF(this);
-        acualizar();
+        this.presentador = new PKpiOEE(this);
+        actualizar();
     }
 
     /**
@@ -38,10 +36,21 @@ public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel13 = new javax.swing.JLabel();
+        lblTolerancia = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        lblValorActual = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        dateDesde = new com.toedter.calendar.JDateChooser();
         dateHasta = new com.toedter.calendar.JDateChooser();
         cbTipoGrafica = new javax.swing.JComboBox();
+        lblEsperado = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        btnSalir = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -50,42 +59,12 @@ public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        lblTolerancia = new javax.swing.JLabel();
-        btnBuscar = new javax.swing.JButton();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        lblValorActual = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        dateDesde = new com.toedter.calendar.JDateChooser();
-        lblEsperado = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel5.setText("Tipo de grafica: ");
-
-        cbTipoGrafica.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel6.setText("Actual");
-
-        jLabel4.setText("Hasta:");
-
-        jLabel3.setText("Desde");
-
-        cbMaquinaria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel2.setText("Maquinaria: ");
-
-        jLabel1.setText("LEF - Eficiencia de maquina");
-
-        jLabel12.setText("Tolerancia: ");
-
         jLabel13.setText("%");
 
-        lblTolerancia.setText("labelTolerancia");
+        lblTolerancia.setText("10");
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -93,8 +72,6 @@ public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
                 btnBuscarActionPerformed(evt);
             }
         });
-
-        jLabel14.setText("Estado: ");
 
         jLabel8.setText("%");
 
@@ -104,9 +81,15 @@ public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
 
         jLabel7.setText("Valor: ");
 
-        lblEsperado.setText("labelEsperado");
+        jLabel5.setText("Tipo de grafica: ");
+
+        cbTipoGrafica.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblEsperado.setText("85");
 
         jLabel11.setText("%");
+
+        jLabel6.setText("Actual");
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -114,6 +97,18 @@ public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
                 btnSalirActionPerformed(evt);
             }
         });
+
+        jLabel4.setText("Hasta:");
+
+        jLabel3.setText("Desde");
+
+        cbMaquinaria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel2.setText("Maquinaria: ");
+
+        jLabel1.setText("OEE");
+
+        jLabel12.setText("Tolerancia: ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -166,9 +161,8 @@ public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(lblTolerancia)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel13))
-                                .addComponent(jLabel14)))
-                        .addGap(0, 65, Short.MAX_VALUE))
+                                    .addComponent(jLabel13))))
+                        .addGap(0, 43, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -220,9 +214,7 @@ public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
                     .addComponent(jLabel12)
                     .addComponent(lblTolerancia)
                     .addComponent(jLabel13))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(btnSalir)
                 .addContainerGap())
         );
@@ -258,20 +250,20 @@ public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VKpiLEF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VKpiOEE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VKpiLEF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VKpiOEE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VKpiLEF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VKpiOEE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VKpiLEF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VKpiOEE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                VKpiLEF dialog = new VKpiLEF(new javax.swing.JFrame(), true);
+                VKpiOEE dialog = new VKpiOEE(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -294,7 +286,6 @@ public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -311,14 +302,14 @@ public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void acualizar() {
+    public void actualizar() {
         ArrayList<Maquina> maquinas = presentador.getMaquinas();
         cbMaquinaria.removeAllItems();
         for (Maquina maquina : maquinas) {
             cbMaquinaria.addItem(maquina);
         }
         
-         TipoGrafica[] tipos = presentador.getTiposGraficas();
+        TipoGrafica[] tipos = presentador.getTiposGraficas();
         cbTipoGrafica.removeAllItems();
         for (int i = 0; i < tipos.length; i++) {
             cbTipoGrafica.addItem(tipos[i]);
@@ -326,16 +317,20 @@ public class VKpiLEF extends javax.swing.JDialog implements IVKpiLEF{
         
         setVisible(true);
     }
+
     
-    public void calcularValorKpi(Maquina maquina){
-         float valorKpi = presentador.calcularKpi(maquina);
+    @Override
+    public void calcularValorKpi(Maquina maquina) {
+        float valorKpi = presentador.calcularKpi(maquina);
         
         lblValorActual.setText(String.valueOf(valorKpi));
-       
-    };
+    }
 
     @Override
     public void actualizarGrafica(Maquina maquina) {
-         presentador.obtenerValoresGrafica(maquina,(TipoGrafica) cbTipoGrafica.getSelectedItem());
+        presentador.obtenerValoresGrafica(maquina,(TipoGrafica) cbTipoGrafica.getSelectedItem());
+        
     }
+    
+    
 }

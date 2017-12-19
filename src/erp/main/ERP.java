@@ -40,9 +40,9 @@ public class ERP {
         
         
         
-      Graficador g = new Graficador();
+      /*Graficador g = new Graficador();
        g.iniciarGraficoDeCurva();
-       g.iniciarGraficoTorta();
+       g.iniciarGraficoTorta();*/
        
     }
     

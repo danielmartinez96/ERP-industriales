@@ -7,22 +7,28 @@ package presentador;
 
 import gestorBD.RepositorioMantenimiento;
 import java.util.ArrayList;
-import modelo.KpiLEF;
+import modelo.KpiOEE;
 import modelo.Maquina;
 import modelo.ParteMaquina;
 import modelo.enumeraciones.TipoGrafica;
-import presentador.interfaces.IVKpiLEF;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+import presentador.interfaces.IVKpiOEE;
 import vista.componentes.Graficador;
 
 /**
  *
  * @author Usuario
  */
-public class PKpiLEF {
+public class PKpiOEE {
 
-    private final IVKpiLEF vista;
+    private final IVKpiOEE vista;
 
-    public PKpiLEF(IVKpiLEF vista) {
+    public PKpiOEE(IVKpiOEE vista) {
         this.vista = vista;
     }
 
@@ -36,14 +42,15 @@ public class PKpiLEF {
     }
 
     public float calcularKpi(Maquina maquina) {
-        KpiLEF oee = new KpiLEF();
+        KpiOEE oee = new KpiOEE();
         ArrayList<ParteMaquina> partes = new ArrayList<ParteMaquina>();
 
         partes = RepositorioMantenimiento.getPartes(maquina.getId());
 
-        float valorOEE = oee.calcularLEF(partes);
+        float valorOEE = oee.calcularOEE(partes);
 
         return valorOEE;
+
     }
 
     public void obtenerValoresGrafica(Maquina maquina, TipoGrafica tg) {
@@ -53,9 +60,9 @@ public class PKpiLEF {
         partes = RepositorioMantenimiento.getPartesYTiempoFalla(maquina.getId());
 
         if (tg.equals(TipoGrafica.BARRA)) {
-            g.iniciarGraficoDeBarra(partes, maquina, "LEF ");
-        } else if (tg.equals(TipoGrafica.TORTA)) {
-            g.iniciarGraficoTorta(partes, maquina, "LEF ");
+            g.iniciarGraficoDeBarra(partes, maquina, "OEE ");
+        } else if(tg.equals(TipoGrafica.TORTA)){
+            g.iniciarGraficoTorta(partes, maquina, "OEE ");
         }
     }
 
