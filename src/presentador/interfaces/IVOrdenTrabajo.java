@@ -14,7 +14,7 @@ import modelo.ParteMaquina;
  */
 public interface IVOrdenTrabajo {
     
-    void actualizar();
+    void configuracionTabla();
     public void agregarParte(ArrayList<ParteMaquina> pm);
     void agregarListener();
     void agregarAviso(int key);

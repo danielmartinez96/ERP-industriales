@@ -8,6 +8,7 @@ package presentador;
 import gestorBD.RepositorioMantenimiento;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import modelo.Aviso;
 import modelo.Maquina;
 import modelo.Operacion;
@@ -15,7 +16,6 @@ import modelo.OrdenTrabajo;
 import modelo.ParteMaquina;
 import modelo.Personal;
 import modelo.enumeraciones.EstadoOT;
-import modelo.enumeraciones.Responsable;
 import modelo.enumeraciones.TipoOT;
 import presentador.interfaces.IVOrdenTrabajo;
 
@@ -81,6 +81,38 @@ public class POrdenTrabajo {
     public ArrayList<Operacion> getOperaciones(int id) {
 
     return RepositorioMantenimiento.obtenerOperaciones(id);
+    }
+
+    public OrdenTrabajo buscarOT(int id) {
+   OrdenTrabajo ot= RepositorioMantenimiento.getOrdenDeTrabajo(id);
+   ot.setEstado(EstadoOT.TRATADA);
+   RepositorioMantenimiento.cambiarEstadoOt(ot);
+   return ot;
+    }
+
+    public Maquina getMaquina(int id) {
+        
+return RepositorioMantenimiento.getMaquina(id);
+        }
+
+    public void cerrarOt(OrdenTrabajo ot) {
+        RepositorioMantenimiento.cerrarOT(ot);
+        
+    }
+
+    public void guardarOT(Aviso av, EstadoOT estadoOT, TipoOT tipoOT, Personal responsable, Calendar calInicio, Date dInicio, Calendar calFin, Date dFin, ParteMaquina parteMaquina, String operaciones) {
+        OrdenTrabajo ot = new OrdenTrabajo();
+
+        ot.setAviso(av);
+        ot.setEstado(estadoOT);
+        ot.setTipo(tipoOT);
+        ot.setFechaInicio(calInicio,dInicio);
+        ot.setFechaFin(calFin,dFin);
+        ot.setParteMaquina(parteMaquina);
+        ot.setResp(responsable);
+        ot.setOperaciones(operaciones);
+
+        RepositorioMantenimiento.agregarOT(ot);
     }
 
 }

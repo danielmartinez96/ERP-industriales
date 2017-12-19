@@ -470,12 +470,9 @@ PCargarFallo presentador;
          try{
          Calendar calInicioFalla= cldInicioFalla.getCalendar();
         
-         Date date=(Date)horasInicio.getModel().getValue();
-         date.setDate(calInicioFalla.get(Calendar.DAY_OF_MONTH));
-         date.setMonth(calInicioFalla.get(Calendar.MONTH));
-         date.setYear(calInicioFalla.get(Calendar.YEAR));
-          Calendar fecha= Calendar.getInstance();        
-        fecha.setTime(date);
+         Date dateInicioFalla=(Date)horasInicio.getModel().getValue();
+         
+       
 
                     try
                         {
@@ -493,7 +490,7 @@ PCargarFallo presentador;
         calHorasFalla.setTime(dateTiempoFalla);
 
       
-        presentador.cargarFallo(pm, sintoma, causa, detalle, fecha,calHorasFalla,dias);
+        presentador.cargarFallo(pm, sintoma, causa, detalle, calInicioFalla,dateInicioFalla,calHorasFalla,dias);
              
         }catch(NullPointerException ex)
         { 

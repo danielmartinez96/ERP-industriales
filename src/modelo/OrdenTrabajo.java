@@ -23,6 +23,7 @@ public class OrdenTrabajo {
     private TipoOT tipo;
     private Calendar fechaInicio;
     private Calendar fechaFin;
+    private Calendar fechaReal;
     private ParteMaquina parte;
     private Personal resp;
     private Aviso aviso;
@@ -66,10 +67,10 @@ public class OrdenTrabajo {
         return id;
     }
 
-    /*
+    
     public void setId(int id) {
         this.id = id;
-    }*/
+    }
 
     public EstadoOT getEstado() {
         return estado;
@@ -86,10 +87,7 @@ public class OrdenTrabajo {
     public void setTipo(TipoOT tipo) {
         this.tipo = tipo;
     }
-    public void setFechaInicio(Calendar fechaInicio) {
-
-            
-     
+     public void setFechaInicio(Calendar fechaInicio) {
       int year       = fechaInicio.get(Calendar.YEAR);
       int month      = fechaInicio.get(Calendar.MONTH);
       int dayOfMonth = fechaInicio.get(Calendar.DAY_OF_MONTH);
@@ -126,16 +124,78 @@ public class OrdenTrabajo {
      
    
     }
+    public void setFechaReal(Calendar fechaReal) {
+
+            
+     
+      int year       = fechaReal.get(Calendar.YEAR);
+      int month      = fechaReal.get(Calendar.MONTH);
+      int dayOfMonth = fechaReal.get(Calendar.DAY_OF_MONTH);
+      
+      int hour       = fechaReal.get(Calendar.HOUR_OF_DAY);
+      int minute     = fechaReal.get(Calendar.MINUTE);
+      
+      fechaReal= new GregorianCalendar(year, month, dayOfMonth, hour, minute);
+      
+        try {
+            Date date = sdf.parse(sdf.format(fechaReal.getTime()));
+             this.fechaReal= Calendar.getInstance();
+            this.fechaReal.setTime(date);
+
+        
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
+   
+    }
+    public void setFechaReal(String fecha) {
+
+      try{
+       
+        try {
+            Date date = sdf.parse(fecha);
+            this.fechaReal= Calendar.getInstance();
+            this.fechaReal.setTime(date);
+            
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+      }catch(NullPointerException e)
+      {
+          this.fechaReal=null;
+      }
+      
+   
+    }
     public String getFechaInicio() {
            return sdf.format(fechaInicio.getTime());
     }
 
- 
+       public Calendar getFechaInicioCalendar() {
+           return fechaInicio;
+    }
+   public Calendar getFechaFinCalendar() {
+           return fechaFin;
+    }
 
     public String getFechaFin() {
            return sdf.format(fechaFin.getTime());
     }
 
+     public Calendar getFechaRealCalendar() {
+           return fechaReal;
+    }
+
+    public String getFechaReal() {
+        try{
+            return sdf.format(fechaReal.getTime()); 
+        }catch(NullPointerException ex)
+        {
+            return "No se cerro";
+        }   
+          
+    }
      public void setFechaFin(Calendar fechaFin) {
 
             
@@ -154,10 +214,8 @@ public class OrdenTrabajo {
             this.fechaFin= Calendar.getInstance();
             this.fechaFin.setTime(date);
             
+            this.fechaFin.setTime(date);
             
-         
-             
-            this.fechaInicio.setTime(date);
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
@@ -194,6 +252,52 @@ public class OrdenTrabajo {
 
     public void setResp(Personal resp) {
         this.resp = resp;
+    }
+
+    public void setFechaInicio(Calendar calInicio, Date dInicio) {
+            int year       = fechaInicio.get(Calendar.YEAR);
+      int month      = fechaInicio.get(Calendar.MONTH);
+      int dayOfMonth = fechaInicio.get(Calendar.DAY_OF_MONTH);
+      
+      int hour       = dInicio.getHours();
+      int minute     = dInicio.getMinutes();
+      
+      fechaInicio= new GregorianCalendar(year, month, dayOfMonth, hour, minute);
+      
+        try {
+            Date date = sdf.parse(sdf.format(fechaInicio.getTime()));
+             this.fechaInicio= Calendar.getInstance();
+            this.fechaInicio.setTime(date);
+
+        
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
+    }
+
+    public void setFechaFin(Calendar calFin, Date dFin) {
+      
+      int year       = fechaFin.get(Calendar.YEAR);
+      int month      = fechaFin.get(Calendar.MONTH);
+      int dayOfMonth = fechaFin.get(Calendar.DAY_OF_MONTH);
+      
+      int hour       = dFin.getHours();
+      int minute     = dFin.getMinutes();
+      
+      fechaFin= new GregorianCalendar(year, month, dayOfMonth, hour, minute);
+      
+        try {
+            Date date = sdf.parse(sdf.format(fechaFin.getTime()));
+            this.fechaFin= Calendar.getInstance();
+            this.fechaFin.setTime(date);
+            
+            this.fechaFin.setTime(date);
+            
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
     }
     
     

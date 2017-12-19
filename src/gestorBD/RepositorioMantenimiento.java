@@ -303,11 +303,12 @@ public class RepositorioMantenimiento {
         //      EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(estado, id_tipo_ot, responsable, fecha_inicio, fecha_fin, parte_maquina) "
         //                                            + "VALUES("+"'"+ot.getEstado() + "','" + ot.getTipo() + "','" + ot.getResp() 
         //                                          + "','" + ot.getFechaInicio().getTime() + "','" + ot.getFechaFin().getTime() + "','" + ot.getParte()+"')");
-        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(id_aviso,estado, id_responsable, fecha_inicio, fecha_fin, parte_maquina,tipo_ot,) "
-                + "VALUES('" + ot.getAviso().getId() + "','" + ot.getEstado() + "','" + ot.getResp().getId()
-                + "','" + ot.getFechaInicio() + "','" + ot.getFechaFin() + "','" + ot.getParte().getId() + "','" + ot.getTipo().toString() + "','" + ot.getOperaciones() + "')");
-
-        EjecutorRutinaDB.ejecutarUpdateStatement("UPDATE avisos SET estado ='" + ot.getAviso().getEstado() + "' where id_aviso=" + ot.getAviso().getId());
+        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(id_aviso,estado, id_responsable, fecha_inicio, fecha_fin, parte_maquina,tipo_ot,operaciones_definidas) "
+                + "VALUES('" + ot.getAviso().getId() + "','" + ot.getEstado() + "','" + ot.getResp().getId()+
+                 "','" + ot.getFechaInicio() + "','" + ot.getFechaFin() + "','" + ot.getParte().getId() + "','" + ot.getTipo().toString() +"','"+ot.getOperaciones()+ "')");
+    
+        cambiarEstadoAviso(ot.getAviso());
+        
     }
 
     public static void cargarFallo(FalloDeMaquina fallo) {
@@ -322,7 +323,8 @@ public class RepositorioMantenimiento {
         ArrayList<OrdenTrabajo> ordenes = new ArrayList<>();
         EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
-                OrdenTrabajo ot = new OrdenTrabajo();
+               OrdenTrabajo ot = new OrdenTrabajo();
+                 ot.setId(resultSet.getInt("id_ot"));
                 ot.setEstado(EstadoOT.valueOf(resultSet.getString("estado")));
                 ot.setFechaInicio(resultSet.getString("fecha_inicio"));
                 ot.setFechaFin(resultSet.getString("fecha_fin"));
@@ -330,7 +332,7 @@ public class RepositorioMantenimiento {
                 ot.setAviso(getAviso(resultSet.getInt("id_aviso")));
                 ot.setResp(getPersonal(resultSet.getInt("id_responsable")));
                 ot.setParteMaquina(getParte(resultSet.getInt("parte_maquina")));
-
+                ot.setFechaReal(resultSet.getString("fecha_real"));
                 ordenes.add(ot);
             }
 
@@ -340,8 +342,53 @@ public class RepositorioMantenimiento {
     }
 
     public static ArrayList<Operacion> obtenerOperaciones(int idParteMaquina) {
-        return null;
-        //    EjecutorRutinaDB.ejecutarSelectStatement(ejecucionResultSet, "SELECT * FROM tabla_ot WHERE id_");
+        ArrayList<Operacion> operaciones = new ArrayList<>();
+       EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
+           Operacion op= new Operacion();
+           if(resultSet.next())
+           {
+               op.setId(resultSet.getInt("id_operaciones"));
+               op.setDescripcion(resultSet.getString("descripcion"));
+               op.setIdParteMaquina(idParteMaquina);
+               op.setNombre("nombre");
+           }
+           
+       }, "SELECT * FROM operaciones WHERE id_parte_de_maquina="+idParteMaquina);
+       return operaciones;
+    }
+
+    public static OrdenTrabajo getOrdenDeTrabajo(int id) {
+      OrdenTrabajo orden= new OrdenTrabajo();
+       EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
+          
+           if(resultSet.next())
+           {
+            orden.setId(id);
+            orden.setAviso(getAviso(resultSet.getInt("id_ot")));
+            orden.setFechaFin(resultSet.getString("fecha_fin"));
+            orden.setFechaInicio(resultSet.getString("fecha_inicio"));
+            orden.setOperaciones(resultSet.getString("operaciones_definidas"));
+            orden.setTipo(TipoOT.valueOf(resultSet.getString("tipo_ot")));
+            orden.setParteMaquina(getParte(resultSet.getInt("parte_maquina")));
+            orden.setResp(getPersonal(resultSet.getInt("id_responsable")));
+            orden.setFechaReal(resultSet.getString("fecha_real"));
+           }
+           
+       }, "SELECT * FROM tabla_ot WHERE id_ot="+id);
+       return orden;
+    }
+
+    public static void cambiarEstadoAviso(Aviso aviso) {
+        EjecutorRutinaDB.ejecutarUpdateStatement("UPDATE avisos SET estado ='"+aviso.getEstado()+"' where id_aviso="+aviso.getId());
+    }
+
+    public static void cambiarEstadoOt(OrdenTrabajo ot) {
+     EjecutorRutinaDB.ejecutarUpdateStatement("UPDATE tabla_ot SET estado ='"+ot.getEstado()+"' where id_ot="+ot.getId());
+    }
+
+    public static void cerrarOT(OrdenTrabajo ot) {
+       EjecutorRutinaDB.ejecutarUpdateStatement("UPDATE tabla_ot SET estado ='"+ot.getEstado()+"',fecha_real='"+ot.getFechaReal()+"',operaciones_definidas='"+ot.getOperaciones()+"' where id_ot="+ot.getId());
+        cambiarEstadoAviso(ot.getAviso());
     }
 
     public static ArrayList<FalloDeMaquina> obtenerTiemposFallos(int idParte) {

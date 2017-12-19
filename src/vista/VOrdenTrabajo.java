@@ -5,6 +5,7 @@
  */
 package vista;
 
+import clasesAuxiliares.RowsRenderer;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ItemEvent;
@@ -12,8 +13,12 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.swing.JSpinner;
+import javax.swing.JTable;
 import javax.swing.SpinnerDateModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import modelo.*;
 import modelo.enumeraciones.EstadoAviso;
 import modelo.enumeraciones.EstadoOT;
@@ -27,9 +32,11 @@ import presentador.interfaces.IVOrdenTrabajo;
  * @author Usuario
  */
 public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo {
-
+     OrdenTrabajo orden;
     POrdenTrabajo presentador;
     Aviso av;
+    Date dInicio;
+    Date dFin;
     Frame parent;
        TipoOT tipoOT;
         Personal responsable;
@@ -38,6 +45,8 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         Calendar calHorasFalla;
         Calendar calFin;
         ParteMaquina parteMaquina;
+        DefaultTableModel model;
+        
     /**
      * Creates new form VOrdenTrabajo
      */
@@ -53,14 +62,21 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         
     }
 
-    public VOrdenTrabajo(java.awt.Frame parent, boolean modal,int key) {
+    public VOrdenTrabajo(java.awt.Frame parent, boolean modal,int idAviso) {
         super(parent, modal);
         initComponents();
         inicializar();   
-        this.agregarAviso(key);
+        this.agregarAviso(idAviso);
         setVisible(true);
     }
 
+    public VOrdenTrabajo(java.awt.Frame parent,int idOt, boolean modal)
+    {
+        super(parent, modal);
+        initComponents();
+        agregarOt(idOt);
+        setVisible(true);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -105,6 +121,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         jLabel2 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtResumenOperaciones = new javax.swing.JTextArea();
+        labelTabla = new javax.swing.JLabel();
         btnCerrarOt = new javax.swing.JButton();
         btnDefinirOperaciones = new javax.swing.JButton();
         btnCambiar = new javax.swing.JButton();
@@ -320,7 +337,18 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
 
         jLayeredPane4.setBorder(javax.swing.BorderFactory.createTitledBorder("Definir Operaciones"));
 
-        cbOperaciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbOperaciones.removeAllItems();
+        cbOperaciones.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    // los nuevos registros son agregados al MODEL del JCombo HIJO
+                    Operacion item = (Operacion) e.getItem();
+                    textOperacionDescripcion.setText(item.getDescripcion());
+                }
+
+            }
+        });
 
         tableOperaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -344,8 +372,18 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         jScrollPane2.setViewportView(textOperacionDescripcion);
 
         btnQuitarOperaciones.setText("Quitar");
+        btnQuitarOperaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarOperacionesActionPerformed(evt);
+            }
+        });
 
         btnAgregarOperaciones.setText("Agregar");
+        btnAgregarOperaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarOperacionesActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Resumen:");
 
@@ -353,7 +391,12 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         txtResumenOperaciones.setRows(5);
         txtResumenOperaciones.setLineWrap(true);
         txtResumenOperaciones.setWrapStyleWord(true);
+        txtResumenOperaciones.setEditable(false);
         jScrollPane4.setViewportView(txtResumenOperaciones);
+
+        labelTabla.setText("jLabel3");
+        labelTabla.setText("");
+        labelTabla.setForeground(Color.red);
 
         jLayeredPane4.setLayer(cbOperaciones, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane4.setLayer(jScrollPane3, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -363,6 +406,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         jLayeredPane4.setLayer(btnAgregarOperaciones, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane4.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane4.setLayer(jScrollPane4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane4.setLayer(labelTabla, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane4Layout = new javax.swing.GroupLayout(jLayeredPane4);
         jLayeredPane4.setLayout(jLayeredPane4Layout);
@@ -370,7 +414,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
             jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jLayeredPane4Layout.createSequentialGroup()
                         .addGroup(jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -387,7 +431,10 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane4Layout.createSequentialGroup()
+                    .addGroup(jLayeredPane4Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(labelTabla)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnQuitarOperaciones)
                         .addGap(26, 26, 26))))
         );
@@ -405,7 +452,9 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnQuitarOperaciones)
+                .addGroup(jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnQuitarOperaciones)
+                    .addComponent(labelTabla))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jLayeredPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jLayeredPane4Layout.createSequentialGroup()
@@ -416,6 +465,11 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         );
 
         btnCerrarOt.setText("Cerrar OT");
+        btnCerrarOt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarOtActionPerformed(evt);
+            }
+        });
 
         btnDefinirOperaciones.setText("Definir Operaciones");
         btnDefinirOperaciones.addActionListener(new java.awt.event.ActionListener() {
@@ -459,7 +513,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
                         .addComponent(btnAgregarOT)
                         .addGap(26, 26, 26)
                         .addComponent(btnCerrarOt)))
-                .addGap(0, 72, Short.MAX_VALUE))
+                .addGap(0, 37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -534,6 +588,23 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCambiarActionPerformed
 
+    private void btnAgregarOperacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarOperacionesActionPerformed
+
+        agregarOperacionTabla();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgregarOperacionesActionPerformed
+
+    private void btnQuitarOperacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarOperacionesActionPerformed
+        quitarOperacion();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnQuitarOperacionesActionPerformed
+
+    private void btnCerrarOtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarOtActionPerformed
+        cerrarOt();
+        dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCerrarOtActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -548,7 +619,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
     private javax.swing.JButton btnDefinirOperaciones;
     private javax.swing.JButton btnQuitarOperaciones;
     private javax.swing.JComboBox<Maquina> cbMaquina;
-    private javax.swing.JComboBox<String> cbOperaciones;
+    private javax.swing.JComboBox<Object> cbOperaciones;
     private javax.swing.JComboBox<ParteMaquina> cbParteMaquina;
     private javax.swing.JComboBox cbResponsable;
     private javax.swing.JComboBox cbTipo;
@@ -574,6 +645,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JLabel labelNotificacion;
+    private javax.swing.JLabel labelTabla;
     private javax.swing.JTable tableOperaciones;
     private javax.swing.JTextArea textAviso;
     private javax.swing.JTextArea textOperacionDescripcion;
@@ -581,8 +653,29 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void actualizar() {
+    public void configuracionTabla() {
+         model= new DefaultTableModel(){ 
+    @Override
+    public boolean isCellEditable(int row, int column) {
+       return false;
+    }};
+ 
      
+        model.addColumn("Id");
+        model.addColumn("Nombre");
+        model.addColumn("Estado");
+        model.addColumn("descripcion");
+        
+         tableOperaciones.setModel(model);
+         tableOperaciones.setFillsViewportHeight(true);
+         tableOperaciones.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+         tableOperaciones.getTableHeader().setReorderingAllowed(false) ;
+         tableOperaciones.getColumnModel().setColumnSelectionAllowed(false);
+         tableOperaciones.getColumnModel().getColumn(3).setMaxWidth(0);
+         tableOperaciones.getColumnModel().getColumn(3).setMinWidth(0);
+         tableOperaciones.getColumnModel().getColumn(3).setMaxWidth(0);
+         tableOperaciones.getColumnModel().getColumn(3).setMinWidth(0); 
+        
      
 
     }
@@ -616,7 +709,7 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
        // Aviso aviso = (Aviso) cbAviso.getSelectedItem();
         av.setEstado(EstadoAviso.EN_TRATAMIENTO);
         String operaciones= txtResumenOperaciones.getText();
-        presentador.guardarOT(av,EstadoOT.ABIERTO, tipoOT, responsable, calInicio, calFin, parteMaquina,operaciones);   
+        presentador.guardarOT(av,EstadoOT.ABIERTO, tipoOT, responsable, calInicio,dInicio, calFin,dFin, parteMaquina,operaciones);   
      }
 
     @Override
@@ -654,7 +747,9 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         for (Personal personal : responsable) {
             cbResponsable.addItem(personal);
         }
-        
+        cbOperaciones.addItem(new Operacion(-1,"Otra...","",-1));
+       
+        btnCambiar.setEnabled(false);
         btnCerrarOt.setEnabled(false);
         this.btnAgregarOT.setEnabled(false);
         this.cbOperaciones.setEnabled(false);
@@ -665,7 +760,8 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         btnAgregarOperaciones.setEnabled(false);
         
         
-         actualizar();
+     
+         configuracionTabla();
 
     }
 
@@ -679,15 +775,20 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
         btnQuitarOperaciones.setEnabled(true);
         btnAgregarOperaciones.setEnabled(true);
         btnCambiar.setEnabled(true);
-    
+        cbOperaciones.removeAllItems();
        ArrayList<Operacion> operaciones= presentador.getOperaciones(parteMaquina.getId());
+        operaciones.add(new Operacion(-1,"Otra...","",-1));
         
-       
+        for (Operacion operacione : operaciones) {
+            cbOperaciones.addItem(operacione);
+        }
         
     }
 
    private void deshabilitarComponentes()
    {
+        horasFin.setEnabled(false);
+        horasInicio.setEnabled(false);
         cbMaquina.setEnabled(false);
         cbParteMaquina.setEnabled(false);
         cbResponsable.setEnabled(false);
@@ -711,50 +812,162 @@ public class VOrdenTrabajo extends javax.swing.JDialog implements IVOrdenTrabajo
     tipoOT = (TipoOT) cbTipo.getSelectedItem();
        responsable = (Personal) cbResponsable.getSelectedItem();
         
-       //     
-        Calendar calendar;
-        Date date;
-        calendar = dateInicio.getCalendar();
+     OrdenTrabajo o= new OrdenTrabajo();
+        calInicio = dateInicio.getCalendar();
      //
-        date=(Date)horasInicio.getModel().getValue();
-        date.setDate(calendar.get(Calendar.DAY_OF_MONTH));
-        date.setMonth(calendar.get(Calendar.MONTH));
-        date.setYear(calendar.get(Calendar.YEAR));
-        
-        calInicio= Calendar.getInstance();        
-        calInicio.setTime(date);
+        dInicio=(Date)horasInicio.getModel().getValue();
+              
+      o.setFechaInicio(calInicio,dInicio);
         
         //
-        calendar = dateFin.getCalendar();
+        calFin = dateFin.getCalendar();
       
-        date=(Date)horasFin.getModel().getValue();
-        date.setDate(calendar.get(Calendar.DAY_OF_MONTH));
-        date.setMonth(calendar.get(Calendar.MONTH));
-        date.setYear(calendar.get(Calendar.YEAR));
-        
-        calFin= Calendar.getInstance();        
-        calFin.setTime(date);
-        
+        dFin=(Date)horasFin.getModel().getValue();
+       
+    o.setFechaFin(calFin,dFin);
         if(calFin.before(calInicio))
         {
          throw new NullPointerException("Las fecha Inicio es posterios a la de Fin!");
         }
-        
-        coso();
-        //
+      
         parteMaquina = (ParteMaquina) cbParteMaquina.getSelectedItem();
         
         
     }
 
-    private void coso() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     private void realizarCambioOT() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        cbOperaciones.removeAllItems();
+        labelNotificacion.setText("");
+         
+              
+        deshabilitarComponentes();
+           int sizeModel = model.getRowCount();
+ 
+	    for (int i = 0; i < sizeModel ; i ++) {
+	    	model.removeRow(0);
+	    }
+         
+            actualizarResumen();
+        horasFin.setEnabled(true);
+        horasInicio.setEnabled(true);
+        cbMaquina.setEnabled(true);
+        cbParteMaquina.setEnabled(true);
+        cbResponsable.setEnabled(true);
+        cbTipo.setEnabled(true);
+        dateFin.setEnabled(true);
+        dateInicio.setEnabled(true);
+        btnDefinirOperaciones.setEnabled(true);
+        btnBuscarAviso.setEnabled(true);
+        
     }
 
+    private void agregarOperacionTabla() {
+           Object fila [] = new Object[model.getColumnCount()];
+    Operacion op=(Operacion)cbOperaciones.getSelectedItem();
+            fila[0]=op.getId();
+            fila[1]=op.getNombre();
+            fila[3]=textOperacionDescripcion.getText();
+        if(textOperacionDescripcion.getText()==op.getDescripcion())
+        {
+            fila[2]="Original";
+             
+        }else
+        {
+            fila[2]="Modificada";
+        }
+        
+        model.addRow(fila);
+        Operacion oper= (Operacion) cbOperaciones.getSelectedItem();
+        textOperacionDescripcion.setText(oper.getDescripcion());
+  actualizarResumen();
+    }
+
+    private void quitarOperacion() {
+          if(tableOperaciones.getSelectedRow()!=-1)
+        {
+
+            model.removeRow(tableOperaciones.getSelectedRow());
+         actualizarResumen();
+         labelTabla.setText("");
+        }else
+        {
+            labelTabla.setText("No selecciono nada");
+        }
+
+
+    }
+
+    private void actualizarResumen() {
+              String resumen= "";
+        
+    for(int i=0;i<model.getRowCount();i++)
+    {
+        resumen+="Operacion-"+model.getValueAt(i, 0)+"("+model.getValueAt(i, 2)+")=";
+        resumen+=model.getValueAt(i, 3)+"\n";
+    }
     
+    txtResumenOperaciones.setText(resumen);
+    
+    }
+
+    private void agregarOt(int idOt) {
+         
+          this.presentador = new POrdenTrabajo(this);
+         textAviso.setEditable(false);
+         textOperacionDescripcion.setEnabled(true);
+         this.setLocationRelativeTo(this);
+         cbTipo.removeAllItems();
+         cbResponsable.removeAllItems();
+         deshabilitarComponentes();
+         cbOperaciones.setEnabled(true);
+         btnAgregarOperaciones.setEnabled(true);
+         btnQuitarOperaciones.setEnabled(true);
+         btnCerrarOt.setEnabled(true);
+         btnBuscarAviso.setEnabled(false);
+         textOperacionDescripcion.setEnabled(true);
+         tableOperaciones.setEnabled(true);
+         
+        orden=  presentador.buscarOT(idOt);
+        textAviso.setText(orden.getAviso().toString2());
+         configuracionTabla();
+         cbTipo.addItem(orden.getTipo());
+         cbResponsable.addItem(orden.getResp());
+         cbMaquina.addItem(presentador.getMaquina(orden.getParte().getIdMaquina()));
+         cbParteMaquina.addItem(orden.getParte());
+         textOperacionDescripcion.setText(orden.getOperaciones());
+        dateFin.setCalendar(orden.getFechaFinCalendar());
+         dateInicio.setCalendar(orden.getFechaInicioCalendar()); 
+         
+          
+            SpinnerDateModel spinner1= new SpinnerDateModel(orden.getFechaInicioCalendar().getTime(), null, null, Calendar.HOUR_OF_DAY);
+horasInicio = new javax.swing.JSpinner(spinner1);
+JSpinner.DateEditor editor1 = new JSpinner.DateEditor(horasInicio,"HH:mm");
+horasInicio.setEditor(editor1);
+
+  SpinnerDateModel spinner2= new SpinnerDateModel(orden.getFechaFinCalendar().getTime(), null, null, Calendar.HOUR_OF_DAY);
+horasFin = new javax.swing.JSpinner(spinner2);
+JSpinner.DateEditor editor2 = new JSpinner.DateEditor(horasFin,"HH:mm");
+horasInicio.setEditor(editor2);  
+
+         
+         cbOperaciones.removeAllItems();
+        ArrayList<Operacion> operaciones= presentador.getOperaciones(orden.getParte().getId());
+        operaciones.add(new Operacion(-1,"Otra...","",-1));
+        
+        for (Operacion operacione : operaciones) {
+            cbOperaciones.addItem(operacione);
+        }
+
+    }
+
+    private void cerrarOt() {
+        orden.setEstado(EstadoOT.CERRADA_TEC);
+        orden.setOperaciones(textOperacionDescripcion.getText());
+        orden.setFechaReal(Calendar.getInstance());
+        orden.getAviso().setEstado(EstadoAviso.CERRADO);
+        presentador.cerrarOt(orden);
+    }
+
     
 }
