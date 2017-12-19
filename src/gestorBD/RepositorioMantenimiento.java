@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import modelo.Aviso;
 import modelo.FalloDeMaquina;
 import modelo.Maquina;
+import modelo.Operacion;
 import modelo.OrdenTrabajo;
 import modelo.ParteMaquina;
 
@@ -34,7 +35,7 @@ import modelo.enumeraciones.TipoOT;
  */
 public class RepositorioMantenimiento {
 
-    public static ArrayList<Personal> getPersonal() {
+    public static ArrayList<Personal> getPersonales() {
         ArrayList<Personal> personal = new ArrayList<>();
         EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
@@ -313,9 +314,9 @@ public class RepositorioMantenimiento {
         //      EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(estado, id_tipo_ot, responsable, fecha_inicio, fecha_fin, parte_maquina) "
         //                                            + "VALUES("+"'"+ot.getEstado() + "','" + ot.getTipo() + "','" + ot.getResp() 
         //                                          + "','" + ot.getFechaInicio().getTime() + "','" + ot.getFechaFin().getTime() + "','" + ot.getParte()+"')");
-        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(id_aviso,estado, responsable, fecha_inicio, fecha_fin, parte_maquina,tipo_ot) "
-                + "VALUES('" + ot.getAviso().getId() + "','" + ot.getEstado() + "','" + ot.getResp()
-                + "','" + ot.getFechaInicio() + "','" + ot.getFechaFin() + "','" + ot.getParte().getId() + "','" + ot.getTipo().toString() + "')");
+        EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO tabla_ot(id_aviso,estado, id_responsable, fecha_inicio, fecha_fin, parte_maquina,tipo_ot,) "
+                + "VALUES('" + ot.getAviso().getId() + "','" + ot.getEstado() + "','" + ot.getResp().getId()+
+                 "','" + ot.getFechaInicio() + "','" + ot.getFechaFin() + "','" + ot.getParte().getId() + "','" + ot.getTipo().toString() +"','"+ot.getOperaciones()+ "')");
     
         EjecutorRutinaDB.ejecutarUpdateStatement("UPDATE avisos SET estado ='"+ot.getAviso().getEstado()+"' where id_aviso="+ot.getAviso().getId());
     }
@@ -347,6 +348,11 @@ public class RepositorioMantenimiento {
         }, "SELECT * FROM tabla_ot ORDER BY fecha_inicio DESC");
 
         return ordenes;
+    }
+
+    public static ArrayList<Operacion> obtenerOperaciones(int idParteMaquina) {
+ return null;
+    //    EjecutorRutinaDB.ejecutarSelectStatement(ejecucionResultSet, "SELECT * FROM tabla_ot WHERE id_");
     }
 
    

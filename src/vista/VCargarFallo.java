@@ -5,6 +5,7 @@
  */
 package vista;
 
+import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
@@ -34,6 +35,8 @@ PCargarFallo presentador;
         super(parent, modal);
         initComponents();
          setTitle("Cargar Fallo");
+         txtNotificacion.setText("");
+         txtNotificacion.setForeground(Color.red);
         this.setLocationRelativeTo(this);
      
         presentador= new PCargarFallo(this);
@@ -76,6 +79,7 @@ PCargarFallo presentador;
         jLabel10 = new javax.swing.JLabel();
         horasDeFalla = new javax.swing.JSpinner();
         diasFalla = new javax.swing.JTextField();
+        txtNotificacion = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -287,6 +291,8 @@ PCargarFallo presentador;
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        txtNotificacion.setText("jLabel11");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -302,6 +308,9 @@ PCargarFallo presentador;
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtNotificacion)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jLayeredPane2)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -325,7 +334,9 @@ PCargarFallo presentador;
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(12, 12, 12)
+                .addComponent(txtNotificacion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLayeredPane3)
                     .addComponent(jLayeredPane1))
@@ -399,6 +410,7 @@ PCargarFallo presentador;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea txtDetalle;
+    private javax.swing.JLabel txtNotificacion;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -456,7 +468,15 @@ PCargarFallo presentador;
         String detalle = txtDetalle.getText();
          int dias;
          try{
-         Calendar fecha= cldInicioFalla.getCalendar();
+         Calendar calInicioFalla= cldInicioFalla.getCalendar();
+        
+         Date date=(Date)horasInicio.getModel().getValue();
+         date.setDate(calInicioFalla.get(Calendar.DAY_OF_MONTH));
+         date.setMonth(calInicioFalla.get(Calendar.MONTH));
+         date.setYear(calInicioFalla.get(Calendar.YEAR));
+          Calendar fecha= Calendar.getInstance();        
+        fecha.setTime(date);
+
                     try
                         {
           
@@ -478,6 +498,7 @@ PCargarFallo presentador;
         }catch(NullPointerException ex)
         { 
             
+            txtNotificacion.setText("Faltan definir datos!!");
         }
          
         

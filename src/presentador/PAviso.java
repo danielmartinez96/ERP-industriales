@@ -36,7 +36,7 @@ public class PAviso {
 
     public ArrayList<Personal> getPersonal() {
 
-        return RepositorioMantenimiento.getPersonal();
+        return RepositorioMantenimiento.getPersonales();
     }
 
     public PrioridadAviso[] getPrioridad() {

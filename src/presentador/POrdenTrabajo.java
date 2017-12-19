@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import modelo.Aviso;
 import modelo.Maquina;
+import modelo.Operacion;
 import modelo.OrdenTrabajo;
 import modelo.ParteMaquina;
+import modelo.Personal;
 import modelo.enumeraciones.EstadoOT;
 import modelo.enumeraciones.Responsable;
 import modelo.enumeraciones.TipoOT;
@@ -39,8 +41,8 @@ public class POrdenTrabajo {
         return TipoOT.values();
     }
 
-    public Responsable[] getResponsables() {
-        return Responsable.values();
+    public ArrayList<Personal> getResponsables() {
+        return RepositorioMantenimiento.getPersonales();
     }
 
     public ArrayList<Maquina> getMaquinas() {
@@ -53,24 +55,32 @@ public class POrdenTrabajo {
         vista.agregarParte(pm);
     }
 
-    public void guardarOT(Aviso aviso, EstadoOT estado, TipoOT tipo,Responsable resp, Calendar inicio, Calendar fin, ParteMaquina pm) {
-        OrdenTrabajo ot = new OrdenTrabajo();
 
-        ot.setAviso(aviso);
-        ot.setEstado(estado);
-        ot.setTipo(tipo);
-        ot.setFechaInicio(inicio);
-        ot.setFechaFin(fin);
-        ot.setParteMaquina(pm);
-        ot.setResp(resp);
+
+    public Aviso getAviso(int key) {
+
+       return  RepositorioMantenimiento.getAviso(key);
+    }
+
+    public void guardarOT(Aviso av, EstadoOT estadoOT, TipoOT tipoOT, Personal responsable, Calendar calInicio, Calendar calFin, ParteMaquina parteMaquina, String operaciones) {
+ OrdenTrabajo ot = new OrdenTrabajo();
+
+        ot.setAviso(av);
+        ot.setEstado(estadoOT);
+        ot.setTipo(tipoOT);
+        ot.setFechaInicio(calInicio);
+        ot.setFechaFin(calFin);
+        ot.setParteMaquina(parteMaquina);
+        ot.setResp(responsable);
+        ot.setOperaciones(operaciones);
 
         RepositorioMantenimiento.agregarOT(ot);
 
     }
 
-    public Aviso getAviso(int key) {
+    public ArrayList<Operacion> getOperaciones(int id) {
 
-       return  RepositorioMantenimiento.getAviso(key);
+    return RepositorioMantenimiento.obtenerOperaciones(id);
     }
 
 }

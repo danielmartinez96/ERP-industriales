@@ -26,19 +26,33 @@ public class OrdenTrabajo {
     private ParteMaquina parte;
     private Personal resp;
     private Aviso aviso;
+    private String operaciones;
+ 
     final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
     public OrdenTrabajo() {
     }
 
-    public OrdenTrabajo(int id, EstadoOT estado, TipoOT tipo, Calendar FechaInicio, Calendar FechaFin) {
+       public OrdenTrabajo(int id, EstadoOT estado, TipoOT tipo, Calendar fechaInicio, Calendar fechaFin, ParteMaquina parte, Personal resp, Aviso aviso, String operaciones) {
         this.id = id;
         this.estado = estado;
         this.tipo = tipo;
-        this.fechaInicio = FechaInicio;
-        this.fechaFin = FechaFin;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.parte = parte;
+        this.resp = resp;
+        this.aviso = aviso;
+        this.operaciones = operaciones;
     }
 
+    public String getOperaciones() {
+        return operaciones;
+    }
+
+    public void setOperaciones(String operaciones) {
+        this.operaciones = operaciones;
+    }
+       
     public Aviso getAviso() {
         return aviso;
     }
