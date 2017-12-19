@@ -21,6 +21,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import modelo.Aviso;
 import modelo.Maquina;
+import modelo.enumeraciones.EstadoAviso;
+import modelo.enumeraciones.EstadoOT;
 import presentador.PListarAviso;
 import presentador.interfaces.IVAviso;
 import presentador.interfaces.IVListarAviso;
@@ -38,6 +40,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
      String prioridad="Todos";
      String maquina="Todos";
      String fecha="Todos";
+     String estado="Todos";
      final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
      Page pagina;
      int paginaMax=1;
@@ -75,30 +78,30 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         btnSalir = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        cbPrioridad = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
-        cbMaquina = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         btnSiguiente = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
         scrollPaneTabla = new javax.swing.JScrollPane();
         TableAvisos = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
-        calendarDesde = new com.toedter.calendar.JDateChooser();
-        btnFiltradoPorDefecto = new javax.swing.JButton();
         txtPaginaActual = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         labelPaginaMaxima = new javax.swing.JLabel();
         btnIr = new javax.swing.JButton();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        calendarDesde = new com.toedter.calendar.JDateChooser();
+        btnFiltradoPorDefecto = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        cbMaquina = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        cbPrioridad = new javax.swing.JComboBox<>();
+        jButton3 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
         calendarHasta = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
+        cbEstado = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addKeyListener(new java.awt.event.KeyAdapter() {
@@ -127,31 +130,6 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Filtro");
-
-        jLabel3.setText("Prioridad:");
-
-        cbPrioridad.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbPrioridadKeyPressed(evt);
-            }
-        });
-
-        jLabel4.setText("Maquina:");
-
-        cbMaquina.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbMaquinaKeyPressed(evt);
-            }
-        });
-
-        jButton3.setText("Filtrar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
             }
         });
 
@@ -184,21 +162,6 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         ));
         scrollPaneTabla.setViewportView(TableAvisos);
 
-        jLabel5.setText("Fecha de-hasta:");
-
-        calendarDesde.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                calendarDesdeKeyPressed(evt);
-            }
-        });
-
-        btnFiltradoPorDefecto.setText("Filtrado por Defecto");
-        btnFiltradoPorDefecto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFiltradoPorDefectoActionPerformed(evt);
-            }
-        });
-
         txtPaginaActual.setText("1");
         txtPaginaActual.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -217,11 +180,119 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
             }
         });
 
+        jLayeredPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Filtro"));
+
+        calendarDesde.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                calendarDesdeKeyPressed(evt);
+            }
+        });
+
+        btnFiltradoPorDefecto.setText("Filtrado por Defecto");
+        btnFiltradoPorDefecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltradoPorDefectoActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Prioridad:");
+
+        cbMaquina.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbMaquinaKeyPressed(evt);
+            }
+        });
+
+        jLabel5.setText("Fecha de-hasta:");
+
+        cbPrioridad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbPrioridadKeyPressed(evt);
+            }
+        });
+
+        jButton3.setText("Filtrar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Maquina:");
+
         calendarHasta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 calendarHastaKeyPressed(evt);
             }
         });
+
+        jLabel2.setText("Estado");
+
+        jLayeredPane1.setLayer(calendarDesde, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(btnFiltradoPorDefecto, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(cbMaquina, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(cbPrioridad, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jButton3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(calendarHasta, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(cbEstado, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
+        jLayeredPane1.setLayout(jLayeredPane1Layout);
+        jLayeredPane1Layout.setHorizontalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(calendarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(calendarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(btnFiltradoPorDefecto)
+                .addContainerGap())
+        );
+        jLayeredPane1Layout.setVerticalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnFiltradoPorDefecto)
+                        .addComponent(jButton3))
+                    .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(calendarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(cbPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(cbMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addComponent(calendarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -234,31 +305,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(29, 29, 29)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(calendarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(5, 5, 5)
-                                .addComponent(calendarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnFiltradoPorDefecto))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jButton1)
@@ -283,7 +330,10 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
                         .addComponent(btnIr)
                         .addGap(103, 103, 103))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(scrollPaneTabla)
+                        .addComponent(scrollPaneTabla, javax.swing.GroupLayout.DEFAULT_SIZE, 1048, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLayeredPane1)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -291,30 +341,10 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnFiltradoPorDefecto)
-                            .addComponent(jButton3)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(calendarDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3)
-                                .addComponent(cbPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel4)
-                                .addComponent(cbMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel5))
-                            .addComponent(calendarHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(23, 23, 23)
-                .addComponent(scrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollPaneTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSiguiente)
@@ -367,10 +397,12 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
      prioridad="Todos";
      maquina="Todos";
      fecha="Todos";
+     estado="Todos";
      paginaActual=0;
      txtPaginaActual.setText(""+1);
      cbPrioridad.setSelectedIndex(0);
      cbMaquina.setSelectedIndex(0);
+     cbEstado.setSelectedIndex(0);
      calendarDesde.setCalendar(null);
       calendarHasta.setCalendar(null);
         // TODO add your handling code here:
@@ -447,6 +479,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     private javax.swing.JButton btnSiguiente;
     private com.toedter.calendar.JDateChooser calendarDesde;
     private com.toedter.calendar.JDateChooser calendarHasta;
+    private javax.swing.JComboBox<String> cbEstado;
     private javax.swing.JComboBox<Object> cbMaquina;
     private javax.swing.JComboBox<String> cbPrioridad;
     private javax.swing.JButton jButton1;
@@ -458,8 +491,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel labelPaginaMaxima;
     private javax.swing.JScrollPane scrollPaneTabla;
@@ -478,7 +510,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         
        
                
-      pagina = presentador.listarAvisos(prioridad,maquina,fecha,paginaActual,filas);
+      pagina = presentador.listarAvisos(prioridad,maquina,estado,fecha,paginaActual,filas);
        
          
       lista= pagina.getResults();
@@ -537,12 +569,20 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
            cbPrioridad.addItem(cadena); 
         }
         
+        EstadoAviso[] estados=EstadoAviso.values();
+        cbEstado.addItem("Todos");
+        for(int i=0;i<estados.length;i++)
+        {
+            cbEstado.addItem(estados[i].toString());
+        }
+        
         TableAvisos.setModel(modelo);
         cbMaquina.addItem(new Maquina(-1, null, "Todos"));
         ArrayList<Maquina> maquinas=presentador.getMaquinas();
         for (Maquina maquina : maquinas) {
             cbMaquina.addItem(maquina);
         }
+        
         TableAvisos.setFillsViewportHeight(true);
         TableAvisos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         TableAvisos.getTableHeader().setReorderingAllowed(false) ;
@@ -587,8 +627,19 @@ txtPaginaActual.addKeyListener(new KeyAdapter()
        //             convertRowIndexToModel(TableAvisos.getSelectedRow());
             int filaSeleccionada= TableAvisos.getSelectedRow();
             int i = (int) TableAvisos.getModel().getValueAt(filaSeleccionada, 2);
-           
-            IVOrdenTrabajo vista = new VOrdenTrabajo (parent, true,i);
+ EstadoAviso estado=(EstadoAviso)TableAvisos.getModel().getValueAt(filaSeleccionada, 1);
+            if(estado== EstadoAviso.ABIERTO)
+            {
+              
+          IVOrdenTrabajo vista = new VOrdenTrabajo (parent, true,i);
+          actualizarTabla();
+            }else
+            {
+                 JOptionPane.showConfirmDialog(null, "Solo se puede crear una ot de un aviso ABIERTO","Operacion no posible"
+, JOptionPane.CLOSED_OPTION); 
+            }
+            
+          
             
         }else
         {
@@ -622,6 +673,7 @@ txtPaginaActual.addKeyListener(new KeyAdapter()
       prioridad = (String) cbPrioridad.getSelectedItem();
       Maquina maquina1 = (Maquina) cbMaquina.getSelectedItem();
       maquina= maquina1.getDescripcion();
+      estado= (String)cbEstado.getSelectedItem();
       try
       { 
           Date date;

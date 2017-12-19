@@ -8,6 +8,7 @@ package presentador;
 import gestorBD.RepositorioMantenimiento;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import modelo.FalloDeMaquina;
 import modelo.Maquina;
 import modelo.ParteMaquina;
@@ -60,10 +61,10 @@ public class PCargarFallo {
   
     
 
-    public void cargarFallo(ParteMaquina pm, SintomaFalla sintoma, CausaFalla causa, String detalle, Calendar fecha, Calendar calHorasFalla, int dias) {
+    public void cargarFallo(ParteMaquina pm, SintomaFalla sintoma, CausaFalla causa, String detalle, Calendar fecha,Date InicioFallDate, Calendar calHorasFalla, int dias) {
        
         FalloDeMaquina fallo= new FalloDeMaquina(pm, fecha, detalle, sintoma, causa,calHorasFalla,dias);
-        
+        fallo.setFechaInicio(fecha,InicioFallDate);
         RepositorioMantenimiento.cargarFallo(fallo);    
     }
 }

@@ -5,16 +5,20 @@
  */
 package vista;
 
+import java.awt.Frame;
 import java.util.ArrayList;
 import javax.swing.DefaultRowSorter;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import modelo.OrdenTrabajo;
+import modelo.enumeraciones.EstadoOT;
 import presentador.PListarOT;
 import presentador.interfaces.IVListarOT;
+import presentador.interfaces.IVOrdenTrabajo;
 
 /**
  *
@@ -23,11 +27,13 @@ import presentador.interfaces.IVListarOT;
 public class VListarOT extends javax.swing.JDialog implements IVListarOT{
     PListarOT presentador;
     DefaultTableModel modelo;
+     Frame parent;
     /**
      * Creates new form ListarOT
      */
     public VListarOT(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.parent= parent;
         initComponents();
          setTitle("Listado de Ordenes de Trabajo");
         this.setLocationRelativeTo(this);
@@ -52,6 +58,8 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableOT = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -77,6 +85,20 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
         ));
         jScrollPane1.setViewportView(TableOT);
 
+        jButton1.setText("Tratar OT");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Cierre Comercial");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,6 +114,10 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(57, 57, 57)
+                .addComponent(jButton1)
+                .addGap(83, 83, 83)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -107,7 +133,10 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnSalir)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalir)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -119,6 +148,69 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+ if(TableOT.getSelectedRow()!=-1)
+        {
+     //       int filaSeleccionada = TableAvisos.getRowSorter().
+       //             convertRowIndexToModel(TableAvisos.getSelectedR,ow());
+            int filaSeleccionada= TableOT.getSelectedRow();
+            int i = (int) TableOT.getModel().getValueAt(filaSeleccionada, 0);
+        //   (String)TableOT.getModel().getValueAt(filaSeleccionada, 4)
+           EstadoOT estado=(EstadoOT)TableOT.getModel().getValueAt(filaSeleccionada, 4);
+            if(estado== EstadoOT.ABIERTO|| estado==EstadoOT.TRATADA)
+            {
+              
+              IVOrdenTrabajo vista = new VOrdenTrabajo (parent, i,true);   
+              actualizarTablaDeOT();
+            }else
+            {
+                 JOptionPane.showConfirmDialog(null, "Solo se puede tratar una orden de trabajo en estado ABIERTO o TRATADA","Operacion no posible"
+, JOptionPane.CLOSED_OPTION); 
+            }
+            
+           
+            
+        }else
+        {
+            JOptionPane.showConfirmDialog(null, "No selecciono ningun aviso","ERROR"
+, JOptionPane.CLOSED_OPTION);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+  if(TableOT.getSelectedRow()!=-1)
+        {
+     //       int filaSeleccionada = TableAvisos.getRowSorter().
+       //             convertRowIndexToModel(TableAvisos.getSelectedRow());
+            int filaSeleccionada= TableOT.getSelectedRow();
+            int i = (int) TableOT.getModel().getValueAt(filaSeleccionada, 0);
+           
+           EstadoOT estado=(EstadoOT)TableOT.getModel().getValueAt(filaSeleccionada, 4);
+            if(estado== EstadoOT.CERRADA_TEC)
+            {
+              OrdenTrabajo ot= new OrdenTrabajo();
+              ot.setId(i);
+              ot.setEstado(EstadoOT.CERRADA_COMERC);
+              presentador.cierreComercial(ot);
+              actualizarTablaDeOT();
+            }else
+            {
+                 JOptionPane.showConfirmDialog(null, "Solo se puede hacer un cierre comercial a una orden de trabajo en estado CIERRE_TEC","Operacion no posible"
+, JOptionPane.CLOSED_OPTION); 
+            }
+            
+           
+            
+        }else
+        {
+            JOptionPane.showConfirmDialog(null, "No selecciono ningun aviso","ERROR"
+, JOptionPane.CLOSED_OPTION);
+        }
+        // TODO add your handling code here:
+   
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -127,6 +219,8 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableOT;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
@@ -136,7 +230,11 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
 
     @Override
     public void actualizarTablaDeOT() {
+    int sizeModel = modelo.getRowCount();
  
+	    for (int i = 0; i < sizeModel ; i ++) {
+	    	modelo.removeRow(0);
+	    }
         ArrayList<OrdenTrabajo> lista ;
                 
         lista = presentador.listarOT();
@@ -148,11 +246,12 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
             fila[0]=lista.get(i).getId();
             fila[1]=lista.get(i).getFechaInicio();
             fila[2]=lista.get(i).getFechaFin();
-            fila[3]=lista.get(i).getEstado();
-            fila[4]=lista.get(i).getAviso();
-            fila[5]=lista.get(i).getTipo();
-            fila[6]=lista.get(i).getResp();
-            fila[7]=lista.get(i).getParte();
+            fila[3]=lista.get(i).getFechaReal();
+            fila[4]=lista.get(i).getEstado();
+            fila[5]=lista.get(i).getAviso();
+            fila[6]=lista.get(i).getTipo();
+            fila[7]=lista.get(i).getResp();
+            fila[8]=lista.get(i).getParte();
             
             
             modelo.addRow(fila);
@@ -175,6 +274,7 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
          modelo.addColumn("id");
          modelo.addColumn("Fecha Inicio");
          modelo.addColumn("Fecha Fin");
+         modelo.addColumn("Fecha Real");
          modelo.addColumn("Estado");
          modelo.addColumn("Aviso");
          modelo.addColumn("Tipo OT");

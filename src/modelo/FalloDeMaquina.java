@@ -135,7 +135,7 @@ public class FalloDeMaquina {
             this.fechaInicio.setTime(date);
             this.fechaInicio.set(Calendar.HOUR_OF_DAY,date.getHours());
         } catch (ParseException ex) {
-            ex.printStackTrace();
+            this.fechaInicio=null;
         }
      
    
@@ -167,6 +167,30 @@ public class FalloDeMaquina {
 
     public void setCausaFalla(CausaFalla CausaFalla) {
         this.CausaFalla = CausaFalla;
+    }
+
+    public void setFechaInicio(Calendar fecha, Date InicioFallDate) {
+      
+      
+      int year       = fechaInicio.get(Calendar.YEAR);
+      int month      = fechaInicio.get(Calendar.MONTH);
+      int dayOfMonth = fechaInicio.get(Calendar.DAY_OF_MONTH);
+      
+      int hour       = InicioFallDate.getHours();
+      int minute     = InicioFallDate.getHours();
+      
+      fechaInicio= new GregorianCalendar(year, month, dayOfMonth, hour, minute);
+      
+        try {
+             
+             Date date = sdf.parse(sdf.format(fechaInicio.getTime()));
+             this.fechaInicio= Calendar.getInstance();
+             this.fechaInicio.setTime(date);
+ 
+         //
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
     }
   
   

@@ -25,4 +25,8 @@ public class PListarOT {
     public ArrayList<OrdenTrabajo> listarOT(){
         return RepositorioMantenimiento.listarOT();
     }
+
+    public void cierreComercial(OrdenTrabajo ot) {
+        RepositorioMantenimiento.cambiarEstadoOt(ot);
+    }
 }

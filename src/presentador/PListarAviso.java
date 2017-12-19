@@ -23,7 +23,7 @@ public class PListarAviso {
         this.vista = vista;
     }
     
-    public Page listarAvisos(String prioridad,String maquina,String fecha,int page,int pageSize){
+    public Page listarAvisos(String prioridad,String maquina,String estado,String fecha,int page,int pageSize){
         String sql=" WHERE";
             
         if(prioridad != "Todos")sql+=" prioridad='"+prioridad+"'";
@@ -34,6 +34,14 @@ public class PListarAviso {
                  sql+=" AND ";
              }
               sql+=" maquina='"+maquina+"'";
+         }
+             if(estado != "Todos")
+         {
+             if(sql!=" WHERE")
+             {
+                 sql+=" AND ";
+             }
+              sql+=" estado='"+estado+"'";
          }
          if(fecha != "Todos"){
              

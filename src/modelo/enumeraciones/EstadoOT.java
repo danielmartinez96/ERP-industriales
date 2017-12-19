@@ -11,8 +11,7 @@ package modelo.enumeraciones;
  */
 public enum EstadoOT {
     ABIERTO,
-    LIBERADA,
-    NOTIFICADA,
+    TRATADA,
     CERRADA_TEC,
     CERRADA_COMERC
 }
