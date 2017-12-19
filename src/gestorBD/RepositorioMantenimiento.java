@@ -247,7 +247,9 @@ public class RepositorioMantenimiento {
             
                 fallo.setFechaInicio(resultSet.getString("fecha_creacion"));
                 //*******************************************************************************
-
+                fallo.setTiempoDeFalla(resultSet.getString("tiempo_falla"));
+                fallo.setDias(resultSet.getInt("dias"));
+                
                 fallos.add(fallo);
             }
 
@@ -320,9 +322,9 @@ public class RepositorioMantenimiento {
 
     public static void cargarFallo(FalloDeMaquina fallo) {
         
-         EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO fallo_maquina(fecha_creacion,sintoma, causa, detalle,id_parte_de_maquina) "
+         EjecutorRutinaDB.ejecutarUpdateStatement("INSERT INTO fallo_maquina(fecha_creacion,sintoma, causa, detalle,id_parte_de_maquina,tiempo_falla,dias) "
                 + "VALUES('" + fallo.getFechaInicio() + "','" + fallo.getSintomaFalla()+ "','" + fallo.getCausaFalla()
-                + "','" + fallo.getDetalle() + "','" + fallo.getParteMaquina().getId() + "')");
+                + "','" + fallo.getDetalle() + "','" + fallo.getParteMaquina().getId() + "','"+fallo.getTiempoDeFalla()+"','"+fallo.getDias()+"')");
     }
 
     public static ArrayList<OrdenTrabajo> listarOT() {

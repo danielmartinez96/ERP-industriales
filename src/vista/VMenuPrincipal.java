@@ -299,7 +299,7 @@ public class VMenuPrincipal extends javax.swing.JFrame implements IVMenuPrincipa
                      try{
                           mostrarVista(nodo.getCodigo());
                      }
-                    catch(Exception ev)
+                    catch(NullPointerException ev)
                 {
                     ev.printStackTrace();
                 }

@@ -9,31 +9,14 @@ import clasesAuxiliares.Page;
 import clasesAuxiliares.RowsRenderer;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
-import javax.swing.DefaultRowSorter;
-import javax.swing.InputVerifier;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.RowSorter;
-import javax.swing.RowSorter.SortKey;
-import javax.swing.SortOrder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import modelo.Aviso;
@@ -42,7 +25,6 @@ import presentador.PListarAviso;
 import presentador.interfaces.IVAviso;
 import presentador.interfaces.IVListarAviso;
 import presentador.interfaces.IVOrdenTrabajo;
-import vista.componentes.Nodo;
 
 /**
  *
@@ -645,11 +627,16 @@ txtPaginaActual.addKeyListener(new KeyAdapter()
           date = calendarDesde.getDate();
           date.setHours(0);
           date.setMinutes(0);
-           String fechaDesde = sdf.format(date);
-            date= calendarHasta.getDate();
-            date.setHours(0);
-            date.setMinutes(0);
-           String fechaHasta = sdf.format(date);
+          String fechaDesde = sdf.format(date);
+          
+          
+          
+          date= calendarHasta.getDate();
+          date.setHours(0);
+          date.setMinutes(0);
+          String fechaHasta = sdf.format(date);
+          
+          
           fecha= " '"+fechaDesde+"' AND '"+fechaHasta+"' ";
          
       }catch(NullPointerException ex)

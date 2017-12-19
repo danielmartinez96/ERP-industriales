@@ -20,19 +20,75 @@ import modelo.enumeraciones.SintomaFalla;
 public class FalloDeMaquina {
   private ParteMaquina  parteMaquina;
   private Calendar fechaInicio;
+  private Calendar tiempoDeFalla;
   private String detalle;
   private SintomaFalla SintomaFalla;
   private CausaFalla CausaFalla; 
+  int dias;
+
+    public int getDias() {
+        return dias;
+    }
+
+    public void setDias(int dias) {
+        this.dias = dias;
+    }
   final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+  final private  SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
     public FalloDeMaquina() {
     }
 
-    public FalloDeMaquina(ParteMaquina parteMaquina, Calendar fechaInicio, String detalle, SintomaFalla SintomaFalla, CausaFalla CausaFalla) {
+    public FalloDeMaquina(ParteMaquina parteMaquina, Calendar fechaInicio, String detalle, SintomaFalla SintomaFalla, CausaFalla CausaFalla, Calendar horasDeFalla, int dias) {
         this.parteMaquina = parteMaquina;
-        this.fechaInicio = fechaInicio;
+        this.setFechaInicio(fechaInicio);
         this.detalle = detalle;
         this.SintomaFalla = SintomaFalla;
         this.CausaFalla = CausaFalla;
+        setTiempoDeFalla(horasDeFalla);
+        this.dias=dias;
+    }
+
+    public String getTiempoDeFalla() {
+        return sdf2.format(tiempoDeFalla.getTime());
+    }
+  public Calendar getCalendarTiempoDeFalla() {
+        return tiempoDeFalla;
+    }
+
+    public void setTiempoDeFalla(Calendar horasDeFalla) {
+      
+      int hour       = horasDeFalla.get(Calendar.HOUR_OF_DAY);
+      int minute     = horasDeFalla.get(Calendar.MINUTE);
+      
+      tiempoDeFalla= new GregorianCalendar(1,1,1, hour, minute);
+      
+        try {
+             
+             Date date = sdf2.parse(sdf2.format(tiempoDeFalla.getTime()));
+             this.tiempoDeFalla= Calendar.getInstance();
+             this.tiempoDeFalla.setTime(date);
+ 
+         //
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
+   
+    }
+    public void setTiempoDeFalla(String fecha) {
+
+  
+       
+        try {
+            Date date = sdf2.parse(fecha);
+            this.tiempoDeFalla= Calendar.getInstance();
+            this.tiempoDeFalla.setTime(date);
+            this.tiempoDeFalla.set(Calendar.HOUR_OF_DAY,date.getHours());
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+     
+   
     }
 
     public ParteMaquina getParteMaquina() {

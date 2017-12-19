@@ -59,10 +59,10 @@ public class PCargarFallo {
 
   
     
-    public void cargarFallo(ParteMaquina pm, SintomaFalla sintoma, CausaFalla causa, String detalle, Calendar fecha)
-    {
-        
-        FalloDeMaquina fallo= new FalloDeMaquina(pm, fecha, detalle, sintoma, causa);
+
+    public void cargarFallo(ParteMaquina pm, SintomaFalla sintoma, CausaFalla causa, String detalle, Calendar fecha, Calendar calHorasFalla, int dias) {
+       
+        FalloDeMaquina fallo= new FalloDeMaquina(pm, fecha, detalle, sintoma, causa,calHorasFalla,dias);
         
         RepositorioMantenimiento.cargarFallo(fallo);    
     }
