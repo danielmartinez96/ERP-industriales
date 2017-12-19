@@ -41,6 +41,8 @@ public class VAviso extends javax.swing.JDialog implements IVAviso {
         super(parent, modal);
         this.parent= parent;
         initComponents();
+         setTitle("Cargar Aviso");
+         
         configuraciones();
         this.presentador = new PAviso(this);
         actualizar();

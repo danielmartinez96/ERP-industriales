@@ -33,8 +33,9 @@ PCargarFallo presentador;
     public VCargarFallo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+         setTitle("Cargar Fallo");
         this.setLocationRelativeTo(this);
-       
+     
         presentador= new PCargarFallo(this);
         presentador.mostrar();
         this.show();
@@ -213,12 +214,15 @@ PCargarFallo presentador;
         jLabel10.setText("hh/mm");
 
         Date date1= new Date();
+        date1.setHours(0);
+        date1.setMinutes(0);
         SpinnerDateModel sm3 =
         new SpinnerDateModel(date1, null, null, Calendar.HOUR_OF_DAY);
         horasDeFalla = new javax.swing.JSpinner(sm3);
         JSpinner.DateEditor de2 = new JSpinner.DateEditor(horasDeFalla, "HH:mm");
         horasDeFalla.setEditor(de2);
 
+        diasFalla.setText("0");
         diasFalla.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 diasFallaKeyTyped(evt);
@@ -446,38 +450,40 @@ PCargarFallo presentador;
 
       private void cargarFallo()
       {
-            ParteMaquina pm= (ParteMaquina) cbParteMaquina.getSelectedItem();
+        ParteMaquina pm= (ParteMaquina) cbParteMaquina.getSelectedItem();
         SintomaFalla sintoma = (SintomaFalla) cbSintomaFallo.getSelectedItem();
         CausaFalla causa = (CausaFalla) cbCausaFallo.getSelectedItem();
         String detalle = txtDetalle.getText();
-        Calendar fecha= cldInicioFalla.getCalendar();
-        int dias=Integer.valueOf(diasFalla.getText());
-    
+         int dias;
+         try{
+         Calendar fecha= cldInicioFalla.getCalendar();
+                    try
+                        {
+          
+                           dias = Integer.valueOf(diasFalla.getText());
+                
+                         }catch(NumberFormatException ex)
+                        {
+            
+                        dias=0;  
+                          }
         Date dateTiempoFalla=(Date) horasDeFalla.getModel().getValue();
         
         Calendar calHorasFalla= Calendar.getInstance();
         calHorasFalla.setTime(dateTiempoFalla);
 
-      /*  if(hora>23)
-        {
-            int i= hora/24;
-            dias+=i;
-            hora-=i;
-        }
-            if(minuto>59)
-        {
-            int i= hora/60;
-            dias+=i;
-            hora-=i;
-        }
-            
-        if(JOptionPane.showConfirmDialog(this, JOptionPane.YES))
-        {
-            
-        }*/
-      
       
         presentador.cargarFallo(pm, sintoma, causa, detalle, fecha,calHorasFalla,dias);
+             
+        }catch(NullPointerException ex)
+        { 
+            
+        }
+         
+        
+        
+    
+      
       }        
 
     private void soloNumeros(KeyEvent evt) {

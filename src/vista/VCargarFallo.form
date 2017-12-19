@@ -393,10 +393,13 @@
         </Component>
         <Component class="javax.swing.JSpinner" name="horasDeFalla">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="Date date1= new Date();&#xa;SpinnerDateModel sm3 = &#xa;  new SpinnerDateModel(date1, null, null, Calendar.HOUR_OF_DAY);&#xa;horasDeFalla = new javax.swing.JSpinner(sm3);&#xa;JSpinner.DateEditor de2 = new JSpinner.DateEditor(horasDeFalla, &quot;HH:mm&quot;);&#xa;horasDeFalla.setEditor(de2);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="Date date1= new Date();&#xa;date1.setHours(0);&#xa;date1.setMinutes(0);&#xa;SpinnerDateModel sm3 = &#xa;  new SpinnerDateModel(date1, null, null, Calendar.HOUR_OF_DAY);&#xa;horasDeFalla = new javax.swing.JSpinner(sm3);&#xa;JSpinner.DateEditor de2 = new JSpinner.DateEditor(horasDeFalla, &quot;HH:mm&quot;);&#xa;horasDeFalla.setEditor(de2);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="diasFalla">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
           <Events>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="diasFallaKeyTyped"/>
           </Events>

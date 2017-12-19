@@ -51,7 +51,7 @@ public class RepositorioMantenimiento {
         return personal;
     }
 
-    public static Personal getSolicitante(int id) {
+    public static Personal getPersonal(int id) {
         Personal p = new Personal();
         EjecutorRutinaDB.ejecutarSelectStatement((resultSet) -> {
             while (resultSet.next()) {
@@ -149,7 +149,7 @@ public class RepositorioMantenimiento {
                 aviso.setPrioridad(PrioridadAviso.valueOf(resultSet.getString("prioridad")));
                 ptm=getParte(resultSet.getInt("id_parte_de_maquina"));
                 aviso.setParteMaquina(ptm);
-                aviso.setPersonal(getSolicitante(resultSet.getInt("id_solicitante")));
+                aviso.setPersonal(getPersonal(resultSet.getInt("id_solicitante")));
                 aviso.setMaquina(getMaquina(ptm.getIdMaquina()));
                 
                 avisos.add(aviso);
@@ -205,7 +205,7 @@ public class RepositorioMantenimiento {
                 aviso.setPrioridad(PrioridadAviso.valueOf(resultSet.getString("prioridad")));
                 ptm=getParte(resultSet.getInt("id_parte_de_maquina"));
                 aviso.setParteMaquina(ptm);
-                aviso.setPersonal(getSolicitante(resultSet.getInt("id_solicitante")));
+                aviso.setPersonal(getPersonal(resultSet.getInt("id_solicitante")));
                 aviso.setMaquina(getMaquina(ptm.getIdMaquina()));
                 
                 avisos.add(aviso);
@@ -338,7 +338,7 @@ public class RepositorioMantenimiento {
                 ot.setFechaFin(resultSet.getString("fecha_fin"));
                 ot.setTipo(TipoOT.valueOf(resultSet.getString("tipo_ot")));
                 ot.setAviso(getAviso(resultSet.getInt("id_aviso")));
-                ot.setResp(Responsable.valueOf(resultSet.getString("responsable")));
+                ot.setResp(getPersonal(resultSet.getInt("id_responsable")));
                 ot.setParteMaquina(getParte(resultSet.getInt("parte_maquina")));
 
                 ordenes.add(ot);

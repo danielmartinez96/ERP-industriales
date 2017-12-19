@@ -11,7 +11,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import modelo.enumeraciones.EstadoOT;
-import modelo.enumeraciones.Responsable;
 import modelo.enumeraciones.TipoOT;
 
 /**
@@ -25,7 +24,7 @@ public class OrdenTrabajo {
     private Calendar fechaInicio;
     private Calendar fechaFin;
     private ParteMaquina parte;
-    private Responsable resp;
+    private Personal resp;
     private Aviso aviso;
     final private  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -175,11 +174,11 @@ public class OrdenTrabajo {
         this.parte = parte;
     }
 
-    public Responsable getResp() {
+    public Personal getResp() {
         return resp;
     }
 
-    public void setResp(Responsable resp) {
+    public void setResp(Personal resp) {
         this.resp = resp;
     }
     

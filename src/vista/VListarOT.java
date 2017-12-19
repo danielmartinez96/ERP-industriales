@@ -29,6 +29,7 @@ public class VListarOT extends javax.swing.JDialog implements IVListarOT{
     public VListarOT(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+         setTitle("Listado de Ordenes de Trabajo");
         this.setLocationRelativeTo(this);
         tablaConfiguraciones();
         presentador= new PListarOT(this);

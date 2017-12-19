@@ -51,6 +51,7 @@ public class VListadoAviso extends javax.swing.JDialog implements IVListarAviso{
         super(parent, modal);
         this.parent= parent;
         initComponents();
+         setTitle("Listado de Avisos");
         paginaActual= Integer.valueOf(txtPaginaActual.getText());
         this.setLocationRelativeTo(this);
         this.presentador = new PListarAviso(this); 

@@ -23,6 +23,7 @@ public class VConsultaFallo extends javax.swing.JDialog implements IVConsultaFal
     public VConsultaFallo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+         setTitle("Consultar Fallo");
         this.setLocationRelativeTo(this);
 
         this.presentador = new PConsultaFallo(this);
